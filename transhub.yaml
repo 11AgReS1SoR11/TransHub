@@ -1,0 +1,78 @@
+project:
+
+  backend:
+    name: ServiceApplication
+    type: executable
+    language: c++
+    build_system: CMake
+    description:
+        Исполняемый файл, который запускается на армах и сервере Postgres
+        Логика файла подтягивает нужные lib'ы(например на сервере баз данных подключается Updater-client.so)
+
+    components:
+
+      Trans_algo:
+        name: transAlgo
+        type: .so
+        language: c++
+        build_system: CMake
+        description:
+          Дописать Дамиру.
+
+      Route_algo:
+        name: routeAlgo
+        type: .so
+        language: c++
+        build_system: CMake
+        description:
+          Дописать Дамиру.
+
+      Relationship_database:
+
+        Updater-Client:
+          name: ClientUpdater
+          type: .so
+          language: c++
+          build_system: CMake
+          desctiption:
+
+        Update-Server:
+          name: ServerUpdater
+          type: .so
+          language: c++
+          build_system: CMake
+          description:
+
+      Relationship_frontend:
+        type: .so
+        language: c++
+        build_system: CMake
+        desctiption:
+
+  frontend:
+    name: GuiApplication
+    type: exe/script
+    language: c++(Qt)/python
+    build_system: CMake
+    description:
+      - "Обрабатывает входные данные от пользователя и передаёт на обработку (в backend)"
+      - "Выводит карту Питера"
+      - "Общение с базой данных"
+
+  database:
+    type: postgreSQL
+    tables:
+      - History
+      - Clients
+      - Transporter
+      - Storage
+    desctiption:
+
+
+  deployment:
+    type: docker
+    desctiption:
+    
+
+
+
