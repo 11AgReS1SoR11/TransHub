@@ -1,4 +1,14 @@
-QT += quick location
+QT += quick location webview
+
+PKGCONFIG += openssl
+
+QT += positioning location
+
+
+QT += webenginewidgets
+QT       += network
+CONFIG   += mobility
+MOBILITY  += location
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

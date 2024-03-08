@@ -1,3 +1,6 @@
 [submodule "test"]
 	path = test
 	url = https://github.com/11AgReS1SoR11/TransHub.git
+[submodule "GuiApplication/ды"]
+	path = GuiApplication/ды
+	url = https://github.com/11AgReS1SoR11/TransHub.git
