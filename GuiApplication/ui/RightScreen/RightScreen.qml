@@ -3,20 +3,13 @@ import QtQuick.Controls 2.15
 import QtWebEngine 1.8
 
 Rectangle {
-    id: rightScreen
+   id: rightScreen
+   anchors {
+       right: parent.right
+       left: leftScreen.right
+       bottom: bottomBar.top
+       top: parent.top
+   }
 
-    anchors {
-        top: parent.top
-        bottom: bottomBar.top
-        right: parent.right
-    }
-
-    WebEngineView {
-        id: webView
-        anchors.fill: parent
-        url: "qrc:/../osm.html"
-     }
-
-
-    width: parent.width * 2/3
+   color: "white"
 }

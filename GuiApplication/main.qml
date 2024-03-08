@@ -10,12 +10,13 @@ Window {
     visible: true
     title: qsTr("TransHubMap")
 
-    LeftScreen {
-        id: leftScreen
-    }
 
     RightScreen {
         id: rightScreen
+    }
+
+    LeftScreen {
+        id: leftScreen
     }
 
     BottomBar {
