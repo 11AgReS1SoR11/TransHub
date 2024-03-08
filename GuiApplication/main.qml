@@ -9,7 +9,7 @@ Window {
     height: 1000
     visible: true
     title: qsTr("TransHubMap")
-
+    flags: Qt.FramelessWindowHint // Установка флага для создания безрамочного окна
 
     RightScreen {
         id: rightScreen
@@ -21,6 +21,10 @@ Window {
 
     BottomBar {
         id: bottomBar
+    }
+
+    Component.onCompleted: {
+        showMaximized(); // Открываем окно в полноэкранном режиме, но с возможностью изменения размера
     }
 }
 

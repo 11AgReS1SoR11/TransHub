@@ -17,5 +17,5 @@ Rectangle {
         url: "qrc:/../osm.html"
      }
 
-    width: parent.width * 12/13
+    width: parent.width * 25/26
 }

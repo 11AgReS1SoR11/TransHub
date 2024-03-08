@@ -5,5 +5,6 @@
         <file>ui/RightScreen/RightScreen.qml</file>
         <file>ui/LeftScreen/LeftScreen.qml</file>
         <file>osm.html</file>
+        <file>ui/pictures/exit.png</file>
     </qresource>
 </RCC>
