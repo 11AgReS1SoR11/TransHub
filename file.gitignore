@@ -1,6 +1,6 @@
 # C++ objects and libs
 
-
+GuiApplication
 *.slo
 *.lo
 *.o
