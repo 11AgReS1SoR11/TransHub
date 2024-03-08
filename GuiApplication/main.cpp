@@ -1,9 +1,5 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
-
-
-
 #include <QLocale>
 #include <QTranslator>
 
