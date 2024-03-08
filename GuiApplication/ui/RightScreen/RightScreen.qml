@@ -1,7 +1,6 @@
-import QtQuick 2.0
-import QtQuick.Window 2.0
-import QtLocation 5.12
-import QtPositioning 5.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtWebEngine 1.8
 
 Rectangle {
     id: rightScreen
@@ -11,24 +10,13 @@ Rectangle {
         bottom: bottomBar.top
         right: parent.right
     }
-    Plugin {
-       id: mapPlugin
-       PluginParameter {
-                   name: "osm.mapping.providersrepository.disabled"
-                   value: "true"
-               }
-               PluginParameter {
-                   name: "osm.mapping.providersrepository.address"
-                   value: "https://www.mapbox.com/"
-               }
-       name: "osm"
-    }
 
-    Map {
+    WebEngineView {
+        id: webView
         anchors.fill: parent
-        plugin: mapPlugin
-        center: QtPositioning.coordinate(59.9386, 30.3141)
-        zoomLevel: 16
-    }
+        url: "qrc:/../osm.html"
+     }
+
+
     width: parent.width * 2/3
 }
