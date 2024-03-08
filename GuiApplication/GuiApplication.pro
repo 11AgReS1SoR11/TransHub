@@ -1,10 +1,6 @@
 QT += quick location webview
-
 PKGCONFIG += openssl
-
 QT += positioning location
-
-
 QT += webenginewidgets
 QT       += network
 CONFIG   += mobility

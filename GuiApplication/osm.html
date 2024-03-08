@@ -5,6 +5,9 @@
     <title>Карта OSM</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
     <style>
+        html, body {
+          overflow: hidden; /* Убирает полосу прокрутки */
+        }
         #map {
               height: 100vh; /* Changed to 100vh to make sure the map takes the full height of the viewport */
               width: 100%;
