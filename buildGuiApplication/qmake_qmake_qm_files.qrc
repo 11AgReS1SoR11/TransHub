@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="i18n">
+<file alias="GuiApplication_en_GB.qm">/home/maxonic/workspace/TransHub/buildGuiApplication/.qm/GuiApplication_en_GB.qm</file>
+</qresource>
+</RCC>
