@@ -1,6 +1,6 @@
-#include "leftscreen.h"
+#include "map_screen.h"
 
-LeftScreen::LeftScreen(QWidget *parent) : QWidget(parent)
+MapScreen::MapScreen(QWidget *parent) : QWidget(parent)
 {
 
     // Создаем вертикальный макет и добавляем в него MapWidget

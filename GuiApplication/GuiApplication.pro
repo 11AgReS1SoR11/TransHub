@@ -6,12 +6,14 @@ QT += quick location widgets webenginewidgets network
 
 SOURCES += \
         main.cpp \
-        objects/bottombar.cpp \
-        objects/exiticon.cpp \
-        objects/leftscreen.cpp \
+        objects/RightToolBar/righttoolbar.cpp \
+        objects/TopToolBar/toptoolbar.cpp \
+        objects/map_screen.cpp \
         objects/mapwidget.cpp \
-        objects/rightscreen.cpp \
         transhubwingow.cpp
+
+
+include(./../include/settings.pri)
 
 RESOURCES += \
     qml.qrc
@@ -21,6 +23,8 @@ TRANSLATIONS += \
 CONFIG += lrelease
 CONFIG += embed_translations
 CONFIG   += mobility
+
+
 
 MOBILITY  += location
 PKGCONFIG += openssl
@@ -39,9 +43,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    objects/bottombar.h \
-    objects/exiticon.h \
-    objects/leftscreen.h \
+    objects/RightToolBar/righttoolbar.h \
+    objects/TopToolBar/toptoolbar.h \
+    objects/map_screen.h \
     objects/mapwidget.h \
-    objects/rightscreen.h \
     transhubwingow.h
