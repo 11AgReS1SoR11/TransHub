@@ -1,5 +1,4 @@
-QT += quick location webview \
-    widgets webenginewidgets network
+QT += quick location widgets webenginewidgets network
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
