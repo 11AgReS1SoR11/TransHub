@@ -52,11 +52,29 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../GuiApplication/main.cpp qrc_qml.cpp \
-		qrc_qmake_qmake_qm_files.cpp
+SOURCES       = ../GuiApplication/main.cpp \
+		../GuiApplication/objects/bottombar.cpp \
+		../GuiApplication/objects/exiticon.cpp \
+		../GuiApplication/objects/leftscreen.cpp \
+		../GuiApplication/objects/mapwidget.cpp \
+		../GuiApplication/objects/rightscreen.cpp \
+		../GuiApplication/transhubwingow.cpp qrc_qml.cpp \
+		qrc_qmake_qmake_qm_files.cpp \
+		moc_bottombar.cpp \
+		moc_rightscreen.cpp \
+		moc_transhubwingow.cpp
 OBJECTS       = main.o \
+		bottombar.o \
+		exiticon.o \
+		leftscreen.o \
+		mapwidget.o \
+		rightscreen.o \
+		transhubwingow.o \
 		qrc_qml.o \
-		qrc_qmake_qmake_qm_files.o
+		qrc_qmake_qmake_qm_files.o \
+		moc_bottombar.o \
+		moc_rightscreen.o \
+		moc_transhubwingow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -173,7 +191,18 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		../GuiApplication/GuiApplication.pro  ../GuiApplication/main.cpp
+		../GuiApplication/GuiApplication.pro ../GuiApplication/objects/bottombar.h \
+		../GuiApplication/objects/exiticon.h \
+		../GuiApplication/objects/leftscreen.h \
+		../GuiApplication/objects/mapwidget.h \
+		../GuiApplication/objects/rightscreen.h \
+		../GuiApplication/transhubwingow.h ../GuiApplication/main.cpp \
+		../GuiApplication/objects/bottombar.cpp \
+		../GuiApplication/objects/exiticon.cpp \
+		../GuiApplication/objects/leftscreen.cpp \
+		../GuiApplication/objects/mapwidget.cpp \
+		../GuiApplication/objects/rightscreen.cpp \
+		../GuiApplication/transhubwingow.cpp
 QMAKE_TARGET  = GuiApplication
 DESTDIR       = 
 TARGET        = GuiApplication
@@ -441,7 +470,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents ../GuiApplication/GuiApplication_en_GB.ts $(DISTDIR)/
 	$(COPY_FILE) --parents ../GuiApplication/qml.qrc qmake_qmake_qm_files.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../GuiApplication/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../GuiApplication/objects/bottombar.h ../GuiApplication/objects/exiticon.h ../GuiApplication/objects/leftscreen.h ../GuiApplication/objects/mapwidget.h ../GuiApplication/objects/rightscreen.h ../GuiApplication/transhubwingow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../GuiApplication/main.cpp ../GuiApplication/objects/bottombar.cpp ../GuiApplication/objects/exiticon.cpp ../GuiApplication/objects/leftscreen.cpp ../GuiApplication/objects/mapwidget.cpp ../GuiApplication/objects/rightscreen.cpp ../GuiApplication/transhubwingow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GuiApplication/GuiApplication_en_GB.ts $(DISTDIR)/
 
 
@@ -477,12 +507,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_qml.cpp qrc_qmake_qmake_qm_files.cpp
 qrc_qml.cpp: ../GuiApplication/qml.qrc \
 		/usr/lib/qt5/bin/rcc \
-		../GuiApplication/osm.html \
-		../GuiApplication/main.qml \
-		../GuiApplication/ui/LeftScreen/LeftScreen.qml \
-		../GuiApplication/ui/pictures/exit.png \
-		../GuiApplication/ui/BottomBar/BottomBar.qml \
-		../GuiApplication/ui/RightScreen/RightScreen.qml
+		../GuiApplication/ui/osm/osm.html \
+		../GuiApplication/ui/pictures/exit.png
 	/usr/lib/qt5/bin/rcc -name qml ../GuiApplication/qml.qrc -o qrc_qml.cpp
 
 qrc_qmake_qmake_qm_files.cpp: qmake_qmake_qm_files.qrc \
@@ -496,8 +522,29 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_bottombar.cpp moc_rightscreen.cpp moc_transhubwingow.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_bottombar.cpp moc_rightscreen.cpp moc_transhubwingow.cpp
+moc_bottombar.cpp: ../GuiApplication/objects/bottombar.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/maxonic/workspace/TransHub/buildGuiApplication/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/maxonic/workspace/TransHub/GuiApplication -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtLocation -I/usr/include/x86_64-linux-gnu/qt5/QtPositioningQuick -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineCore -I/usr/include/x86_64-linux-gnu/qt5/QtQuick -I/usr/include/x86_64-linux-gnu/qt5/QtWebView -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQmlModels -I/usr/include/x86_64-linux-gnu/qt5/QtWebChannel -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtPositioning -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GuiApplication/objects/bottombar.h -o moc_bottombar.cpp
+
+moc_rightscreen.cpp: ../GuiApplication/objects/rightscreen.h \
+		../GuiApplication/objects/exiticon.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/maxonic/workspace/TransHub/buildGuiApplication/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/maxonic/workspace/TransHub/GuiApplication -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtLocation -I/usr/include/x86_64-linux-gnu/qt5/QtPositioningQuick -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineCore -I/usr/include/x86_64-linux-gnu/qt5/QtQuick -I/usr/include/x86_64-linux-gnu/qt5/QtWebView -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQmlModels -I/usr/include/x86_64-linux-gnu/qt5/QtWebChannel -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtPositioning -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GuiApplication/objects/rightscreen.h -o moc_rightscreen.cpp
+
+moc_transhubwingow.cpp: ../GuiApplication/transhubwingow.h \
+		../GuiApplication/objects/leftscreen.h \
+		../GuiApplication/objects/mapwidget.h \
+		../GuiApplication/objects/rightscreen.h \
+		../GuiApplication/objects/exiticon.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/maxonic/workspace/TransHub/buildGuiApplication/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/maxonic/workspace/TransHub/GuiApplication -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtLocation -I/usr/include/x86_64-linux-gnu/qt5/QtPositioningQuick -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineCore -I/usr/include/x86_64-linux-gnu/qt5/QtQuick -I/usr/include/x86_64-linux-gnu/qt5/QtWebView -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQmlModels -I/usr/include/x86_64-linux-gnu/qt5/QtWebChannel -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtPositioning -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GuiApplication/transhubwingow.h -o moc_transhubwingow.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
@@ -510,18 +557,55 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_lrelease_clean compiler_rcc_clean compiler_moc_predefs_clean 
+compiler_clean: compiler_lrelease_clean compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
 
-main.o: ../GuiApplication/main.cpp 
+main.o: ../GuiApplication/main.cpp ../GuiApplication/transhubwingow.h \
+		../GuiApplication/objects/leftscreen.h \
+		../GuiApplication/objects/mapwidget.h \
+		../GuiApplication/objects/rightscreen.h \
+		../GuiApplication/objects/exiticon.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../GuiApplication/main.cpp
+
+bottombar.o: ../GuiApplication/objects/bottombar.cpp ../GuiApplication/objects/bottombar.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bottombar.o ../GuiApplication/objects/bottombar.cpp
+
+exiticon.o: ../GuiApplication/objects/exiticon.cpp ../GuiApplication/objects/exiticon.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o exiticon.o ../GuiApplication/objects/exiticon.cpp
+
+leftscreen.o: ../GuiApplication/objects/leftscreen.cpp ../GuiApplication/objects/leftscreen.h \
+		../GuiApplication/objects/mapwidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o leftscreen.o ../GuiApplication/objects/leftscreen.cpp
+
+mapwidget.o: ../GuiApplication/objects/mapwidget.cpp ../GuiApplication/objects/mapwidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mapwidget.o ../GuiApplication/objects/mapwidget.cpp
+
+rightscreen.o: ../GuiApplication/objects/rightscreen.cpp ../GuiApplication/objects/rightscreen.h \
+		../GuiApplication/objects/exiticon.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rightscreen.o ../GuiApplication/objects/rightscreen.cpp
+
+transhubwingow.o: ../GuiApplication/transhubwingow.cpp ../GuiApplication/transhubwingow.h \
+		../GuiApplication/objects/leftscreen.h \
+		../GuiApplication/objects/mapwidget.h \
+		../GuiApplication/objects/rightscreen.h \
+		../GuiApplication/objects/exiticon.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o transhubwingow.o ../GuiApplication/transhubwingow.cpp
 
 qrc_qml.o: qrc_qml.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qml.o qrc_qml.cpp
 
 qrc_qmake_qmake_qm_files.o: qrc_qmake_qmake_qm_files.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qmake_qmake_qm_files.o qrc_qmake_qmake_qm_files.cpp
+
+moc_bottombar.o: moc_bottombar.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bottombar.o moc_bottombar.cpp
+
+moc_rightscreen.o: moc_rightscreen.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_rightscreen.o moc_rightscreen.cpp
+
+moc_transhubwingow.o: moc_transhubwingow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_transhubwingow.o moc_transhubwingow.cpp
 
 ####### Install
 
