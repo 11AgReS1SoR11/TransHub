@@ -2,13 +2,16 @@
 #include <QQmlApplicationEngine>
 #include <QLocale>
 #include <QTranslator>
+#include <QApplication>
+#include <QWidget>
+#include "transhubwingow.h"
 
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -20,14 +23,10 @@ int main(int argc, char *argv[])
         }
     }
 
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    TransHubWindow* window = new TransHubWindow();
+    window->setWindowState(Qt::WindowFullScreen);
+    window->setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
+    window->show();
 
     return app.exec();
 }
