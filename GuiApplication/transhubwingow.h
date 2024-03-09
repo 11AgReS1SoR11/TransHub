@@ -1,8 +1,6 @@
 #ifndef TRANSHUBWINGOW_H
 #define TRANSHUBWINGOW_H
 
-#include <objects/leftscreen.h>
-#include <objects/rightscreen.h>
 #include <QMainWindow>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -12,12 +10,16 @@
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
-#include <QToolBar>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QDockWidget>
 #include <QSettings>
+#include <QTableWidget>
+#include <objects/map_screen.h>
+#include <objects/RightToolBar/righttoolbar.h>
+#include <objects/TopToolBar/toptoolbar.h>
+
 
 class TransHubWindow: public QMainWindow {
     Q_OBJECT
@@ -26,26 +28,20 @@ public:
     ~TransHubWindow();
 
 private:
-    LeftScreen* left_screen { nullptr };
+    MapScreen* map_screen { nullptr };
     QAction* newFileAction { nullptr };
     QAction* openFileAction { nullptr };
     QAction* saveFileAction { nullptr };
     QAction* saveAsFileAction { nullptr };
     QAction* exitProgramAction { nullptr };
-    QToolBar* fileToolBar { nullptr };
-    QToolBar* topToolBar { nullptr };
-    QComboBox* comboBox_1 { nullptr };
-    QComboBox* comboBox_2 { nullptr };
-    QCheckBox* checkBox_1 { nullptr };
+    RightToolBar* fileToolBar { nullptr };
+    TopToolBar* topToolBar { nullptr };
     QDockWidget* dockWidget { nullptr };
-    QTableWidget *tableWidget { nullptr };
-    QPushButton* pushButton { nullptr };
+    QTableWidget* tableWidget { nullptr };
 
     QMenu* fileMenu { nullptr };
 
     void elementsPrograms();
-    void writeSettins();
-    void readSettings();
 
 private slots:
     void newFile();
