@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
     }
 
     TransHubWindow* window = new TransHubWindow();
-    window->setWindowState(Qt::WindowFullScreen);
-    window->setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
+//    window->setWindowState(Qt::WindowFullScreen);
+//    window->setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
     window->show();
 
     return app.exec();
