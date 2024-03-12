@@ -8,7 +8,6 @@ void TransHubWindow::writeSettings()
     settings.setValue("geometry", saveGeometry());
     settings.setValue("state", saveState());
 
-
     //settings.endArray();
 }
 
