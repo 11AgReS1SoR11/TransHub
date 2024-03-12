@@ -94,3 +94,11 @@ void TransHubWindow::exitProgram()
     close();
 }
 
+void TransHubWindow::closeEvent(QCloseEvent *event) {
+        // Выполнение необходимых действий перед закрытием окна
+        writeSettings();
+
+        // Вызов базовой реализации метода closeEvent
+        QMainWindow::closeEvent(event);
+};
+
