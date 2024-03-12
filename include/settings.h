@@ -1,5 +1,5 @@
 #include "transhubwingow.h"
-#include <QDebug>
+
 void TransHubWindow::writeSettings()
 {
     QSettings settings("Software Inc.", "texxtEditor");

@@ -13,7 +13,7 @@ SOURCES += \
         objects/map_screen.cpp \
         objects/mapwidget.cpp \
         transhubwingow.cpp
-
+//я люблю своих друзей
 
 
 
