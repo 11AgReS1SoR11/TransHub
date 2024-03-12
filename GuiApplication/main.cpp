@@ -22,12 +22,10 @@ int main(int argc, char *argv[])
             break;
         }
     }
-
     TransHubWindow* window = new TransHubWindow();
     window->readSettings();
 //    window->setWindowState(Qt::WindowFullScreen);
 //    window->setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
     window->show();
-
     return app.exec();
 }

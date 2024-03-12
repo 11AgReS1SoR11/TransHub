@@ -50,8 +50,10 @@ private slots:
     void saveFile();
     void saveAsFile();
     void exitProgram();
-};
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+};
 
 #endif // TRANSHUBWINGOW_H
 
