@@ -15,6 +15,9 @@ SOURCES += \
         transhubwingow.cpp
 
 
+
+
+
 include(./../include/settings.pri)
 
 RESOURCES += \
