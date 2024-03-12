@@ -90,6 +90,7 @@ void TransHubWindow::saveAsFile()
 
 void TransHubWindow::exitProgram()
 {
+    writeSettings();
     close();
 }
 

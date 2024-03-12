@@ -26,7 +26,8 @@ class TransHubWindow: public QMainWindow {
 public:
     explicit TransHubWindow(QWidget *parent = 0);
     ~TransHubWindow();
-
+    void writeSettings();
+    void readSettings();
 private:
     MapScreen* map_screen { nullptr };
     QAction* newFileAction { nullptr };

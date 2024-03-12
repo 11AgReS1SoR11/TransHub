@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QWidget>
 #include "transhubwingow.h"
-
+#include "../include/settings.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     }
 
     TransHubWindow* window = new TransHubWindow();
+    window->readSettings();
 //    window->setWindowState(Qt::WindowFullScreen);
 //    window->setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
     window->show();
