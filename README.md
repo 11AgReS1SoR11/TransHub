@@ -1,14 +1,28 @@
 # TransHub
 
-Задача оптимизации грузоперевозок. !
+Task optimization of freight transportation
 
-## Установка
+## Installation
 
+## Usage
 
-## Использование
+## Compatibility
 
+## Developers
 
-## Совместимость
+### Building and Running the Project
 
+To build the project, run the following command in the terminal:
 
-## Разработчики
+```bash
+bash buildScript.sh
+```
+
+To run the GuiApplication, use the following command:
+```bash
+bash Gui.sh
+```
+To run the ServiceApplication, use the following command:
+```bash
+bash Service.sh
+```
