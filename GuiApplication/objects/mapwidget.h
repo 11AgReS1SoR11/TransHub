@@ -11,6 +11,7 @@ public:
     MapWidget(QWidget *parent = nullptr);
 
     Q_INVOKABLE void plotRoute(double startLat, double startLng, double endLat, double endLng);
+
 };
 
 #endif // MAPWIDGET_H

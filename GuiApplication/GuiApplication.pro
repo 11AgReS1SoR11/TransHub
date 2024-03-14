@@ -13,12 +13,12 @@ SOURCES += \
         objects/map_screen.cpp \
         objects/mapwidget.cpp \
         transhubwingow.cpp
-//я люблю своих друзей
 
 
 
 
-include(./../include/settings.pri)
+
+
 
 RESOURCES += \
     qml.qrc
