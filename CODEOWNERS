@@ -1,0 +1,6 @@
+# CODEOWNERS file
+# Assigns code owners for different directories
+
+/GuiApplication/ @kromachmax @11AgReS1SoR11
+/ServiceApplication/ @11AgReS1SoR11
+* @11AgReS1SoR11
