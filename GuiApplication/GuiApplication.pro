@@ -7,6 +7,12 @@ QT += quick location widgets webenginewidgets network
 
 
 SOURCES += \
+        Application.cpp \
+        InformWidget.cpp \
+        LoadDialog.cpp \
+        RunErrorDialog.cpp \
+        SplashScreen.cpp \
+        UnloadDialog.cpp \
         main.cpp \
         objects/RightToolBar/righttoolbar.cpp \
         objects/TopToolBar/toptoolbar.cpp \
@@ -48,6 +54,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
+    Application.h \
+    GuiVersion.h \
+    InformWidget.h \
+    LoadDialog.h \
+    RunErrorDialog.h \
+    SplashScreen.h \
+    UnloadDialog.h \
+    functions.h \
     objects/RightToolBar/righttoolbar.h \
     objects/TopToolBar/toptoolbar.h \
     objects/map_screen.h \
