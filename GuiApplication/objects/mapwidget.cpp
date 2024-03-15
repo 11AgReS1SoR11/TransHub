@@ -3,7 +3,7 @@
 MapWidget::MapWidget(QWidget *parent) : QWidget(parent) {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    QWebEngineView *webView = new QWebEngineView(this);
+    QWebEngineView* webView = new QWebEngineView(this);
     webView->setUrl(QUrl("qrc:/ui/osm/osm.html"));
 
     QWebChannel *channel = new QWebChannel(this);
@@ -12,10 +12,12 @@ MapWidget::MapWidget(QWidget *parent) : QWidget(parent) {
 
     layout->addWidget(webView);
     setLayout(layout);
+
 }
 
-
+/*
 void MapWidget::plotRoute(double startLat, double startLng, double endLat, double endLng) {
     // Здесь можно добавить код для прокладки маршрута на карте
     return;
 }
+*/

@@ -18,7 +18,7 @@ SOURCES += \
 
 
 
-include(./../include/settings.pri)
+
 
 RESOURCES += \
     qml.qrc

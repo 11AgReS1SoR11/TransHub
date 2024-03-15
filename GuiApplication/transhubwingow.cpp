@@ -49,9 +49,11 @@ void TransHubWindow::elementsPrograms()
     fileMenu->addAction(exitProgramAction);
 
     fileToolBar = new RightToolBar(tr("&File"));
+    fileToolBar->setObjectName("rightToolBar");
     addToolBar(Qt::RightToolBarArea, fileToolBar);
 
     topToolBar = new TopToolBar(tr("topBar"));
+    topToolBar->setObjectName("topToolBar");
     addToolBar(Qt::TopToolBarArea, topToolBar);
 
     topToolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
@@ -93,6 +95,28 @@ void TransHubWindow::exitProgram()
     writeSettings();
     close();
 }
+
+
+void TransHubWindow::writeSettings()
+{
+    QSettings settings("Software Inc.", "texxtEditor");
+
+    //settings.beginGroup("mainWindow");
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("state", saveState());
+
+    //settings.endArray();
+}
+
+void TransHubWindow::readSettings()
+{
+    QSettings settings("Software Inc.", "texxtEditor");
+    //settings.beginGroup("mainWindow");
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("state").toByteArray());
+    //settings.endArray();
+}
+
 
 void TransHubWindow::closeEvent(QCloseEvent *event) {
         // Выполнение необходимых действий перед закрытием окна
