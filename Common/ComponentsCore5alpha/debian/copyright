@@ -1,0 +1,6 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: components-core-5
+Source: <url://example.com>
+Files: debian/*
+Copyright: 2021 unknown <Inteltech@inteltech.ru>
+License: Inteltech

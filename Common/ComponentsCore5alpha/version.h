@@ -1,0 +1,14 @@
+#ifndef COMPONENTSCORE_VERSION_H
+#define COMPONENTSCORE_VERSION_H
+
+#define COMPONENTSCORE_VERSION_STR "1.6.0"
+/*
+   COMPONENTSCORE_VERSION is (major << 16) + (minor << 8) + patch.
+*/
+#define COMPONENTSCORE_VERSION 0x010600
+/*
+   can be used like #if (COMPONENTSCORE_VERSION >= COMPONENTSCORE_VERSION_CHECK(1, 6, 0))
+*/
+#define COMPONENTSCORE_VERSION_CHECK(major, minor, patch) ((major<<16)|(minor<<8)|(patch))
+
+#endif // COMPONENTSCORE_VERSION_H
