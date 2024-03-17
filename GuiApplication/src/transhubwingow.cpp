@@ -1,128 +1,104 @@
-#include "transhubwingow.h"
+//#include "transhubwingow.h"
 
-TransHubWindow::TransHubWindow(QWidget *parent) : QMainWindow(parent)
-{
-    elementsPrograms();
-    setGeometry(0, 30, 1300, 800);
+//TransHubWindow::TransHubWindow(QWidget *parent) : QMainWindow(parent)
+//{
+//    elementsPrograms();
+//    setGeometry(0, 30, 1300, 800);
 
-    setCentralWidget(map_screen);
-}
+//    setCentralWidget(map_screen);
+//}
 
-TransHubWindow::~TransHubWindow()
-{
-}
+//TransHubWindow::~TransHubWindow()
+//{
+//}
 
-void TransHubWindow::elementsPrograms()
-{
-    map_screen = new MapScreen(this);
-    newFileAction = new QAction(tr("New file"), this);
-    newFileAction->setShortcut(QKeySequence::New);
-    newFileAction->setStatusTip(tr("Create a new file"));
-    connect(newFileAction, &QAction::triggered, this, &TransHubWindow::newFile);
+//void TransHubWindow::elementsPrograms()
+//{
+//    map_screen = new MapScreen(this);
+//    newFileAction = new QAction(tr("New file"), this);
+//    newFileAction->setShortcut(QKeySequence::New);
+//    newFileAction->setStatusTip(tr("Create a new file"));
+//    connect(newFileAction, &QAction::triggered, this, &TransHubWindow::newFile);
 
-    openFileAction = new QAction(tr("Open file"), this);
-    openFileAction->setShortcut(QKeySequence::Open);
-    openFileAction->setStatusTip(tr("Open file"));
-    connect(openFileAction, &QAction::triggered, this, &TransHubWindow::openFile);
+//    openFileAction = new QAction(tr("Open file"), this);
+//    openFileAction->setShortcut(QKeySequence::Open);
+//    openFileAction->setStatusTip(tr("Open file"));
+//    connect(openFileAction, &QAction::triggered, this, &TransHubWindow::openFile);
 
-    saveFileAction = new QAction(tr("Save file"), this);
-    saveFileAction->setShortcut(QKeySequence::Save);
-    saveFileAction->setStatusTip(tr("Save file"));
-    connect(saveFileAction, &QAction::triggered, this, &TransHubWindow::saveFile);
+//    saveFileAction = new QAction(tr("Save file"), this);
+//    saveFileAction->setShortcut(QKeySequence::Save);
+//    saveFileAction->setStatusTip(tr("Save file"));
+//    connect(saveFileAction, &QAction::triggered, this, &TransHubWindow::saveFile);
 
-    saveAsFileAction = new QAction(tr("Save As file"), this);
-    saveAsFileAction->setShortcut(QKeySequence::SaveAs);
-    saveAsFileAction->setStatusTip(tr("Save all"));
-    connect(saveAsFileAction, &QAction::triggered, this, &TransHubWindow::saveAsFile);
+//    saveAsFileAction = new QAction(tr("Save As file"), this);
+//    saveAsFileAction->setShortcut(QKeySequence::SaveAs);
+//    saveAsFileAction->setStatusTip(tr("Save all"));
+//    connect(saveAsFileAction, &QAction::triggered, this, &TransHubWindow::saveAsFile);
 
-    exitProgramAction = new QAction(tr("Exit program"), this);
-    exitProgramAction->setShortcuts(QKeySequence::Close);
-    exitProgramAction->setStatusTip(tr("exit program"));
-    connect(exitProgramAction, &QAction::triggered, this, &TransHubWindow::exitProgram);
+//    exitProgramAction = new QAction(tr("Exit program"), this);
+//    exitProgramAction->setShortcuts(QKeySequence::Close);
+//    exitProgramAction->setStatusTip(tr("exit program"));
+//    connect(exitProgramAction, &QAction::triggered, this, &TransHubWindow::exitProgram);
 
-    fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(newFileAction);
-    fileMenu->addAction(openFileAction);
-    fileMenu->addAction(saveFileAction);
-    fileMenu->addAction(saveAsFileAction);
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitProgramAction);
+//    fileMenu = menuBar()->addMenu(tr("File"));
+//    fileMenu->addAction(newFileAction);
+//    fileMenu->addAction(openFileAction);
+//    fileMenu->addAction(saveFileAction);
+//    fileMenu->addAction(saveAsFileAction);
+//    fileMenu->addSeparator();
+//    fileMenu->addAction(exitProgramAction);
 
-    fileToolBar = new RightToolBar(tr("&File"));
-    fileToolBar->setObjectName("rightToolBar");
-    addToolBar(Qt::RightToolBarArea, fileToolBar);
+//    fileToolBar = new RightToolBar(tr("&File"));
+//    addToolBar(Qt::RightToolBarArea, fileToolBar);
 
-    topToolBar = new TopToolBar(tr("topBar"));
-    topToolBar->setObjectName("topToolBar");
-    addToolBar(Qt::TopToolBarArea, topToolBar);
+//    topToolBar = new TopToolBar(tr("topBar"));
+//    addToolBar(Qt::TopToolBarArea, topToolBar);
 
-    topToolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
+//    topToolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
 
-    tableWidget = new QTableWidget(100, 2);
-    dockWidget = new QDockWidget(tr("Сoordinates"));
-    dockWidget->setObjectName(tr("dockWidget"));
+//    tableWidget = new QTableWidget(100, 2);
+//    dockWidget = new QDockWidget(tr("Сoordinates"));
+//    dockWidget->setObjectName(tr("dockWidget"));
 
-    dockWidget->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
-    dockWidget->setWidget(tableWidget);
+//    dockWidget->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
+//    dockWidget->setWidget(tableWidget);
 
 
-    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
-}
+//    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+//    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+//}
 
-void TransHubWindow::newFile()
-{
+//void TransHubWindow::newFile()
+//{
 
-}
+//}
 
-void TransHubWindow::openFile()
-{
+//void TransHubWindow::openFile()
+//{
 
-}
+//}
 
-void TransHubWindow::saveFile()
-{
+//void TransHubWindow::saveFile()
+//{
 
-}
+//}
 
-void TransHubWindow::saveAsFile()
-{
+//void TransHubWindow::saveAsFile()
+//{
 
-}
+//}
 
-void TransHubWindow::exitProgram()
-{
-    writeSettings();
-    close();
-}
+//void TransHubWindow::exitProgram()
+//{
+//    writeSettings();
+//    close();
+//}
 
+//void TransHubWindow::closeEvent(QCloseEvent *event) {
+//        // Выполнение необходимых действий перед закрытием окна
+//        writeSettings();
 
-void TransHubWindow::writeSettings()
-{
-    QSettings settings("Software Inc.", "texxtEditor");
-
-    //settings.beginGroup("mainWindow");
-    settings.setValue("geometry", saveGeometry());
-    settings.setValue("state", saveState());
-
-    //settings.endArray();
-}
-
-void TransHubWindow::readSettings()
-{
-    QSettings settings("Software Inc.", "texxtEditor");
-    //settings.beginGroup("mainWindow");
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("state").toByteArray());
-    //settings.endArray();
-}
-
-
-void TransHubWindow::closeEvent(QCloseEvent *event) {
-        // Выполнение необходимых действий перед закрытием окна
-        writeSettings();
-
-        // Вызов базовой реализации метода closeEvent
-        QMainWindow::closeEvent(event);
-};
+//        // Вызов базовой реализации метода closeEvent
+//        QMainWindow::closeEvent(event);
+//};
 
