@@ -1,21 +1,21 @@
-#ifndef RIGHTTOOLBAR_H
-#define RIGHTTOOLBAR_H
+//#ifndef RIGHTTOOLBAR_H
+//#define RIGHTTOOLBAR_H
 
-#include <QToolBar>
-#include <QAction>
+//#include <QToolBar>
+//#include <QAction>
 
-class RightToolBar: public QToolBar
-{
-    Q_OBJECT
-public:
-    explicit RightToolBar(QToolBar* parent = nullptr);
-    explicit RightToolBar(const QString &title, QWidget *parent = nullptr);
-    ~RightToolBar();
+//class RightToolBar: public QToolBar
+//{
+//    Q_OBJECT
+//public:
+//    explicit RightToolBar(QToolBar* parent = nullptr);
+//    explicit RightToolBar(const QString &title, QWidget *parent = nullptr);
+//    ~RightToolBar();
 
-private:
+//private:
 
-    QAction* build_route;
-    QAction* stop_route;
-};
+//    QAction* build_route;
+//    QAction* stop_route;
+//};
 
-#endif // RIGHTTOOLBAR_H
+//#endif // RIGHTTOOLBAR_H

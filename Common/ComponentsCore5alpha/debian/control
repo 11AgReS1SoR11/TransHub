@@ -1,0 +1,21 @@
+Source: components-core-5
+Priority: optional
+Maintainer: Inteltech <Inteltech@inteltech.ru>
+Build-Depends: debhelper (>= 9), gcc, qt5-default (>=5.9.0), qtbase5-dev (>=5.9.0), qt5-qmake (>=5.9.0), qt5-qmake-bin (>= 5.9.0), qttools5-dev (>=5.9.0)
+Standards-Version: 3.9.8
+Section: libs
+Homepage: http://www.inteltech.ru/
+#Vcs-Git: https://anonscm.debian.org/collab-maint/phoenix-extension-system.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/phoenix-extension-system.git
+
+Package: components-core-5-dev
+Section: libdevel
+Architecture: any
+Depends: gcc, qt5-default (>=5.9.0), qtbase5-dev (>=5.9.0), qt5-qmake (>=5.9.0), qt5-qmake-bin (>= 5.9.0), qttools5-dev (>=5.9.0)
+Description: Extension system for Phoenix plugin architecture based on Qt5 dev package
+
+Package: components-core-5
+Architecture: any
+Depends: libqt5core5a (>=5.9.0)
+Description: Extension system for Phoenix plugin architecture based on Qt5
+
