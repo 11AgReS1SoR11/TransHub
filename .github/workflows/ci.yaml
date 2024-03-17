@@ -1,0 +1,185 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+
+env:
+  QT_VERSION: 5.15.2
+  QMAKE_PATH: /home/runner/work/TransHub/TransHub/Qt/5.15.2/gcc_64/bin
+
+jobs:
+  install_packages:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+
+      # uncomment during TRH-31
+      # - name: Upload packages
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: installed-packages
+      #     path: .
+          
+  build_Gui:
+    needs: install_packages
+    runs-on: ubuntu-latest
+    
+    steps:
+
+      # uncomment during TRH-31
+      # - name: Download packages
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: installed-packages
+      #     path: .
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+
+      - name: Build Gui
+        run: |
+          export PATH=${{ env.QMAKE_PATH }}:$PATH
+          chmod +x Build
+          ./Build --Gui
+
+  test_Gui:
+    needs: build_Gui
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+      
+      - name: Build Gui
+        run: |
+          export PATH=${{ env.QMAKE_PATH }}:$PATH
+          chmod +x Build
+          ./Build --Gui
+
+      - name: Run Gui Tests
+        run: |
+          chmod +x runTest
+          ./runTest --Gui
+
+
+  build_Service:
+    needs: install_packages
+    runs-on: ubuntu-latest
+    
+    steps:
+
+      # uncomment during TRH-31
+      # - name: Download packages
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: installed-packages
+      #     path: .
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+      
+      - name: Build Service
+        run: |
+          export PATH=${{ env.QMAKE_PATH }}:$PATH
+          chmod +x Build
+          ./Build --Service
+
+  test_Service:
+    needs: build_Service
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+      
+      - name: Build Service
+        run: |
+          export PATH=${{ env.QMAKE_PATH }}:$PATH
+          chmod +x Build
+          ./Build --Service
+
+      - name: Run Service Tests
+        run: |
+          chmod +x runTest
+          ./runTest --Service
