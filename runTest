@@ -1,0 +1,10 @@
+# check choosen component to build
+if [ "$1" = "--Gui" ]; then
+    ./build/GuiApplication/test/GuiApplicationTest
+elif [ "$1" = "--Service" ]; then
+    ./build/ServiceApplication/test/ServiceApplicationTest
+else
+    # default - run all tests
+    ./build/GuiApplication/test/GuiApplicationTest
+    ./build/ServiceApplication/test/ServiceApplicationTest
+fi

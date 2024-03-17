@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Creating the build directory (if it doesn't exist)
+mkdir -p build
+
+# Changing to the build directory
+cd build
+
+# check choosen component to build
+if [ "$1" = "--Gui" ]; then
+    mkdir -p GuiApplication
+    cd GuiApplication
+    qmake ../../GuiApplication/GuiApplication.pro
+elif [ "$1" = "--Service" ]; then
+    mkdir -p ServiceApplication
+    cd ServiceApplication
+    qmake ../../ServiceApplication/ServiceApplication.pro
+else
+    qmake ../TransHub.pro # default - build all project
+fi
+
+# Building the project using make
+make
