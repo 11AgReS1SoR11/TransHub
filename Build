@@ -8,15 +8,24 @@ cd build
 
 # check choosen component to build
 if [ "$1" = "--Gui" ]; then
-    mkdir -p GuiApplication
-    cd GuiApplication
-    qmake ../../GuiApplication/GuiApplication.pro
+    # uncomment during THR-35
+    # mkdir -p Common/ComponentsCore5alpha
+    # cd Common/ComponentsCore5alpha
+    # qmake ../../Common/ComponentsCore5alpha/ComponentsCore5alpha.pro
+    # cd ../..
+    # mkdir -p GuiApplication
+    # cd GuiApplication
+    # qmake ../../GuiApplication/GuiApplication.pro
+
+    qmake ../TransHub.pro
+    sudo cp $PWD/build/Common/ComponentsCore5alpha/libComponentsCore5alpha.so.1 /usr/lib # rumove after THR-36
 elif [ "$1" = "--Service" ]; then
     mkdir -p ServiceApplication
     cd ServiceApplication
     qmake ../../ServiceApplication/ServiceApplication.pro
 else
     qmake ../TransHub.pro # default - build all project
+    sudo cp $PWD/build/Common/ComponentsCore5alpha/libComponentsCore5alpha.so.1 /usr/lib # rumove after THR-36
 fi
 
 # Building the project using make

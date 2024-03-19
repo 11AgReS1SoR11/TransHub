@@ -2,9 +2,9 @@
 TEMPLATE = subdirs
 
 # Add the subdirectories for the common structs
-SUBDIRS += 3rdparty \
+SUBDIRS += Componentscore5alpha \
            Application \
            ColorConsole \
-           Componentscore5alpha \
+           3rdparty \
            IObject \
            Timer
