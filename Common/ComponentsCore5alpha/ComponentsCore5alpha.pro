@@ -3,18 +3,16 @@ TEMPLATE = lib
 
 CONFIG += c++14
 
-INCLUDEPATH += ../
+INCLUDEPATH += .
 
 DEFINES += COMPONENTSCORE5A_LIBRARY
 unix:!macx:!freebsd*:LIBS += -ldl #wtf
 
 # Build dirs
-OBJECTS_DIR = ../build/ComponentCore5alpha/objects
-MOC_DIR     = ../build/ComponentCore5alpha/objects
-UI_DIR      = ../build/ComponentCore5alpha/objects
-RCC_DIR     = ../build/ComponentCore5alpha/objects
-
-DESTDIR     = ../build/ComponentCore5alpha
+OBJECTS_DIR = objects
+MOC_DIR     = objects
+UI_DIR      = objects
+RCC_DIR     = objects
 
 VERSION = 1.6.0
 
