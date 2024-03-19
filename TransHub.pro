@@ -8,6 +8,7 @@ COMPONENTS_CORE = Common/ComponentsCore5alpha
 COMMON_DIR = Common
 
 # Add the subdirectories for the GUI application and service application to SUBDIRS
-SUBDIRS += $$GUI_APP_DIR \
+SUBDIRS += $$COMPONENTS_CORE \
+           $$GUI_APP_DIR \
            $$SERVICE_APP_DIR \
-           $$COMPONENTS_CORE
+
