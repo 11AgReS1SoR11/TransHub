@@ -1,5 +1,8 @@
-QT += core gui network testlib widgets location network quick
-LIBS += -L$$PWD/../../build/Common/build/ComponentCore5alpha -lComponentsCore5alpha
+TARGET = GuiApplication
+TEMPLATE = app
+
+QT += core gui network widgets location quick
+LIBS += -L$$PWD/../../build/Common/ComponentsCore5alpha -lComponentsCore5alpha
 
 SOURCES += \
         InformWidget.cpp \
@@ -20,13 +23,11 @@ include(../../Common/Application/application.pri)
 include(../../Common/3rdparty/log4qt/log4qt.pri)
 
 CONFIG += c++14
-TARGET = GuiApplication
-TEMPLATE = app
 
-OBJECTS_DIR = build
-MOC_DIR = build
-UI_DIR = build
-RCC_DIR = build
+OBJECTS_DIR = objects
+MOC_DIR = objects
+UI_DIR = objects
+RCC_DIR = objects
 
 CONFIG(debug, debug|release) {
 CONFIG -= debug release
@@ -45,6 +46,7 @@ INCLUDEPATH +=../../Common/
 INCLUDEPATH += ../../Common/Application/
 INCLUDEPATH += ../../Common/3rdparty/
 INCLUDEPATH += ../../Common/IObject/ISystemGuiCore/
+INCLUDEPATH += ../../build/Common/ComponentsCore5alpha/
 
 RESOURCES += \
     qml.qrc
