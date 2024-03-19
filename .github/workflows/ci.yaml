@@ -77,7 +77,7 @@ jobs:
         run: |
           export PATH=${{ env.QMAKE_PATH }}:$PATH
           chmod +x Build
-          ./Build --Gui
+          ./Build
 
   test_Gui:
     needs: build_Gui
@@ -106,7 +106,7 @@ jobs:
         run: |
           export PATH=${{ env.QMAKE_PATH }}:$PATH
           chmod +x Build
-          ./Build --Gui
+          ./Build
 
       - name: Run Gui Tests
         run: |
