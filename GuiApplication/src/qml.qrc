@@ -1,6 +1,33 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/ui">
         <file>ui/pictures/exit.png</file>
         <file>ui/osm/osm.html</file>
+    </qresource>
+    <qresource prefix="/Images">
+        <file>Images/app_logo_16.png</file>
+        <file>Images/app_logo_24.png</file>
+        <file>Images/app_logo_32.png</file>
+        <file>Images/app_logo_64.png</file>
+        <file>Images/app_logo_128.png</file>
+        <file>Images/app_logo_256.png</file>
+        <file>Images/arrow-transition.png</file>
+        <file>Images/arrow-transition-270.png</file>
+        <file>Images/arrow-warning-init.png</file>
+        <file>Images/arrow-warning-load.png</file>
+        <file>Images/cross.png</file>
+        <file>Images/cross-script.png</file>
+        <file>Images/cross-script_12x12.png</file>
+        <file>Images/exclamation--frame.png</file>
+        <file>Images/exclamation-red.png</file>
+        <file>Images/exclamation-red_12x12.png</file>
+        <file>Images/gear.png</file>
+        <file>Images/information-white.png</file>
+        <file>Images/phoenix_logo_16.png</file>
+        <file>Images/phoenix_logo_24.png</file>
+        <file>Images/phoenix_logo_32.png</file>
+        <file>Images/phoenix_logo_64.png</file>
+        <file>Images/phoenix_logo_128.png</file>
+        <file>Images/phoenix_logo_256.png</file>
+        <file>Images/tick.png</file>
     </qresource>
 </RCC>

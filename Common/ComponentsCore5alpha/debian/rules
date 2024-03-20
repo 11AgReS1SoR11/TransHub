@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+#export QT_SELECT := qt5
+export ASTRA_BUILD = 1
+export DH_VERBOSE = 1
+SHELL:=/bin/bash
+	
+# see FEATURE AREAS in dpkg-buildflags(1)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+	
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+%:
+	dh $@
+
+override_dh_auto_build:
+	path=$$("pwd");\
+	mkdir -p $$path"/debian/tmp";\
+	if ! [ -x "$(command -v qmake)" ]; then \
+	 echo 'qmake command not found' >&2; \
+	 /usr/lib/qt5/bin/qmake ComponentsCore5alpha/ComponentsCore5alpha.pro; \
+	 else \
+	 qmake ComponentsCore5alpha/ComponentsCore5alpha.pro; \
+	fi; \
+	make;\
+	
+
+override_dh_auto_install:
+	path=$$("pwd");\
+	make INSTALL_ROOT=$$path"/debian/tmp" install;\
