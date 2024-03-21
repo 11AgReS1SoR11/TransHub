@@ -1,0 +1,14 @@
+<!DOCTYPE ConfigSystem>
+<config_system>
+
+  <!-- System Gui Core -->
+  <!-- If not use default system logo -9-abb0-4861-9004-7016b4e3f3dc create folder "icons" and insert your new logo (*.png, *.bmp, *.jpg, *.jpeg) -->
+  <system_gui_core>
+    <system_name>Структура АСРС</system_name> <!-- If not set - use default name! -->
+  </system_gui_core>
+
+  <system_gui_core_display>
+    <display_type>*</display_type>
+  </system_gui_core_display>
+
+</config_system>
