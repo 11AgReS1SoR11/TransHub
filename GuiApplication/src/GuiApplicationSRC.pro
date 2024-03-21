@@ -3,6 +3,7 @@ TEMPLATE = app
 
 QT += core gui network widgets location quick
 LIBS += -L$$PWD/../../build/Common/ComponentsCore5alpha -lComponentsCore5alpha
+LIBS += -L$$PWD/../../build/Common/ComponentSystemGuiCoreNg -lComponentSystemGuiCoreNg
 
 SOURCES += \
         InformWidget.cpp \
