@@ -45,7 +45,7 @@ std::shared_ptr<QSystemTrayIcon> SystemGuiCoreNg::systemTrayIcon() {
 
 bool SystemGuiCoreNg::initComponent (/*IConfigObject *configObject*/)
 {
-    _systemName = tr ("Graphic Core System \"Phoenix\"");
+    _systemName = tr ("TransHub");
 
     QVector<QString> temp_types;
     QString displayName;

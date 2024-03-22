@@ -2,12 +2,11 @@
     "Name" : "ComponentSystemGuiCoreNg",
     "Version" : "1.0.0",
     "CompatVersion" : "1.0.0",
-    "Vendor" : "Inteltech",
+    "Vendor" : "TransHub",
     "Description" : "Компонент ядра графического интерфейса системы (Ng версия)",
     "Arguments" : [
         { "Name" : "--debug", "Parameter" : "", "Description" : "Debug mode"}
     ],
     "Dependencies" : [
-        { "Name" : "ComponentConfig", "Version" : "6.1.0", "Type" : "required" }
     ]
 }

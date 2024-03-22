@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/approve_32x32.png</file>
+        <file>icons/cancel_32x32.png</file>
+        <file>icons/edit_32x32.png</file>
+        <file>icons/export_32x32.png</file>
+        <file>icons/help_32x32.png</file>
+        <file>icons/import_32x32.png</file>
+        <file>icons/print_32x32.png</file>
+        <file>icons/qrprint_32x32.png</file>
+        <file>icons/qrscan_32x32.png</file>
+        <file>icons/show_32x32.png</file>
+        <file>icons/monolit_24x24.png</file>
+        <file>icons/obychnyi_24x24.png</file>
+        <file>icons/raketa_24x24.png</file>
+        <file>icons/samolet_24x24.png</file>
+        <file>icons/vozduh_24x24.png</file>
+    </qresource>
+</RCC>

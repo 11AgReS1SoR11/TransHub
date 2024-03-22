@@ -91,7 +91,7 @@ AboutSystemDialog::AboutSystemDialog (const QPixmap &iconLogo, const QString &wi
             tr ("Invalid:") + " " + QString::number (invalidComponents) + "\n" +
             tr ("Stopped:") + " " + QString::number (stoppedComponents) + "\n" +
             tr ("Deleted:") + " " + QString::number (deletedComponents) + "\n\n" +
-            "© 2021-" + QString::number (QDateTime::currentDateTime ().date ().year ()) + " " + tr ("Inteltech Inc.");
+            "© 2024-" + QString::number (QDateTime::currentDateTime ().date ().year ()) + " " + tr ("TransHub org.");
     ui->_labelText->setText (textData);
 
     //        QFont fontDataText;

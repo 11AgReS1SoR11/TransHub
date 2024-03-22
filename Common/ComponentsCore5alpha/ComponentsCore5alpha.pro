@@ -2,6 +2,7 @@ TARGET = ComponentsCore5alpha
 TEMPLATE = lib
 
 CONFIG += c++14
+CONFIG += plugin
 
 INCLUDEPATH += .
 
