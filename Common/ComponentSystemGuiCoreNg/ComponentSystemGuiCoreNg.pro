@@ -34,8 +34,6 @@ RCC_DIR     = objects
 DEFINES += COMPONENTSYSTEMGUICORENG_LIBRARY
 TRANSLATIONS += ComponentSystemGuiCoreNg.ts
 
-LIBS += -L$$PWD/../../build/Common/ComponentsCore5alpha -lComponentsCore5alpha
-
 SOURCES += \
     ComponentSystemGuiCoreNg.cpp \
     Object/MainWindow.cpp \
