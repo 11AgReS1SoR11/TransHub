@@ -13,6 +13,7 @@ include(../Application/application.pri)
 
 QT += core widgets gui printsupport
 TEMPLATE = lib
+CONFIG += plugin
 
 TARGET = $$qtLibraryTarget(ComponentSystemGuiCoreNg)
 
@@ -154,4 +155,5 @@ RESOURCES += \
     Sources.qrc
 
 DISTFILES += \
+    ComponentSystemGuiCoreNg.json \
     ComponentSystemGuiCoreNg.xml

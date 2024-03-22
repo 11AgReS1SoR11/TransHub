@@ -29,5 +29,11 @@
         <file>Images/phoenix_logo_128.png</file>
         <file>Images/phoenix_logo_256.png</file>
         <file>Images/tick.png</file>
+        <file>Images/truck_16px.png</file>
+        <file>Images/truck_24px.png</file>
+        <file>Images/truck_32px.png</file>
+        <file>Images/truck_64px.png</file>
+        <file>Images/truck_128px.png</file>
+        <file>Images/truck_256px.png</file>
     </qresource>
 </RCC>
