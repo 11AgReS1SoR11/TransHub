@@ -1,3 +1,8 @@
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH
+
 # check choosen component to build
 if [ "$1" = "--Gui" ]; then
     ./build/GuiApplication/test/GuiApplicationTest
