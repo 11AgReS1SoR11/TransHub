@@ -15,16 +15,16 @@ void SystemIconManager::initDefaultLogo ()
         return;
 
     if (!_systemLogo.contains (QString ("16x16")))
-        _systemLogo.insert (QString ("16x16"), QIcon (":/Images/Images/phoenix_logo_16.png"));
+        _systemLogo.insert (QString ("16x16"), QIcon (":/Images/Images/truck_16px.png"));
 
     if (!_systemLogo.contains (QString ("32x32")))
-        _systemLogo.insert (QString ("32x32"), QIcon (":/Images/Images/phoenix_logo_32.png"));
+        _systemLogo.insert (QString ("32x32"), QIcon (":/Images/Images/truck_32px.png"));
 
     if (!_systemLogo.contains (QString ("64x64")))
-        _systemLogo.insert (QString ("64x64"), QIcon (":/Images/Images/phoenix_logo_64.png"));
+        _systemLogo.insert (QString ("64x64"), QIcon (":/Images/Images/truck_64px.png"));
 
     if (!_systemLogo.contains (QString ("128x128")))
-        _systemLogo.insert (QString ("128x128"), QIcon (":/Images/Images/phoenix_logo_128.png"));
+        _systemLogo.insert (QString ("128x128"), QIcon (":/Images/Images/truck_128px.png"));
 
     _init = true;
 }

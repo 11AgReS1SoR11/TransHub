@@ -94,6 +94,12 @@
         <file>icons/blue-document-pdf.png</file>
         <file>icons/user.png</file>
         <file>icons/user-business.png</file>
+        <file>icons/truck_16px.png</file>
+        <file>icons/truck_24px.png</file>
+        <file>icons/truck_32px.png</file>
+        <file>icons/truck_64px.png</file>
+        <file>icons/truck_128px.png</file>
+        <file>icons/truck_256px.png</file>
     </qresource>
     <qresource prefix="/helpFiles">
         <file>help/files/SettingsAppLoader.txt</file>
