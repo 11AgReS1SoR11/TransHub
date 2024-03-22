@@ -6,6 +6,11 @@ mkdir -p build
 # Changing to the build directory
 cd build
 
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH
+
 # check choosen component to build
 if [ "$1" = "--Gui" ]; then
     # uncomment during THR-35
@@ -18,14 +23,12 @@ if [ "$1" = "--Gui" ]; then
     # qmake ../../GuiApplication/GuiApplication.pro
 
     qmake ../TransHub.pro
-    sudo cp $PWD/build/Common/ComponentsCore5alpha/libComponentsCore5alpha.so.1 /usr/lib # rumove after THR-36
 elif [ "$1" = "--Service" ]; then
     mkdir -p ServiceApplication
     cd ServiceApplication
     qmake ../../ServiceApplication/ServiceApplication.pro
 else
     qmake ../TransHub.pro # default - build all project
-    sudo cp $PWD/build/Common/ComponentsCore5alpha/libComponentsCore5alpha.so.1 /usr/lib # rumove after THR-36
 fi
 
 # Building the project using make
