@@ -1,0 +1,13 @@
+{
+    "Name" : "ComponentProcessingGui",
+    "Version" : "1.0.0",
+    "CompatVersion" : "1.0.0",
+    "Vendor" : "TransHub",
+    "Description" : "Компонент интерфейса обработки заявок построения маршрута",
+    "Arguments" : [
+        { "Name" : "--debug", "Parameter" : "", "Description" : "Debug mode"}
+    ],
+    "Dependencies" : [
+        { "Name" : "ComponentSystemGuiCoreNg", "Version" : "1.0.0", "Type" : "required" }
+    ]
+}

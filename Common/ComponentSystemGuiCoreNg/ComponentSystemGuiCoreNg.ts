@@ -162,11 +162,6 @@
         <source>Deleted:</source>
         <translation>Удалено:</translation>
     </message>
-    <message>
-        <location filename="Object/WindowCreator/AboutSystemDialog.cpp" line="94"/>
-        <source>Inteltech Inc.</source>
-        <translation>Интелтех</translation>
-    </message>
 </context>
 <context>
     <name>BasePanelWidget</name>

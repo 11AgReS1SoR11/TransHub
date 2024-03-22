@@ -17,7 +17,7 @@
 class COMPONENTSYSTEMGUICORENGSHARED_EXPORT ComponentSystemGuiCoreNg : public ComponentsCore::IComponent
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "ru.inteltech.Qt.ComponentSystemGuiCoreNg" FILE "ComponentSystemGuiCoreNg.json")
+    Q_PLUGIN_METADATA(IID "ru.TransHub.Qt.ComponentSystemGuiCoreNg" FILE "ComponentSystemGuiCoreNg.json")
 
 public:
     //! \brief Конструткор

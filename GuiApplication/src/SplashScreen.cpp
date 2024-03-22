@@ -37,6 +37,7 @@ void SplashScreen::loadData (int userMode, const QString &userLogin)
 {
 
     ISystemGuiCore *guiCore = ComponentManager::getObject<ISystemGuiCore> ();
+    qDebug() << "LoadData SplashScreen!!!";
     if (guiCore == nullptr)
     {
         qCritical () << "[SplashScreen][loadData] Could not find 'ISystemGuiCore'";
