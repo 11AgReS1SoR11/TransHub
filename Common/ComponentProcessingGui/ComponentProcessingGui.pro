@@ -1,7 +1,7 @@
 include (../IObject/ISystemGuiCore/ISystemGuiCore.pri)
 
 QT += core gui widgets
-TARGET = $$qtLibraryTarget(ProcessingGui)
+TARGET = $$qtLibraryTarget(ComponentsProcessingGui)
 TEMPLATE = lib
 CONFIG += c++14
 CONFIG += plugin

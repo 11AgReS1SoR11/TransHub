@@ -19,7 +19,7 @@ class MainWindow;
 //! \file SystemWindowsCreator.h
 //! \class SystemWindowsCreator
 //! \brief Класс генератора системных окон
-//! \author Ivanov Anton, Gorbachev Ivan
+//! \author Кромачев Максим
 //
 class SystemWindowsCreator : public QObject, public ISystemGuiCoreParentWidget
 {
