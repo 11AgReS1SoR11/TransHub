@@ -1,5 +1,5 @@
-#include "StatusBarVolumeToolTip.h"
-#include "ui_StatusBarVolumeToolTip.h"
+#include "StatusBarPlanningWidgetToolTip.h"
+#include "ui_StatusBarPlanningWidgetToolTip.h"
 #include <QtGui/QPainter>
 #include <QtGui/QPainterPath>
 #include <QtGui/QPalette>
@@ -8,31 +8,19 @@
 #include <QtGui/QLinearGradient>
 #include <QtGui/QBitmap>
 
-
-StatusBarVolumeToolTip::StatusBarVolumeToolTip(bool isMute, QWidget *parent) :
-    ui(new Ui::StatusBarVolumeToolTip)
+StatusBarPlanningWidgetToolTip::StatusBarPlanningWidgetToolTip(QWidget *parent) :
+    ui(new Ui::StatusBarPlanningWidgetToolTip)
 {
     ui->setupUi(this);
 
-    QString iconPuth = QString(":/icons/icons/Sound_Up_32.png");
-    if(isMute)
-        iconPuth = QString(":/icons/icons/Sound_Mute_32.png");
-
-    QPixmap icon(iconPuth);
+    QPixmap icon(":/icons/icons/planning.png");
     this->ui->labelInfoIcon->setPixmap(icon);
-
-    QString dataText = tr("вкл.");
-    if(isMute)
-        dataText = tr("выкл.");
-
-    this->ui->labelVolumeNum->setText(dataText);
 
     int _widthW = this->width();
     int _heightW = this->height();
 
     int _width = _widthW - 2;
     int _height = _heightW - 2;
-
 
     QPainterPath roundRectPath;
     roundRectPath.moveTo(_width, 5);
@@ -62,17 +50,17 @@ StatusBarVolumeToolTip::StatusBarVolumeToolTip(bool isMute, QWidget *parent) :
     connect(&_timerClose, SIGNAL(timeout()), this, SIGNAL(signalCloseToolTip()));
 }
 
-StatusBarVolumeToolTip::~StatusBarVolumeToolTip()
+StatusBarPlanningWidgetToolTip::~StatusBarPlanningWidgetToolTip()
 {
     delete ui;
 }
 
-void StatusBarVolumeToolTip::startTimerW()
+void StatusBarPlanningWidgetToolTip::startTimerW()
 {
     _timerClose.start(3 * 1000); // 3 sec
 }
 
-void StatusBarVolumeToolTip::mousePressEvent(QMouseEvent *event)
+void StatusBarPlanningWidgetToolTip::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton) {
         _timerClose.stop();
