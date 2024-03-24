@@ -51,16 +51,16 @@ QPixmap RunErrorDialog::searchLogo (const QFileInfoList &iconsList, const QSize 
             return buffPix;
     }
 
-    if (iconSize == QSize (16,16))
-        return QPixmap (":/Images/Images/phoenix_logo_16.png");
-    if (iconSize == QSize(32,32))
-        return QPixmap (":/Images/Images/phoenix_logo_32.png");
-    if (iconSize == QSize(64,64))
-        return QPixmap (":/Images/Images/phoenix_logo_64.png");
-    if (iconSize == QSize(128,128))
-        return QPixmap (":/Images/Images/phoenix_logo_128.png");
-    if (iconSize == QSize(256,256))
-        return QPixmap (":/Images/Images/phoenix_logo_256.png");
+    if(iconSize == QSize(16,16))
+        return QPixmap(":/Images/Images/truck_16px.png");
+    if(iconSize == QSize(32,32))
+        return QPixmap(":/Images/Images/truck_32px.png");
+    if(iconSize == QSize(64,64))
+        return QPixmap(":/Images/Images/truck_64px.png");
+    if(iconSize == QSize(128,128))
+        return QPixmap(":/Images/Images/truck_128px.png");
+    if(iconSize == QSize(256,256))
+        return QPixmap(":/Images/Images/truck_256px.png");
 
     return QPixmap (":/Images/Images/");
 }

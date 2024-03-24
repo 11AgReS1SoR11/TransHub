@@ -67,7 +67,7 @@ class MainWindow;
 //!
 //! \class MainWindow.
 //! \brief Класс главного окна.
-//! \author Ivanov Anton, Gorbachev Ivan
+//! \author Кромачев Максим
 //!
 class MainWindow : public QMainWindow, public ISystemGuiCoreMainWindow
 {

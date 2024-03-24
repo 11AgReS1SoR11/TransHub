@@ -19,7 +19,7 @@ SettingsGuiCoreWidget::SettingsGuiCoreWidget (ISystemGuiCoreSettings *settings,
 {
     ui->setupUi (this);
     //setAttribute (Qt::WA_DeleteOnClose);
-    //-- в процессе доработки gorbachev
+    //-- в процессе доработки Кромачев Максим
     ui->_checkBoxOpenWidgets->setEnabled (false);
 
     _isLoad = false;

@@ -28,7 +28,7 @@ class AboutComponentsWidget;
 //! \file FormAboutPlugins.h
 //! \class FormAboutPlugins
 //! \brief Класс диалогового окна с отображением всех компонентов и их статусов загрузки.
-//! \author Ivanov Anton, Gorbachev Iavn
+//! \author Кромачев Максим
 //!
 class AboutComponentsWidget : public QWidget
 {

@@ -10,7 +10,7 @@
 //! \file SystemGuiCoreMenu.h
 //! \class SystemGuiCoreMenu.
 //! \brief Базовый класс меню.
-//! \author Ivanov Anton, Gorbachev Ivan
+//! \author Кромачев Максим
 //!
 class SystemGuiCoreMenu : public QMenu, public ISystemGuiCoreMenu
 {
@@ -89,18 +89,18 @@ public:
 
     //! \brief Установить тип сортировки меню.
     //! \param value Тип сортировки.
-    //! \author Gorbachev Ivan
+    //! \author Кромачев Максим
     void setOrderType (OrderType value) override;
 
     //! \brief Вернуть тип сортировки.
     //! \return Тип сортировки.
-    //! \author Gorbachev Ivan
+    //! \author Кромачев Максим
     OrderType orderType () const override;
 
 protected:
     //! \brief Добавить пункт меню в определённом порядке.
     //! \param action Пункт меню.
-    //! \author Gorbachev Ivan
+    //! \author Кромачев Максим
     void addWithOrger (QAction *action);
 
     QAction *_lastAddedAction {nullptr};    //!< последний добавленный QAction
