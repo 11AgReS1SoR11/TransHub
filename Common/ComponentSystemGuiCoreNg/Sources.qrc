@@ -94,6 +94,9 @@
         <file>icons/truck_64px.png</file>
         <file>icons/truck_128px.png</file>
         <file>icons/truck_256px.png</file>
+        <file>icons/map.png</file>
+        <file>icons/novigator.png</file>
+        <file>icons/planning.png</file>
     </qresource>
     <qresource prefix="/helpFiles">
         <file>help/files/SettingsAppLoader.txt</file>
@@ -165,5 +168,8 @@
         <file>help/images/main_window_popup_sound_1.png</file>
         <file>help/images/app_loader_warning_1.png</file>
         <file>help/images/app_loader_warning_2.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icons/novigator.png</file>
     </qresource>
 </RCC>
