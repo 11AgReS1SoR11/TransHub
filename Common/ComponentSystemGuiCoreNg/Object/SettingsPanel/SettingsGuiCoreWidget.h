@@ -16,7 +16,7 @@ namespace Ui {
 //! \file SettingsGuiCore.h
 //! \class SettingsGuiCore
 //! \brief Класс виджета настроек рабочей области
-//! \author Ivanov Anton, Gorbachev Ivan
+//! \author Кромачев Максим
 //!
 class SettingsGuiCoreWidget : public ISystemGuiCoreSettingsPanelWidget
 {

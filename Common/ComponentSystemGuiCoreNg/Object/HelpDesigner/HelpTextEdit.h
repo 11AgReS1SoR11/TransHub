@@ -8,7 +8,7 @@
 //! \file HelpTextEdit.h
 //! \class HelpTextEdit
 //! \brief Класс виджета QTextEdit для окна справки
-//! \author Ivanov Anton, Gorbachev Ivan
+//! \author Кромачев Максим
 //!
 class HelpTextEdit : public QTextEdit {
 

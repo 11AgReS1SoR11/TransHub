@@ -640,31 +640,6 @@ void MainWindow::initMenuConnect (QMenu *parentMenu)
             }
         }
     }
-
-    //--------------------------------------------------- deprecated
-    //    if (!parentMenu) {
-    //        QList<QAction*> buffList = ui->menubar->actions ();
-    //        for (int i = 0; i < buffList.size(); i++) {
-    //            QMenu* buffMenu = buffList[i]->menu ();
-    //            if (buffMenu) {
-    //                if (buffMenu->actions ().size () != 0)
-    //                    initMenuConnect (buffMenu);
-    //            }
-    //        }
-    //    } else {
-    //        QList<QAction*> buffList = parentMenu->actions();
-    //        for(int i = 0; i < buffList.size(); i++) {
-    //            QMenu* buffMenu = buffList[i]->menu();
-    //            if(buffMenu) {
-    //                if(buffMenu->actions().size() != 0)
-    //                    initMenuConnect(buffMenu);
-    //            } else {
-    //                if(buffList[i]->property(ACTION_PROP_TYPE).toString() == ACTION_PROP_TYPE_USE_CONNECT)
-    //                    connect(buffList[i], SIGNAL(triggered()), this, SLOT(clickAction()));
-    //            }
-    //        }
-    //    }
-    //--------------------------------------------------- deprecated
 }
 
 void MainWindow::initMenuSignature (QMenu *parentMenu, const QString &signaturePath)
@@ -759,7 +734,7 @@ void MainWindow::loadWindowStyle ()
             buffaction->setChecked (settings.value ("minimizeToTray", _minimizeToTray).toBool ());
     }
 
-    //-- в процессе доработки gorbachev
+    //-- в процессе доработки Кромачев Максим
     //    if (_mdiArea)
     //    {
     //        //-- последнее активное окно
@@ -938,7 +913,7 @@ void MainWindow::loadWindowStyle ()
     //        }
     //        settings.endGroup();
     //    }
-    //-- в процессе доработки gorbachev
+    //-- в процессе доработки Кромачев Максим
 
     if (_systemGuiCore && _systemGuiCore->settings ())
         ui->statusbar->setVisible (_systemGuiCore->settings ()->statusBarVisible ());
@@ -969,7 +944,7 @@ void MainWindow::saveWindowStyle ()
             settings.setValue ("minimizeToTray", act->isChecked ());
     }
 
-    //-- в процессе доработки gorbachev
+    //-- в процессе доработки Кромачев Максим
     //    if (_mdiArea)
     //    {
     //        //-- запрашиваем текущее окно
@@ -1028,7 +1003,7 @@ void MainWindow::saveWindowStyle ()
 
     //        settings.endGroup ();
     //    }
-    //-- в процессе доработки gorbachev
+    //-- в процессе доработки Кромачев Максим
 }
 
 void MainWindow::updateWindowMenu ()

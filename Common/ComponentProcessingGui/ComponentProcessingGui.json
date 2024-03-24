@@ -3,7 +3,7 @@
     "Version" : "1.0.0",
     "CompatVersion" : "1.0.0",
     "Vendor" : "TransHub",
-    "Description" : "Компонент интерфейса обработки заявок построения маршрута",
+    "Description" : "Компонент интерфейса обработки заявок на построения маршрута",
     "Arguments" : [
         { "Name" : "--debug", "Parameter" : "", "Description" : "Debug mode"}
     ],
