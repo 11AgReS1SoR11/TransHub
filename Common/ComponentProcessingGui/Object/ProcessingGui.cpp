@@ -74,7 +74,7 @@ QWidget *ProcessingGui::getWidget (const QString &actionName, const QString &act
         return nullptr;
     }
 
-    if (actionName == tr ("Commands"))
+    if (actionName == tr ("Planning"))
     {
         auto fmw = new MapWidget (wnd->getMainWindowParentWidget ());
         fmw->setAttribute (Qt::WA_DeleteOnClose);

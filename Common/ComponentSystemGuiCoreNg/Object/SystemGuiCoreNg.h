@@ -24,7 +24,7 @@
 //!
 //! \class SystemGuiCoreNgю.
 //! \brief Базовый класс графического ядра системы.
-//! \author Ivanov Anton, Gorbachev Ivan
+//! \author Кромачев Максим
 //!
 class SystemGuiCoreNg : public ISystemGuiCore
 {
