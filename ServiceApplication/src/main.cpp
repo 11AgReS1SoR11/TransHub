@@ -1,5 +1,4 @@
 #include <iostream>
-#include "Full_Search.hpp"
 
 int main()
 {
