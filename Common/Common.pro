@@ -5,5 +5,6 @@ TEMPLATE = subdirs
 SUBDIRS += ComponentsCore5alpha \
            ComponentProcessingGui \
            ComponentSystemGuiCoreNg \
-           TCP \
-           Matrix
+           ComponentFull_Search \
+           Matrix \
+           TCP
