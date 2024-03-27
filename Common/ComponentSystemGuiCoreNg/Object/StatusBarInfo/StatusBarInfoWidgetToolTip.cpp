@@ -9,7 +9,6 @@
 #include <QtGui/QBitmap>
 
 StatusBarInfoWidgetToolTip::StatusBarInfoWidgetToolTip(int numActivePopUp, int numAllPopUp, QWidget *parent) :
-    QWidget(parent),
     ui(new Ui::StatusBarInfoWidgetToolTip)
 {
     ui->setupUi(this);
