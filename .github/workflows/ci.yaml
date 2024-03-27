@@ -42,9 +42,72 @@ jobs:
       #   with:
       #     name: installed-packages
       #     path: .
+
+  build_Common:
+    needs: install_packages
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+
+      - name: Build Common
+        run: |
+          export PATH=${{ env.QMAKE_PATH }}:$PATH
+          chmod +x Build
+          ./Build --Common
+
+  test_Common:
+    needs: build_Common
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          dir: .
+          install-deps: true
+          modules: qtwebengine
+          setup-python: false
+      
+      - name: Build Common
+        run: |
+          export PATH=${{ env.QMAKE_PATH }}:$PATH
+          chmod +x Build
+          ./Build --Common
+
+      - name: Run Common Tests
+        run: |
+          chmod +x runTest
+          ./runTest --Common
           
   build_Gui:
-    needs: install_packages
+    needs: [install_packages, build_Common]
     runs-on: ubuntu-latest
     
     steps:
@@ -115,7 +178,7 @@ jobs:
 
 
   build_Service:
-    needs: install_packages
+    needs: [install_packages, build_Common]
     runs-on: ubuntu-latest
     
     steps:
