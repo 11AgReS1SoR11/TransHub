@@ -1,5 +1,5 @@
 #include <QtTest/QtTest>
-#include "matrix.h"
+#include "Matrix.hpp"
 
 using namespace Mtx;
 
