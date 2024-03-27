@@ -1,70 +1,10 @@
-#include <vector>
-#include <iostream>
+#include "Full_Search.hpp"
 
 namespace Algo
 {
 
 template<typename T>
-using matrix = std::vector<std::vector<T>>;
-
-template<typename T>
-using vector = std::vector<T>;
-
-template<typename T>
-matrix<T> create_matrix(int rows, int cols, const T& initial_value = T())
-{
-    return matrix<T>(rows, std::vector<T>(cols, initial_value));
-}
-
-template<typename T>
-struct Rout_and_length
-{
-    matrix<T> routes;
-    T length = 999999999;
-};
-
-template<typename T>
-void print_matrix(const matrix<T>& A)
-{
-    for (const auto& row : A)
-    {
-        for (const auto& elem : row)
-        {
-            std::cout << elem << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
-template<typename T>
-bool CompareMatrix(const matrix<T>& matrix1, const matrix<T>& matrix2)
-{
-    if (matrix1.size() != matrix2.size())
-    {
-        return false;
-    }
-
-    for (std::size_t i = 0; i < matrix1.size(); ++i)
-    {
-        if (matrix1[i].size() != matrix2[i].size())
-        {
-            return false;
-        }
-
-        for (std::size_t j = 0; j < matrix1[i].size(); ++j)
-        {
-            if (matrix1[i][j] != matrix2[i][j])
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-template<typename T>
-bool is_all_zero(const vector<T>& A)
+bool is_all_zero(const QVector<T>& A)
 {
     for (const auto& i : A)
     {
@@ -84,13 +24,12 @@ bool is_all_zero(const vector<T>& A)
  * @param roadsStoragesToClients - roads from storages to clients
  * @param result - current result
  * @param result_routes - current result of routers
- * @param result_routes - current result of routers
  * @param g_min - global min (answer)
  * @param g_routes - global ruoutes (answer)
  */
 template<typename T>
-void Full_search_rec(vector<T>& storagesItems, vector<T>& clientsNeeds, vector<T>& couriersCapacity, const matrix<T>& roadsCouriersToStorages,
-                        const matrix<T>& roadsStoragesToClients, T result, matrix<T>& result_routes, T& g_min, matrix<T>& g_routes)
+void Full_search_rec(QVector<T>& storagesItems, QVector<T>& clientsNeeds, QVector<T>& couriersCapacity, const Mtx::Matrix<T>& roadsCouriersToStorages,
+                        const Mtx::Matrix<T>& roadsStoragesToClients, T result, Mtx::Matrix<T>& result_routes, T& g_min, Mtx::Matrix<T>& g_routes)
 {
     if (is_all_zero(storagesItems) || is_all_zero(clientsNeeds) || is_all_zero(couriersCapacity))
     {
@@ -122,7 +61,7 @@ void Full_search_rec(vector<T>& storagesItems, vector<T>& clientsNeeds, vector<T
                     for (int i = 0; i < n; ++i)
                     {
                         result += roadsCouriersToStorages[j][i] + roadsStoragesToClients[k][j];
-                        result_routes.push_back({k + 1, j + 1, i + 1, roadsCouriersToStorages[j][i] + roadsStoragesToClients[k][j]});
+                        result_routes.addRow({k + 1, j + 1, i + 1, roadsCouriersToStorages[j][i] + roadsStoragesToClients[k][j]});
                         auto d_old = couriersCapacity[k];
                         couriersCapacity[k] = 0;
                         storagesItems[j] -= 1;
@@ -131,7 +70,7 @@ void Full_search_rec(vector<T>& storagesItems, vector<T>& clientsNeeds, vector<T
                         couriersCapacity[k] = d_old;
                         storagesItems[j] += 1;
                         clientsNeeds[i] += 1;
-                        result_routes.pop_back();
+                        result_routes.popRow();
                         result -= roadsCouriersToStorages[j][i] + roadsStoragesToClients[k][j];
                     }
                 }
@@ -139,7 +78,6 @@ void Full_search_rec(vector<T>& storagesItems, vector<T>& clientsNeeds, vector<T
         }
     }
 }
-
 
 /**
  * Calculate the total distance traveled by couriers to deliver items to clients.
@@ -152,13 +90,24 @@ void Full_search_rec(vector<T>& storagesItems, vector<T>& clientsNeeds, vector<T
  * @returns struct with optimal routes and min road's length
  */
 template<typename T>
-Rout_and_length<T> Full_search(vector<T>& storagesItems, vector<T>& clientsNeeds, vector<T>& couriersCapacity,
-                                const matrix<T>& roadsCouriersToStorages, const matrix<T>& roadsStoragesToClients)
+Rout_and_length<T> Full_search(QVector<T>& storagesItems, QVector<T>& clientsNeeds, QVector<T>& couriersCapacity,
+                                const Mtx::Matrix<T>& roadsCouriersToStorages, const Mtx::Matrix<T>& roadsStoragesToClients)
 {
-    matrix<T> result_routes;
+    Mtx::Matrix<T> result_routes;
     Rout_and_length<T> ans;
-    Full_search_rec(storagesItems, clientsNeeds, couriersCapacity, roadsCouriersToStorages, roadsStoragesToClients, 0, result_routes, ans.length, ans.routes);
+    Full_search_rec(storagesItems, clientsNeeds, couriersCapacity, roadsCouriersToStorages, roadsStoragesToClients, T(), result_routes, ans.length, ans.routes);
     return ans;
 }
+
+template Rout_and_length<int> Full_search(QVector<int>& storagesItems, QVector<int>& clientsNeeds, QVector<int>& couriersCapacity,
+                                const Mtx::Matrix<int>& roadsCouriersToStorages, const Mtx::Matrix<int>& roadsStoragesToClients);
+template Rout_and_length<double> Full_search(QVector<double>& storagesItems, QVector<double>& clientsNeeds, QVector<double>& couriersCapacity,
+                                const Mtx::Matrix<double>& roadsCouriersToStorages, const Mtx::Matrix<double>& roadsStoragesToClients);
+template void Full_search_rec(QVector<int>& storagesItems, QVector<int>& clientsNeeds, QVector<int>& couriersCapacity, const Mtx::Matrix<int>& roadsCouriersToStorages,
+                        const Mtx::Matrix<int>& roadsStoragesToClients, int result, Mtx::Matrix<int>& result_routes, int& g_min, Mtx::Matrix<int>& g_routes);
+template void Full_search_rec(QVector<double>& storagesItems, QVector<double>& clientsNeeds, QVector<double>& couriersCapacity, const Mtx::Matrix<double>& roadsCouriersToStorages,
+                        const Mtx::Matrix<double>& roadsStoragesToClients, double result, Mtx::Matrix<double>& result_routes, double& g_min, Mtx::Matrix<double>& g_routes);
+template bool is_all_zero(const QVector<int>& A);
+template bool is_all_zero(const QVector<double>& A);
 
 } // namespace Algo

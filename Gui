@@ -3,6 +3,13 @@
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentFull_Search/src/:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
+
+# copy libs to build/GuiApplication/src/components
+mkdir -p build/GuiApplication/src/components
+cp build/Common/ComponentProcessingGui/libComponentsProcessingGui.so build/GuiApplication/src/components/
+cp build/Common/ComponentSystemGuiCoreNg/libComponentSystemGuiCoreNg.so build/GuiApplication/src/components/
+cp build/Common/ComponentFull_Search/src/libComponentFull_Search.so build/GuiApplication/src/components/
 
 ./build/GuiApplication/src/GuiApplication

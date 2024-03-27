@@ -1,5 +1,5 @@
 #include <QtTest/QtTest>
-#include "matrix.h"
+#include "Matrix.hpp"
 
 using namespace Mtx;
 
@@ -19,20 +19,20 @@ private slots:
 };
 
 void TestClass::initTestCase()
-    {
-        std::cout << "Called before everything else.";
-    }
+{
+    std::cout << "Called before everything else.";
+}
 
 
 void TestClass::test_case1(){
 
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
     };
 
-    std::vector<std::vector<int>> vec2 = {
+    QVector<QVector<int>> vec2 = {
         {9, 8, 7},
         {6, 5, 4},
         {3, 2, 1}
@@ -43,7 +43,7 @@ void TestClass::test_case1(){
 
     Matrix mat3(mat1 + mat2);
 
-    Matrix mat_exp(std::vector<std::vector<int>> {
+    Matrix mat_exp(QVector<QVector<int>> {
         {10,10,10},
         {10,10,10},
         {10,10,10}
@@ -55,12 +55,12 @@ void TestClass::test_case1(){
 
 void TestClass::test_case2(){
 
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5, 6}
     };
 
-    std::vector<std::vector<int>> vec2 = {
+    QVector<QVector<int>> vec2 = {
         {9, 7},
         {5, 4},
         {2, 1}
@@ -72,7 +72,7 @@ void TestClass::test_case2(){
 
     Matrix mat3(mat2 * mat1);
 
-    Matrix mat_exp(std::vector<std::vector<int>> {
+    Matrix mat_exp(QVector<QVector<int>> {
         {37, 53, 69}, 
         {21, 30, 39}, 
         {6, 9, 12}
@@ -82,13 +82,13 @@ void TestClass::test_case2(){
 }
 
 void TestClass::test_case3(){
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
     };
 
-    std::vector<std::vector<int>> vec2 = {
+    QVector<QVector<int>> vec2 = {
         {9, 8, 7},
         {6, 5, 4},
         {3, 2, 1}
@@ -99,7 +99,7 @@ void TestClass::test_case3(){
 
     Matrix mat3 = mat1.concatenation(mat2);
 
-    Matrix mat_exp(std::vector<std::vector<int>> {
+    Matrix mat_exp(QVector<QVector<int>> {
         {1, 2, 3, 9, 8, 7},
         {4, 5, 6, 6, 5, 4},
         {7, 8, 9, 3, 2, 1}
@@ -110,7 +110,7 @@ void TestClass::test_case3(){
 
 void TestClass::test_case4(){
 
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5},
         {7, 8, 9}
@@ -121,12 +121,12 @@ void TestClass::test_case4(){
 }
 
 void TestClass::test_case5(){
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5, 6}
     };
 
-    std::vector<std::vector<int>> vec2 = {
+    QVector<QVector<int>> vec2 = {
         {4, 6, 3},
         {1, 2, 9}
     };
@@ -138,7 +138,7 @@ void TestClass::test_case5(){
     QVERIFY_EXCEPTION_THROWN(mat1 * mat2, std::runtime_error);
 }
 void TestClass::test_case6(){
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
@@ -147,7 +147,7 @@ void TestClass::test_case6(){
 
     QVERIFY(mat1.determinant() == 0);
 
-    std::vector<std::vector<int>> vec2 = {
+    QVector<QVector<int>> vec2 = {
         {9, 7},
         {5, 4},
         {2, 1}
@@ -159,12 +159,12 @@ void TestClass::test_case6(){
 }
 
 void TestClass::test_case7(){
-    std::vector<std::vector<int>> vec1 = {
+    QVector<QVector<int>> vec1 = {
         {1, 2, 3},
         {4, 5, 6}
     };
 
-    std::vector<std::vector<int>> vec2 = {
+    QVector<QVector<int>> vec2 = {
         {9, 7},
         {5, 4},
         {2, 1}

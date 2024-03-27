@@ -9,6 +9,7 @@ cd build
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentFull_Search/src/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/Matrix/src/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/TCP/src/:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH

@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = MatrixTest
 
-QT += widgets testlib
+QT += testlib
 
 SOURCES += test.cpp
 
