@@ -1,0 +1,9 @@
+{
+    "Name" : "ComponentFull_Search",
+    "Version" : "1.0.0",
+    "CompatVersion" : "1.0.0",
+    "Vendor" : "TransHub",
+    "Description" : "Компонент полного перебора",
+    "Arguments" : [],
+    "Dependencies" : []
+}

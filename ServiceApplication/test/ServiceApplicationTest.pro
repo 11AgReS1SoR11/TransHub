@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = ServiceApplicationTest
 
-QT += widgets testlib
+QT += testlib
 
 SOURCES += test.cpp

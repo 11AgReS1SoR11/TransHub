@@ -1,11 +1,7 @@
 TEMPLATE = lib
 TARGET = Matrix
 
-QT += widgets \
-    core \ 
-    gui \
-
-SOURCES += matrix.cpp
+SOURCES += matrix.cpp 
 
 # Build dirs
 OBJECTS_DIR = objects
@@ -14,8 +10,8 @@ UI_DIR      = objects
 RCC_DIR     = objects
 
 CONFIG += c++14
-CONFIG += plugins
+CONFIG += plugin
 
-HEADERS += matrix.h \
+HEADERS += Matrix.hpp \
            Matrix_global.h
     
