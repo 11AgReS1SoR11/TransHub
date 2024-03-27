@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = ServiceApplication
 
-QT += widgets
+QT += core
 
 SOURCES += main.cpp
 

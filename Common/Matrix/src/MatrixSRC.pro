@@ -1,14 +1,10 @@
 TEMPLATE = lib
 TARGET = Matrix
 
-QT += widgets \
-    core \ 
-    gui \
-
 SOURCES += matrix.cpp 
 
 CONFIG += plugins
 
-HEADERS += matrix.h \
+HEADERS += Matrix.hpp \
            Matrix_global.h
     

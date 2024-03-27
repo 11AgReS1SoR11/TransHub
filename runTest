@@ -2,6 +2,7 @@ LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/Matrix/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/Full_Search/src/:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # check choosen component to build
@@ -11,11 +12,14 @@ elif [ "$1" = "--Service" ]; then
     ./build/ServiceApplication/test/ServiceApplicationTest
 elif [ "$1" = "--Matrix" ]; then
     ./build/Common/Matrix/test/MatrixTest
+elif [ "$1" = "--Full_Search" ]; then
+    ./build/Common/Full_Search/test/Full_SearchTest
 else
     # default - run all tests
     ./build/GuiApplication/test/GuiApplicationTest
     ./build/ServiceApplication/test/ServiceApplicationTest
     ./build/Common/Matrix/test/MatrixTest
+    ./build/Common/Full_Search/test/Full_SearchTest
 fi
 
 
