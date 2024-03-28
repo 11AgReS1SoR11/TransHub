@@ -11,7 +11,7 @@
         margin: 0;
         padding: 0;
         background-color: lightblue;
-        display: flex;
+        /*display: flex;*/
     }
 
     #map {
@@ -19,6 +19,15 @@
         width: 100%;
         margin: 0;
     }
+    #coordinates {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
 
     #side-panel {
         height: 100vh;
@@ -90,6 +99,7 @@
 </head>
 <body>
 <div id="map"></div>
+<div id="coordinates"></div>
 <!--<div id="side-panel">
     <div id="map"></div>
         <div id="side-panel">
@@ -110,6 +120,13 @@
 
     var map = L.map('map', { attributionControl: false }).setView([59.9386, 30.3141], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var coordinates = document.getElementById('coordinates');
+
+       map.on('mousemove', function(e) {
+           coordinates.innerHTML = 'N: ' + e.latlng.lat.toFixed(4) + '<br>E: ' + e.latlng.lng.toFixed(4);
+       });
+
 
 </script>
 </body>

@@ -66,3 +66,4 @@ bool MapWidget::plotRoute(double startLat, double startLng, double endLat, doubl
     (void)endLng;
     return true;
 }
+
