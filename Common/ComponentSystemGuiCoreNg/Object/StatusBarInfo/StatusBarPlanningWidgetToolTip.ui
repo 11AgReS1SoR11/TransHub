@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>StatusBarInfoWidgetToolTip</class>
- <widget class="QWidget" name="StatusBarInfoWidgetToolTip">
+ <class>StatusBarPlanningWidgetToolTip</class>
+ <widget class="QWidget" name="StatusBarPlanningWidgetToolTip">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>273</width>
+    <width>288</width>
     <height>85</height>
    </rect>
   </property>
@@ -72,7 +72,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Уведомления</string>
+        <string>Планирование</string>
        </property>
        <property name="textFormat">
         <enum>Qt::PlainText</enum>
@@ -90,10 +90,10 @@
      </item>
      <item>
       <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="labelDataText">
          <property name="text">
-          <string>Активных уведомлений:</string>
+          <string>Навигация</string>
          </property>
          <property name="textFormat">
           <enum>Qt::PlainText</enum>
@@ -109,26 +109,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="labelDataTextNumber">
-         <property name="text">
-          <string>0</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-         <property name="textInteractionFlags">
-          <set>Qt::LinksAccessibleByMouse</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
+       <item row="1" column="0" colspan="2">
         <widget class="QLabel" name="labelDataTextAll">
          <property name="text">
-          <string>Всего уведомлений:</string>
+          <string>Поиск маршрута</string>
          </property>
          <property name="textFormat">
           <enum>Qt::PlainText</enum>
@@ -138,22 +122,6 @@
          </property>
          <property name="margin">
           <number>0</number>
-         </property>
-         <property name="textInteractionFlags">
-          <set>Qt::LinksAccessibleByMouse</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="labelDataTextAllNumber">
-         <property name="text">
-          <string>0</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse</set>

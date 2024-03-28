@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaflet Map with Side Panel</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: lightblue;
+        /*display: flex;*/
+    }
+
+    #map {
+        height: 100vh;
+        width: 100%;
+        margin: 0;
+    }
+    #coordinates {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+
+    #side-panel {
+        height: 100vh;
+        width: 7%;
+        background-color: #E0DEDC;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1); /* Тень */
+    }
+
+    .top-buttons {
+        border: none;
+        border-radius: 5px;
+        color: #ffffff;
+        padding: 10px 14px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .bottom-buttons {
+        border: none;
+        border-radius: 5px;
+        color: #ffffff;
+        padding: 10px 14px;
+        font-size: 16px;
+        margin-top: auto; /* Позволяет прижать кнопки к низу */
+    }
+
+    button {
+        border: none;
+        border-radius: 5px;
+        color: #ffffff;
+        padding: 10px 14px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    button:hover {
+        background-color: #666666;
+        box-shadow: 2px 4px #999999;
+    }
+
+    .user {
+        background-color: #C6D095;
+    }
+
+    .warehouse {
+        background-color: #AEC6CB;
+    }
+
+    .truck {
+        background-color: #C7C5AD
+    }
+
+    .start {
+        background-color: #28BD71;
+    }
+
+    .clear {
+        background-color: #D16752;
+    }
+
+
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="coordinates"></div>
+<!--<div id="side-panel">
+    <div id="map"></div>
+        <div id="side-panel">
+            <div class="top-buttons">
+                <button class="start"><i class="fas fa-play"></i> Start</button>
+                <button class="clear"><i class="fas fa-trash-alt"></i> Clear</button>
+            </div>
+            <div class="bottom-buttons">
+                <button class="user"><i class="fas fa-user"></i> User</button>
+                <button class="warehouse"><i class="fas fa-warehouse"></i> Home</button>
+                <button class="truck"><i class="fas fa-truck"></i> Truck</button>
+            </div>
+        </div>
+</div>-->
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+
+    var map = L.map('map', { attributionControl: false }).setView([59.9386, 30.3141], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var coordinates = document.getElementById('coordinates');
+
+       map.on('mousemove', function(e) {
+           coordinates.innerHTML = 'N: ' + e.latlng.lat.toFixed(4) + '<br>E: ' + e.latlng.lng.toFixed(4);
+       });
+
+
+</script>
+</body>
+</html>
+
+

@@ -21,8 +21,8 @@ CommandPanel::CommandPanel (QWidget *parent)
     , ui { new Ui::CommandPanel }
 {
     ui->setupUi (this);
-    setWindowTitle (tr ("Commands"));
-
+    setWindowTitle (tr ("Routes"));
+    slotInit();
 }
 
 CommandPanel::~CommandPanel ()
@@ -96,7 +96,7 @@ void CommandPanel::slotUpdated (const QString &/*guid*/, int /*type*/)
 
     ui->tableView_->resizeRowsToContents ();
     ui->tableView_->resizeColumnsToContents ();
-    ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::StartDate, QHeaderView::Stretch);
+    ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::Receiver, QHeaderView::Stretch);
 }
 
 void CommandPanel::slotUpdateFailed (const QString &/*msg*/, int /*type*/)
@@ -106,18 +106,16 @@ void CommandPanel::slotUpdateFailed (const QString &/*msg*/, int /*type*/)
 void CommandPanel::slotInit ()
 {
 
-    //-- модель заявок
-    _model = new QStandardItemModel (0, Columns::ColumnsCount);
-    _model->setHorizontalHeaderItem (Columns::RequestNumber, new QStandardItem (tr ("Request\nnumber")));
-    _model->setHorizontalHeaderItem (Columns::RsRnNumber, new QStandardItem (tr ("R/s,r/n\nnumber")));
-    _model->setHorizontalHeaderItem (Columns::Direction, new QStandardItem (tr ("Receiver\ncallsign")));
-    _model->setHorizontalHeaderItem (Columns::CommandNumber, new QStandardItem (tr ("Command\nnumber")));
-    _model->setHorizontalHeaderItem (Columns::StartDate, new QStandardItem (tr ("Time")));
+
+    _model = new QStandardItemModel(0, Columns::ColumnsCount);
+    _model->setHorizontalHeaderItem (Columns::Supplier, new QStandardItem (tr ("Supplier")));            //-- Отправитель
+    _model->setHorizontalHeaderItem (Columns::Stockroom, new QStandardItem (tr ("Stockroom")));          //-- Склад
+    _model->setHorizontalHeaderItem (Columns::Receiver, new QStandardItem (tr ("Receiver")));            //--Получатель
+
 
     _sfModel = new QSortFilterProxyModel ();
     _sfModel->setSourceModel (_model);
 
-    //-- Таблица заявок
     ui->tableView_->setModel (_sfModel);
     ui->tableView_->setSortingEnabled (true);
     ui->tableView_->setEditTriggers (QAbstractItemView::NoEditTriggers);
@@ -130,6 +128,7 @@ void CommandPanel::slotInit ()
     ui->tableView_->horizontalHeader ()->setStretchLastSection (true);
 
     ui->tableView_->setContextMenuPolicy (Qt::CustomContextMenu);
+
 
 //    for (auto const &request : _manager->requests ())
 //    {
@@ -175,7 +174,7 @@ void CommandPanel::slotInit ()
 
     ui->tableView_->resizeRowsToContents ();
     ui->tableView_->resizeColumnsToContents ();
-    ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::StartDate, QHeaderView::Stretch);
+    ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::Receiver, QHeaderView::Stretch);
 }
 
 void CommandPanel::showMessage (const QString &msg, bool vis)

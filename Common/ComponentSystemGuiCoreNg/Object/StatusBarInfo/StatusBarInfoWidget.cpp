@@ -33,7 +33,7 @@ StatusBarInfoWidget::StatusBarInfoWidget (MainWindow *mainWindow, QWidget *paren
     _activeNoData = highlighPixmap (_notActiveNoData);
 
     setPixmap(_notActiveNoData);
-    setFixedSize(_activeNoData.width(), _activeNoData.height());
+    setFixedSize(_activeNoData.width() + 10, _activeNoData.height() + 10);
     setAlignment(Qt::AlignCenter);
     setMouseTracking(true);
 
@@ -512,7 +512,7 @@ void StatusBarInfoWidget::mouseMoveEvent(QMouseEvent *event)
             connect(_infoToolTip, SIGNAL(signalCloseToolTip()), this, SLOT(cloceToolTipWindow()));
 
             int posX = (_mainWindow->pos().x() + _mainWindow->width()) - _infoToolTip->width() - 30;
-            int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height();
+            int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height() - 5;
 
             _infoToolTip->show();
             _infoToolTip->move(posX, posY);
@@ -527,6 +527,8 @@ void StatusBarInfoWidget::mouseMoveEvent(QMouseEvent *event)
 void StatusBarInfoWidget::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
+
+    setStyleSheet("QLabel { background-color: rgba(128, 128, 128, 60); color: black; border: none; border-radius: 10px; }");
 }
 
 void StatusBarInfoWidget::leaveEvent(QEvent *event)
@@ -538,7 +540,11 @@ void StatusBarInfoWidget::leaveEvent(QEvent *event)
         setPixmap(_notActiveNoData);
     else
         setPixmap(_notActiveMakeData);
+
+    QString styleSheet = "QLabel#shadowLabel {}";
+    setStyleSheet(styleSheet);
 }
+
 
 void StatusBarInfoWidget::cloceToolTipWindow()
 {

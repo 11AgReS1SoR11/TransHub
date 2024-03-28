@@ -1,7 +1,9 @@
 #include "ProcessingGui.h"
 #include <ComponentsCore5alpha/ComponentManager>
-#include "Object/MapWidget.h"
+#include "Object/PlanningWidget.h"
 #include "Object/CommandPanel.h"
+#include "Object/MapWidget.h"
+#include "MapWidget.h"
 
 #include <QtWidgets/QDockWidget>
 
@@ -23,18 +25,20 @@ void ProcessingGui::initGui ()
         return;
     }
 
+
     auto mwnd = dynamic_cast<QMainWindow*> (wnd->getMainWindowParentWidget ());
     if (mwnd)
     {
-        auto cdock = new QDockWidget (tr ("Commands"));
+        auto cdock = new QDockWidget (tr ("Routes"));
         cdock->setFeatures (QDockWidget::DockWidgetMovable
                             | QDockWidget::DockWidgetFloatable
                             /*| QDockWidget::DockWidgetVerticalTitleBar*/);
         cdock->setWidget (new CommandPanel (mwnd));
-        mwnd->addDockWidget (Qt::RightDockWidgetArea, cdock);
+        mwnd->addDockWidget (Qt::LeftDockWidgetArea, cdock);
 
         mwnd->resizeDocks ({cdock}, {0}, Qt::Horizontal);
         mwnd->resizeDocks ({cdock}, {400}, Qt::Horizontal);
+        mwnd->setContentsMargins(0, 0, 0, 0);
     }
 
     //-- меню "Планирование"
@@ -44,19 +48,25 @@ void ProcessingGui::initGui ()
         auto act_commands = new QAction (tr ("Planning"), this);
         menu_planning->addMenuAction (act_commands);
         wnd->addMenuInMenuBar (menu_planning);
-
-        //_actProcessing = new QAction (tr ("Request processing"), this);
-        //repairmenu->addMenuAction (_actProcessing);
-        //wnd->addMenuInMenuBar (repairmenu);
-
-        //        auto actRoadMap = new QAction (tr ("Request timeline"), this);
-        //        repairmenu->addMenuAction (actRoadMap);
-        //        wnd->addMenuInMenuBar (repairmenu);
     }
     else
     {
         qWarning () << "[ProcessingGui][initGui] Could not find menu:"
                     << tr ("Planning");
+    }
+
+    //-- меню "Карта"
+    auto menu_map = wnd->getMenu (tr ("Map"));
+    if (menu_map)
+    {
+        auto act_commands = new QAction (tr ("Map"), this);
+        menu_map->addMenuAction (act_commands);
+        wnd->addMenuInMenuBar (menu_map);
+    }
+    else
+    {
+        qWarning () << "[ProcessingGui][initGui] Could not find menu:"
+                    << tr ("Map");
     }
 }
 
@@ -75,6 +85,13 @@ QWidget *ProcessingGui::getWidget (const QString &actionName, const QString &act
     }
 
     if (actionName == tr ("Planning"))
+    {
+        auto fmw = new PlanningWidget (wnd->getMainWindowParentWidget ());
+        fmw->setAttribute (Qt::WA_DeleteOnClose);
+        return fmw;
+    }
+
+    if(actionName == tr("Map"))
     {
         auto fmw = new MapWidget (wnd->getMainWindowParentWidget ());
         fmw->setAttribute (Qt::WA_DeleteOnClose);

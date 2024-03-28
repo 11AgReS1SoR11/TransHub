@@ -43,13 +43,20 @@ protected slots:
     void slotInit ();
 
 private:
+//    enum Columns {
+//        RequestNumber = 0,  //-- Номер заявки
+//        RsRnNumber,         //-- Номер р/с,р/н
+//        Direction,          //-- Направление
+//        CommandNumber,      //-- Номер команды
+//        StartDate,          //-- Дата начала выполнения заявки
+//        ColumnsCount        //-- Количество колонок
+//    };
+
     enum Columns {
-        RequestNumber = 0,  //-- Номер заявки
-        RsRnNumber,         //-- Номер р/с,р/н
-        Direction,          //-- Направление
-        CommandNumber,      //-- Номер команды
-        StartDate,          //-- Дата начала выполнения заявки
-        ColumnsCount        //-- Количество колонок
+        Supplier = 0, //!<Поставщик
+        Stockroom, //!<Склад
+        Receiver, //!<Получатель
+        ColumnsCount
     };
 
     //! \brief Отобразить сообщение об ошибке.

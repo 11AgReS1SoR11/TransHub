@@ -38,6 +38,10 @@ SOURCES += \
     ComponentSystemGuiCoreNg.cpp \
     Object/MainWindow.cpp \
     Object/SettingsPanel/SettingsGuiCoreWidget.cpp \
+    Object/StatusBarInfo/StatusBarMapWidget.cpp \
+    Object/StatusBarInfo/StatusBarMapWidgetToolTip.cpp \
+    Object/StatusBarInfo/StatusBarPlanningWidget.cpp \
+    Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.cpp \
     Object/SystemGuiCoreSettings.cpp \
     Object/SystemIconManager.cpp \
     Object/WindowCreator/AboutComponentsWidget.cpp \
@@ -86,6 +90,10 @@ HEADERS += \
     Object/GuiCoreTagDefines.h \
     Object/MainWindow.h \
     Object/SettingsPanel/SettingsGuiCoreWidget.h \
+    Object/StatusBarInfo/StatusBarMapWidget.h \
+    Object/StatusBarInfo/StatusBarMapWidgetToolTip.h \
+    Object/StatusBarInfo/StatusBarPlanningWidget.h \
+    Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.h \
     Object/SystemGuiCoreSettings.h \
     Object/SystemIconManager.h \
     Object/MainWindowConnector.h \
@@ -133,6 +141,8 @@ HEADERS += \
 FORMS += \
     Object/MainWindow.ui \
     Object/SettingsPanel/SettingsGuiCoreWidget.ui \
+    Object/StatusBarInfo/StatusBarMapWidgetToolTip.ui \
+    Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.ui \
     Object/WindowCreator/AboutComponentsWidget.ui \
     Object/BasePanel/BasePanelWidget.ui \
     Object/StatusBarInfo/StatusBarInfoWidgetData.ui \

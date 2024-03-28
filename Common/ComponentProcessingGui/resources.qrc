@@ -15,5 +15,12 @@
         <file>icons/raketa_24x24.png</file>
         <file>icons/samolet_24x24.png</file>
         <file>icons/vozduh_24x24.png</file>
+        <file>osm.html</file>
+        <file>truck_16px.png</file>
+        <file>truck_24px.png</file>
+        <file>truck_32px.png</file>
+        <file>truck_64px.png</file>
+        <file>truck_128px.png</file>
+        <file>truck_256px.png</file>
     </qresource>
 </RCC>

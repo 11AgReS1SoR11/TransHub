@@ -57,6 +57,9 @@
 #include "ExternalMainWindow.h"
 #include "ExternalDialog.h"
 
+#include "StatusBarInfo/StatusBarMapWidget.h"
+#include "StatusBarInfo/StatusBarPlanningWidget.h"
+
 class SystemGuiCoreNg;
 class PopUpContainer;
 
@@ -276,6 +279,8 @@ private:
     SystemWindowsCreator    *_windowsCreator {nullptr};           /**< "создатель" системных окон */
     StatusBarInfoWidget     *_statusBarInfoWidget {nullptr};      /**< виджет информации о всплывающих сообщениях в статус баре */
     StatusBarVolume         *_statusBarVolume {nullptr};          /**< виджет звука в статус баре (вкл./выкл.) */
+    StatusBarMapWidget      *_statusBarMapWidget {nullptr};       /**< виджет карты в стутус баре*/
+    StatusBarPlanningWidget *_statusBarPlanningWidget  {nullptr}; /**< виджет планирования в стутус баре*/
     QMdiArea                *_mdiArea {nullptr};                  /**< центральный виджет рабочей области */
     MdiAreaFilter           *_mdiAreaFilter {nullptr};            /**< фильтр событий центрального виджета */
     HelpDesigner            *_helpDesigner {nullptr};             /**< конструктор файла справки */

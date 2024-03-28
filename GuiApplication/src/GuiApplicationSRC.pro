@@ -1,7 +1,7 @@
 TARGET = GuiApplication
 TEMPLATE = app
 
-QT += core gui network widgets location quick
+QT += core gui network widgets location quick webenginewidgets webengine
 LIBS += -L$$PWD/../../build/Common/ComponentsCore5alpha -lComponentsCore5alpha
 LIBS += -L$$PWD/../../build/Common/ComponentSystemGuiCoreNg -lComponentSystemGuiCoreNg
 
@@ -12,10 +12,6 @@ SOURCES += \
         SplashScreen.cpp \
         UnloadDialog.cpp \
         main.cpp \
-        objects/RightToolBar/righttoolbar.cpp \
-        objects/TopToolBar/toptoolbar.cpp \
-        objects/map_screen.cpp \
-        objects/mapwidget.cpp \
         transhubwingow.cpp \
         ../../Common/ColorConsole/ColorConsoleAppender.cpp
 
@@ -74,12 +70,8 @@ HEADERS += \
     SplashScreen.h \
     UnloadDialog.h \
     functions.h \
-    objects/RightToolBar/righttoolbar.h \
-    objects/TopToolBar/toptoolbar.h \
-    objects/map_screen.h \
-    objects/mapwidget.h \
     transhubwingow.h \
-    ../../Common/ColorConsole/ColorConsoleAppender.h \
+    ../../Common/ColorConsole/ColorConsoleAppender.h
 
 FORMS += \
     InformWidget.ui \

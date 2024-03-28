@@ -7,6 +7,7 @@
 #include <QtCore/QUuid>
 #include <QtCore/QSettings>
 #include <QtCore/QtGlobal>
+#include <QWidgetAction>
 
 // делегаты
 #include "Delegates/TableColorDelegate.h"
@@ -66,10 +67,34 @@ MainWindow::MainWindow (QWidget *parent)
 
     _statusBarInfoWidget = new StatusBarInfoWidget (this, this);
     _statusBarVolume = new StatusBarVolume (this, this);
-    connect (_statusBarVolume, &StatusBarVolume::signalVolumeChanged, _statusBarInfoWidget, &StatusBarInfoWidget::slotVolumeChanged);
-    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
-    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
+    _statusBarMapWidget = new StatusBarMapWidget(this, this);
+    _statusBarPlanningWidget = new StatusBarPlanningWidget(this, this);
 
+    QAction* action = new QAction(this);
+
+    _statusBarMapWidget->addAction(action);
+
+    connect (_statusBarVolume, &StatusBarVolume::signalVolumeChanged, _statusBarInfoWidget, &StatusBarInfoWidget::slotVolumeChanged);
+
+    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
+    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarMapWidget, &StatusBarMapWidget::slotHideToolTip);
+    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarPlanningWidget, &StatusBarPlanningWidget::slotHideToolTip);
+
+    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
+    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarMapWidget, &StatusBarMapWidget::slotHideToolTip);
+    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarPlanningWidget, &StatusBarPlanningWidget::slotHideToolTip);
+
+    connect (_statusBarMapWidget, &StatusBarMapWidget::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
+    connect (_statusBarMapWidget, &StatusBarMapWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
+    connect (_statusBarMapWidget, &StatusBarMapWidget::signalHideToolTip, _statusBarPlanningWidget, &StatusBarPlanningWidget::slotHideToolTip);
+
+    connect (_statusBarPlanningWidget, &StatusBarPlanningWidget::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
+    connect (_statusBarPlanningWidget, &StatusBarPlanningWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
+    connect (_statusBarPlanningWidget, &StatusBarPlanningWidget::signalHideToolTip, _statusBarMapWidget, &StatusBarMapWidget::slotHideToolTip);
+
+
+    ui->statusbar->addPermanentWidget(_statusBarMapWidget);
+    ui->statusbar->addPermanentWidget(_statusBarPlanningWidget);
     ui->statusbar->addPermanentWidget(_statusBarVolume);
     ui->statusbar->addPermanentWidget(_statusBarInfoWidget);
 
@@ -123,6 +148,7 @@ bool MainWindow::initCentralWidget (QWidget *value)
         return false;
 
     setCentralWidget (value);
+    setContentsMargins(0, 0, 0, 0);
     return true;
 }
 
@@ -734,186 +760,6 @@ void MainWindow::loadWindowStyle ()
             buffaction->setChecked (settings.value ("minimizeToTray", _minimizeToTray).toBool ());
     }
 
-    //-- в процессе доработки Кромачев Максим
-    //    if (_mdiArea)
-    //    {
-    //        //-- последнее активное окно
-    //        QString currentWindowInMdi = settings.value("currentWindowInMdi", "").toString();
-    //        QSize currentWindowInMdiSize;
-    //        QPoint currentWindowInMdiPos;
-    //        bool currentWindowInMdiMax = false;
-    //        bool currentWindowInMdiAddMdi = false;
-
-    //        //-- загружаем все ранее открытые окна
-    //        settings.beginGroup("/openWindowInMdi");
-    //        int winNum = settings.value("openWindowsNum", 0).toInt();
-    //        for(int k = 0; k < winNum; k++) {
-    //            QString winName = settings.value(QString("windowName_%1").arg(k), "").toString();
-    //            QSize winSize = settings.value(QString("windowSize_%1").arg(k), QSize(100, 100)).toSize();
-    //            QPoint winPos = settings.value(QString("windowPos_%1").arg(k), QPoint(30,30)).toPoint();
-    //            bool winMax = settings.value(QString("windowMax_%1").arg(k), false).toBool();
-
-    //            if(winName == currentWindowInMdi
-    //                    && _mdiArea->viewMode() == QMdiArea::TabbedView) {
-    //                currentWindowInMdiSize = winSize;
-    //                currentWindowInMdiPos = winPos;
-    //                currentWindowInMdiMax = winMax;
-    //                continue;
-    //            }
-
-    //            //-- ищем QAction, отвечающий за вызов этого окна и вызываем его
-    //            if(winName.indexOf("TOOLBAR") == -1) {
-    //                // ищем в меню
-    //                QAction* buffAction = findMenuActionSignature(winName);
-    //                if(!buffAction)
-    //                    continue;
-
-    //                buffAction->trigger();
-
-    //                //если открылось
-    //                QMdiSubWindow* subWindow = _mdiArea->currentSubWindow();
-    //                if(!subWindow)
-    //                    continue;
-    //                if(subWindow->accessibleName() != winName)
-    //                    continue;
-    //                if(winMax) {
-    //                    subWindow->setWindowState(Qt::WindowMaximized);
-    //                } else {
-    //                    subWindow->resize(winSize);
-    //                    subWindow->move(winPos);
-    //                }
-    //            } else {
-    //                // ищем на панелях инструментов
-    //                QAction* buffAction = findToolbarsActionSignature(winName);
-    //                if(!buffAction)
-    //                    continue;
-
-    //                buffAction->trigger();
-
-    //                //если открылось
-    //                QMdiSubWindow* subWindow = _mdiArea->currentSubWindow();
-    //                if(!subWindow)
-    //                    continue;
-    //                if(subWindow->accessibleName() != winName)
-    //                    continue;
-    //                if(winMax) {
-    //                    subWindow->setWindowState(Qt::WindowMaximized);
-    //                } else {
-    //                    subWindow->resize(winSize);
-    //                    subWindow->move(winPos);
-    //                }
-    //            }
-    //        }
-    //        settings.endGroup();
-
-    //        //-- загружаем все ранее открытые окна с помощью метода "void addWindowInMdiArea(...)"
-    //        settings.beginGroup("/openWindowAddInMdi");
-    //        int winPanelNum = settings.value("openWindowAddInMdiNum", 0).toInt();
-    //        for(int m = 0; m < winPanelNum; m++) {
-    //            QString winName = settings.value(QString("windowAddInMdiName_%1").arg(m), "").toString();
-    //            QSize winSize = settings.value(QString("windowAddInMdiSize_%1").arg(m), QSize(100, 100)).toSize();
-    //            QPoint winPos = settings.value(QString("windowAddInMdiPos_%1").arg(m), QPoint(30,30)).toPoint();
-    //            bool winMax = settings.value(QString("windowAddInMdiMax_%1").arg(m), false).toBool();
-
-    //            if(winName == currentWindowInMdi
-    //                    && _mdiArea->viewMode() == QMdiArea::TabbedView) {
-    //                currentWindowInMdiSize = winSize;
-    //                currentWindowInMdiPos = winPos;
-    //                currentWindowInMdiMax = winMax;
-    //                currentWindowInMdiAddMdi = true;
-    //                continue;
-    //            }
-
-    //            loadAddedMdiAreaWindow(winName);
-
-    //            //если открылось
-    //            QMdiSubWindow* subWindow = _mdiArea->currentSubWindow();
-    //            if(!subWindow)
-    //                continue;
-    //            if(subWindow->accessibleName() != winName)
-    //                continue;
-    //            if(winMax) {
-    //                subWindow->setWindowState(Qt::WindowMaximized);
-    //            } else {
-    //                subWindow->resize(winSize);
-    //                subWindow->move(winPos);
-    //            }
-    //        }
-    //        settings.endGroup();
-
-    //        updateWindowMenu();
-
-    //        //-- устанавливаем активное окно
-    //        // если режим вкладок
-    //        if(_mdiArea->viewMode() == QMdiArea::TabbedView) {
-    //            if(currentWindowInMdiAddMdi) {
-    //                loadAddedMdiAreaWindow(currentWindowInMdi);
-
-    //                //если открылось
-    //                QMdiSubWindow* subWindow = _mdiArea->currentSubWindow();
-    //                if(subWindow != nullptr
-    //                        && subWindow->accessibleName() == currentWindowInMdi) {
-    //                    if(currentWindowInMdiMax) {
-    //                        subWindow->setWindowState(Qt::WindowMaximized);
-    //                    } else {
-    //                        subWindow->resize(currentWindowInMdiSize);
-    //                        subWindow->move(currentWindowInMdiPos);
-    //                    }
-    //                }
-    //            } else {
-    //                // ищем QAction, отвечающий за вызов этого окна и вызываем его
-    //                if(currentWindowInMdi.indexOf("TOOLBAR") == -1) {
-    //                    // ищем в меню
-    //                    QAction* buffAction = findMenuActionSignature(currentWindowInMdi);
-    //                    if(buffAction)
-    //                        buffAction->trigger();
-
-    //                    //если открылось
-    //                    QMdiSubWindow* subWindow = _mdiArea->currentSubWindow();
-    //                    if(subWindow != nullptr
-    //                            && subWindow->accessibleName() == currentWindowInMdi) {
-    //                        if(currentWindowInMdiMax) {
-    //                            subWindow->setWindowState(Qt::WindowMaximized);
-    //                        } else {
-    //                            subWindow->resize(currentWindowInMdiSize);
-    //                            subWindow->move(currentWindowInMdiPos);
-    //                        }
-    //                    }
-    //                } else {
-    //                    // ищем на панелях инструментов
-    //                    QAction* buffAction = findToolbarsActionSignature(currentWindowInMdi);
-    //                    if(buffAction)
-    //                        buffAction->trigger();
-
-    //                    //если открылось
-    //                    QMdiSubWindow* subWindow = _mdiArea->currentSubWindow();
-    //                    if(subWindow != nullptr
-    //                            && subWindow->accessibleName() == currentWindowInMdi) {
-    //                        if(currentWindowInMdiMax) {
-    //                            subWindow->setWindowState(Qt::WindowMaximized);
-    //                        } else {
-    //                            subWindow->resize(currentWindowInMdiSize);
-    //                            subWindow->move(currentWindowInMdiPos);
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        } else {
-    //            if(!currentWindowInMdi.isEmpty()) {
-    //                QList<QMdiSubWindow*> allMdi = _mdiArea->subWindowList();
-    //                for(int kk = 0; kk < allMdi.size(); kk++) {
-    //                    QMdiSubWindow* buffSubWindow = allMdi[kk];
-    //                    if(buffSubWindow->accessibleName() != currentWindowInMdi)
-    //                        continue;
-
-    //                    _mdiArea->setActiveSubWindow(buffSubWindow);
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //        settings.endGroup();
-    //    }
-    //-- в процессе доработки Кромачев Максим
 
     if (_systemGuiCore && _systemGuiCore->settings ())
         ui->statusbar->setVisible (_systemGuiCore->settings ()->statusBarVisible ());
@@ -943,67 +789,6 @@ void MainWindow::saveWindowStyle ()
         if (act)
             settings.setValue ("minimizeToTray", act->isChecked ());
     }
-
-    //-- в процессе доработки Кромачев Максим
-    //    if (_mdiArea)
-    //    {
-    //        //-- запрашиваем текущее окно
-    //        QMdiSubWindow* currentSubWindow = _mdiArea->currentSubWindow ();
-    //        bool winMax = false;
-    //        if (currentSubWindow)
-    //            winMax = currentSubWindow->isMaximized ();
-
-    //        //-- сохраняем все открытые окна
-    //        settings.beginGroup ("/openWindowInMdi");
-    //        settings.setValue ("openWindowsNum", getNumActionWindows ());
-    //        int winNum = 0;
-
-    //        auto windows = _mdiArea->subWindowList ();
-    //        for (auto const wnd : qAsConst (windows))
-    //        {
-    //            if (wnd->accessibleDescription () == QString (SUBWINDOW_TYPE_ACTION) &&
-    //                    wnd->accessibleName ().isEmpty () == false)
-    //            {
-    //                settings.setValue (QString ("windowName_%1").arg (winNum), wnd->accessibleName ());
-    //                settings.setValue (QString ("windowSize_%1").arg (winNum), wnd->size ());
-    //                settings.setValue (QString ("windowPos_%1").arg (winNum), wnd->pos ());
-    //                settings.setValue (QString ("windowMax_%1").arg (winNum), winMax);
-    //                winNum++;
-    //            }
-    //        }
-    //        settings.endGroup();
-
-    //        // сохраняем все открытые окна с помощью метода "void addWindowInMdiArea(...)"
-    //        settings.beginGroup("/openWindowAddInMdi");
-    //        settings.setValue("openWindowAddInMdiNum", getNumAddInMdiWindows());
-    //        winNum = 0;
-    //        for(int mm = 0; mm < windows.size(); mm++) {
-    //            QMdiSubWindow* buffWindow = windows.operator [](mm);
-    //            if(buffWindow->accessibleDescription() == QString(SUBWINDOW_TYPE_ADD_IN_MDI) &&
-    //                    buffWindow->accessibleName().isEmpty() == false)  {
-    //                QString winName = buffWindow->accessibleName();
-    //                QSize winSize = buffWindow->size();
-    //                QPoint winPos = buffWindow->pos();
-    //                //             bool winMax = buffWindow->isMaximized();
-
-    //                settings.setValue(QString("windowAddInMdiName_%1").arg(winNum), winName);
-    //                settings.setValue(QString("windowAddInMdiSize_%1").arg(winNum), winSize);
-    //                settings.setValue(QString("windowAddInMdiPos_%1").arg(winNum), winPos);
-    //                settings.setValue(QString("windowAddInMdiMax_%1").arg(winNum), winMax);
-    //                winNum++;
-    //            }
-    //        }
-    //        settings.endGroup();
-
-    //        //-- сохраняем текущее окно
-    //        if (currentSubWindow)
-    //            settings.setValue ("currentWindowInMdi", currentSubWindow->accessibleName ());
-    //        else
-    //            settings.setValue ("currentWindowInMdi", "");
-
-    //        settings.endGroup ();
-    //    }
-    //-- в процессе доработки Кромачев Максим
 }
 
 void MainWindow::updateWindowMenu ()
@@ -1057,21 +842,6 @@ void MainWindow::updateMenus()
         _cascadeAct->setEnabled (false);
     }
     _separatorAct->setEnabled (hasMdiChild);
-
-    //---------------------------------------------------------
-    //    bool hasMdiChild = _mdiArea->activeSubWindow() != nullptr ? true : false;
-
-    //    _closeAct->setEnabled(hasMdiChild);
-    //    _closeAllAct->setEnabled(hasMdiChild);
-
-    //    if(_mdiArea->viewMode() == QMdiArea::SubWindowView) {
-    //        _tileAct->setEnabled(hasMdiChild);
-    //        _cascadeAct->setEnabled(hasMdiChild);
-    //    } else {
-    //        _tileAct->setEnabled(false);
-    //        _cascadeAct->setEnabled(false);
-    //    }
-    //    _separatorAct->setEnabled(hasMdiChild);
 }
 
 void MainWindow::setActiveSubWindow (QWidget *window)
@@ -1162,8 +932,14 @@ void MainWindow::clickAction ()
     if (auto buffParent = dynamic_cast<ISystemGuiCoreParentWidget*> (act->parent ()))
     {
         ISystemGuiCoreParentWidget::WidgetType type = ISystemGuiCoreParentWidget::MdiType;
-        ISystemGuiCoreParentWidget::WidgetShowType showtype =
-                ISystemGuiCoreParentWidget::ShowNormal;
+
+        ISystemGuiCoreParentWidget::WidgetShowType showtype;
+        if(act->text() == "Map")
+        {
+            showtype = ISystemGuiCoreParentWidget::ShowMaximized;
+        }
+        else showtype = ISystemGuiCoreParentWidget::ShowNormal;
+
         QWidget* buffWidget = buffParent->getWidget (act->text (), actionSignature, type, showtype);
 
         if (!buffWidget) {
@@ -1250,6 +1026,8 @@ void MainWindow::clickAction ()
                 buffWidget->setAccessibleName (actionSignature);
                 buffWidget->setAccessibleDescription (SUBWINDOW_TYPE_ACTION);
 
+
+                ((QMdiArea*)centralWidget())->cascadeSubWindows();
                 QMdiSubWindow* subWindow = ((QMdiArea*)centralWidget ())->addSubWindow (buffWidget);
                 subWindow->setAccessibleName(actionSignature);
                 subWindow->setAccessibleDescription(SUBWINDOW_TYPE_ACTION);
@@ -1275,7 +1053,10 @@ void MainWindow::clickAction ()
                 if (showtype == ISystemGuiCoreParentWidget::ShowNormal)
                     buffWidget->show ();
                 else if (showtype == ISystemGuiCoreParentWidget::ShowMaximized)
+                {
+                    buffWidget->setMaximumSize(((QMdiArea*)centralWidget())->size());
                     buffWidget->showMaximized ();
+                }
                 else if (showtype == ISystemGuiCoreParentWidget::ShowMinimized)
                     buffWidget->showMinimized ();
                 else if (showtype == ISystemGuiCoreParentWidget::ShowFullScreen)
@@ -1573,14 +1354,6 @@ QMdiSubWindow *MainWindow::findMdiSubWindow (const QString &windowName)
         if (subwindow->accessibleName () == windowName)
             return subwindow;
     }
-
-    //------------------------ deprecated
-    //    QList<QMdiSubWindow*> allMdi = _mdiArea->subWindowList ();
-    //    for (int i = 0; i < allMdi.size(); i++) {
-    //        if (allMdi[i]->accessibleName () == windowName)
-    //            return allMdi[i];
-    //    }
-    //------------------------ deprecated
 
     return nullptr;
 }
@@ -1896,47 +1669,6 @@ void MainWindow::addWindowInMdiArea (const QString &actionName, QWidget *window)
         emit subWindowOpened (buffWindow->accessibleName ());
     }
 
-    //--------------------------------------------------------------------
-
-    //    auto subWindow = findMdiSubWindow (actionName);
-    //    if (subWindow) {
-    //        _mdiArea->setActiveSubWindow (subWindow);
-    //        delete window;
-    //        window = nullptr;
-    //        return;
-    //    }
-
-    //    if (!window) {
-    //        qCritical() << "[MainWindow][addWindowInMdiArea] Window is NULL! Add window failed!";
-    //        return;
-    //    }
-
-    //    window->setAccessibleName (actionName);
-    //    window->setAccessibleDescription (SUBWINDOW_TYPE_ADD_IN_MDI);
-
-    //    QMdiSubWindow* buffWindow = ((QMdiArea*)centralWidget ())->addSubWindow (window);
-    //    buffWindow->setProperty (ACTION_PROP_SIGNATURE, actionName); // <--
-    //    buffWindow->setAccessibleName (actionName);
-    //    buffWindow->setAccessibleDescription (SUBWINDOW_TYPE_ADD_IN_MDI);
-    //    buffWindow->resize (window->size ());
-    //    buffWindow->setMinimumSize (window->minimumSize ());
-    //    buffWindow->setMaximumSize (window->maximumSize ());
-    //    buffWindow->setWindowIcon (window->windowIcon ());
-
-    //    connect (window, &QWidget::destroyed, buffWindow, &MainWindow::close);
-    //    connect (buffWindow, &QMdiSubWindow::destroyed, this, &MainWindow::slotCloseSubWindow);
-
-    //    // --- set filter ---
-    //    MdiSubWindowFilter *buffFilter = new MdiSubWindowFilter (buffWindow, window);
-    //    connect (buffFilter, &MdiSubWindowFilter::mousePos, this, &MainWindow::mousePos);
-    //    window->setMouseTracking (true);
-    //    window->installEventFilter (buffFilter);
-    //    // ---
-
-    //    window->setParent (buffWindow);
-    //    window->show ();
-
-    //    emit subWindowOpened (buffWindow->accessibleName ());
 }
 
 ISystemGuiCorePopUpElement* MainWindow::addPopUpMessage (const QString &messageCaption,
@@ -2002,50 +1734,13 @@ ISystemGuiCorePopUpElement* MainWindow::addPopUpMessage (const QString &messageC
 
 QWidget *MainWindow::getMainWindowParentWidget ()
 {
-    //    QMutexLocker a(&_mutex);
-    //    Q_UNUSED(a)
 
     return this;
 }
 
 IMainWindowConnector *MainWindow::getMainWindowConnector ()
 {
-    //    QMutexLocker a(&_mutex);
-    //    Q_UNUSED(a)
 
     return _mainWindowConnector;
 }
 
-//ISystemGuiCoreStyleItemDelegate *MainWindow::getItemDelegate (const QString &delegateName)
-//{
-//    QMutexLocker a(&_mutex);
-//    Q_UNUSED(a)
-
-//    if (!_systemGuiCore)
-//        return nullptr;
-
-//    if (delegateName == QString (ITEM_DELEGATE_TABLE_COLOR)) {
-//        return new TableColorDelegate();
-
-//    } else if (delegateName == QString (ITEM_DELEGATE_BOOL_VALUE)) {
-//        return new TableBoolDelegate();
-
-//    } else if (delegateName == QString (ITEM_DELEGATE_CONVERT_DATE_TIME)) {
-//        return new TableConvertDateTimeDelegate();
-
-//    } else if(delegateName == QString (ITEM_DELEGATE_CONVERT_DATE)) {
-//        return new TableConvertDateDelegate();
-
-//    } else {
-//        QVector <IDelegateManager*> allDelegates = _systemGuiCore->getDelegateManagers();
-
-//        for (int i = 0; i < allDelegates.size(); i++) {
-//            IDelegateManager* buffManager = allDelegates[i];
-//            if (buffManager->contains(delegateName)) {
-//                return buffManager->getItemDelegate(delegateName);
-//            }
-//        }
-//    }
-
-//    return nullptr;
-//}
