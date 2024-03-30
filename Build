@@ -9,24 +9,42 @@ cd build
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/Matrix/src/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/TCP/src/:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # check choosen component to build
-if [ "$1" = "--Gui" ]; then
-    # uncomment during THR-35
-    # mkdir -p Common/ComponentsCore5alpha
-    # cd Common/ComponentsCore5alpha
-    # qmake ../../Common/ComponentsCore5alpha/ComponentsCore5alpha.pro
-    # cd ../..
-    # mkdir -p GuiApplication
-    # cd GuiApplication
-    # qmake ../../GuiApplication/GuiApplication.pro
+if [ "$1" = "--Common" ]; then
+    mkdir -p Common
+    cd Common
+    qmake ../../Common/Common.pro
 
-    qmake ../TransHub.pro
+elif [ "$1" = "--Gui" ]; then
+    # TODO: THR-35 add lib deps
+    # Build all libs
+    mkdir -p Common
+    cd Common
+    qmake ../../Common/Common.pro
+    make
+
+    cd ..
+
+    mkdir -p GuiApplication
+    cd GuiApplication
+    qmake ../../GuiApplication/GuiApplication.pro
+
 elif [ "$1" = "--Service" ]; then
+    mkdir -p Common
+    cd Common
+    qmake ../../Common/Common.pro
+    make
+
+    cd ..
+
     mkdir -p ServiceApplication
     cd ServiceApplication
     qmake ../../ServiceApplication/ServiceApplication.pro
+
 else
     qmake ../TransHub.pro # default - build all project
 fi
