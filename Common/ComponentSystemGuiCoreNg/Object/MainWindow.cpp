@@ -1025,17 +1025,26 @@ void MainWindow::clickAction ()
             }
             else
             {
+                QMdiSubWindow * subWindow = nullptr;
+                // qobject_cast ?
+                if ( CustomMdiSubWindow * cmdiw = dynamic_cast<CustomMdiSubWindow *>( buffWidget ) )
+                {
+                    subWindow = cmdiw;
+                    buffWidget = cmdiw->widget();
+                    connect( cmdiw, &CustomMdiSubWindow::HideSubWindow,
+                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnHideSubWindow );
+                    connect( cmdiw, &CustomMdiSubWindow::CloseSubWindow,
+                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnCloseSubWindow );
+                }
+
                 buffWidget->setAccessibleName (actionSignature);
                 buffWidget->setAccessibleDescription (SUBWINDOW_TYPE_ACTION);
 
-                ((QMdiArea*)centralWidget())->cascadeSubWindows();
-                QMdiSubWindow* subWindow = ((QMdiArea*)centralWidget())->addSubWindow(buffWidget);
-//                if ( auto * cmdiw = qobject_cast<CustomMdiSubWindow *>( subWindow ) )
-//                {
-//                    buffWidget = subWindow->widget();
-//                    connect( cmdiw, &CustomMdiSubWindow::HideSubWindow,
-//                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnHideSubWindow );
-//                }
+                ((QMdiArea *)centralWidget())->cascadeSubWindows();
+                if ( subWindow )
+                    subWindow = ((QMdiArea*)centralWidget())->addSubWindow( subWindow );
+                else
+                    subWindow = ((QMdiArea*)centralWidget())->addSubWindow( buffWidget );
 
                 subWindow->setAccessibleName(actionSignature);
                 subWindow->setAccessibleDescription(SUBWINDOW_TYPE_ACTION);

@@ -84,7 +84,7 @@ QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
     }
 
 
-    /*Custom*/QMdiSubWindow * mdisw = new QMdiSubWindow/*CustomMdiSubWindow*/;
+    CustomMdiSubWindow * mdisw = new CustomMdiSubWindow;
     QWidget * gwgt = _gwmanager->GetWidget( actionName );
     gwgt->setParent( wnd->getMainWindowParentWidget() );
     mdisw->setWidget( gwgt );
@@ -93,8 +93,8 @@ QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
     if ( gw_sett != std::experimental::nullopt )
         mdisw->restoreGeometry( gw_sett.value() );
 
-//    connect( mdisw, &CustomMdiSubWindow::SaveGWSettings, _gwmanager, &GuiWidgetsManager::OnSaveGWSettings );
-//    connect( mdisw, &CustomMdiSubWindow::CloseGWidget, _gwmanager, &GuiWidgetsManager::OnCloseGWidget );
+    connect( mdisw, &CustomMdiSubWindow::SaveGWSettings, _gwmanager, &GuiWidgetsManager::OnSaveGWSettings );
+    connect( mdisw, &CustomMdiSubWindow::CloseGWidget, _gwmanager, &GuiWidgetsManager::OnCloseGWidget );
 
     return mdisw;
 }

@@ -9,3 +9,9 @@ void CustomMdiSubWindow::hideEvent( QHideEvent * event )
         emit HideSubWindow();
     }
 }
+
+void CustomMdiSubWindow::closeEvent( QCloseEvent * event )
+{
+    event->ignore();
+    emit CloseSubWindow();
+}

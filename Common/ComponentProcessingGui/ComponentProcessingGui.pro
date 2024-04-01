@@ -15,6 +15,7 @@ INCLUDEPATH += ../3rdparty/
 INCLUDEPATH += ../IObject/ISystemGuiCore/
 INCLUDEPATH += ../
 
+LIBS += -L$$PWD/../../build/GuiApplication/src/components -lComponentsProcessingGui
 
 # Build dirs
 OBJECTS_DIR = objects
@@ -26,6 +27,7 @@ DEFINES += COMPONENTPROCESSINGGUI_LIBRARY
 TRANSLATIONS += ComponentProcessingGui.ts
 
 SOURCES += \
+    ../ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.cpp \
     ComponentProcessingGui.cpp      \
     Object/GuiWidgetsManager.cpp \
     Object/MapWidget.cpp \
@@ -37,6 +39,7 @@ SOURCES += \
     Object/StyleHelper.cpp
 
 HEADERS += \
+    ../ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h \
     ComponentProcessingGui.h        \
     ComponentProcessingGui_global.h \
     Object/GuiWidgetsManager.h \

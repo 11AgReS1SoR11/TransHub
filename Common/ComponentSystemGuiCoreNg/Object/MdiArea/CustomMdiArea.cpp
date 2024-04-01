@@ -8,7 +8,7 @@ CustomMdiArea::CustomMdiArea( QWidget *parent )
 
 void CustomMdiArea::OnHideSubWindow()
 {
-    if ( auto * mdisw = qobject_cast<CustomMdiSubWindow *>( sender() ) )
+    if ( auto * mdisw = dynamic_cast<CustomMdiSubWindow *>( sender() ) )
     {
         removeSubWindow( mdisw );
         QWidget * swt = mdisw->widget();
@@ -22,7 +22,7 @@ void CustomMdiArea::OnHideSubWindow()
 
 void CustomMdiArea::OnCloseSubWindow()
 {
-    if ( auto * mdisw = qobject_cast<CustomMdiSubWindow *>( sender() ) )
+    if ( auto * mdisw = dynamic_cast<CustomMdiSubWindow *>( sender() ) )
     {
         removeSubWindow( mdisw );
         QWidget * swt = mdisw->widget();
