@@ -4,11 +4,14 @@
 #include <IObject/ISystemGuiCore/ISystemGuiCoreParentWidget.h>
 #include <IObject/ISystemGuiCore/ISystemGuiCore.h>
 #include <IObject/ISystemGuiCore/ISystemGuiCoreMenu.h>
+#include <experimental/optional>
 
 //!
 //! \brief Класс формирования меню.
 //! \author Кромачев Максим
 //!
+
+class GuiWidgetsManager;
 class ProcessingGui : public QObject, public ISystemGuiCoreParentWidget
 {
     Q_OBJECT
@@ -29,7 +32,7 @@ public:
     //! \param actionSignature
     //! \param type
     //! \return Виджет
-    QWidget *getWidget (const QString& actionName, const QString &actionSignature,
+    QWidget * getWidget (const QString& actionName, const QString &actionSignature,
                         WidgetType &type, WidgetShowType &showType) override;
 
 protected:
@@ -38,6 +41,9 @@ protected:
 
     //! \brief Получить главное окно приложения.
     ISystemGuiCoreMainWindow *mainWindow () const;
+
+private:
+    GuiWidgetsManager * _gwmanager;
 };
 
 #endif // _PROCESSINGGUI_H
