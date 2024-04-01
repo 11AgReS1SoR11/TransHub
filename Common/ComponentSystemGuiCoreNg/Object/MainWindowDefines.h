@@ -37,5 +37,6 @@
 
 // action signature
 #define ACTION_PROP_SIGNATURE       "signaturePath"
+#define ACTION_SHOW_TYPE            "actionShowType"
 
 #endif // MAINWINDOWDEFINES_H

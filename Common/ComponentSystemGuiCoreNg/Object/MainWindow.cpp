@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 
 #include "SystemGuiCoreNg.h"
@@ -14,6 +14,9 @@
 #include "Delegates/TableConvertDateTimeDelegate.h"
 #include "Delegates/TableConvertDateDelegate.h"
 #include "Delegates/TableBoolDelegate.h"
+
+#include "MdiArea/CustomMdiSubWindow.h"
+#include "MdiArea/CustomMdiArea.h"
 
 MainWindow::MainWindow (QWidget *parent)
     : QMainWindow (parent)
@@ -38,7 +41,7 @@ MainWindow::MainWindow (QWidget *parent)
     _minimizeToTrayTemp = _minimizeToTray;
 
     //-- mdi area
-    _mdiArea = new QMdiArea (this);
+    _mdiArea = new CustomMdiArea(this);
 
     //-- set filter
     _mdiAreaFilter = new MdiAreaFilter (_mdiArea);
@@ -934,11 +937,10 @@ void MainWindow::clickAction ()
         ISystemGuiCoreParentWidget::WidgetType type = ISystemGuiCoreParentWidget::MdiType;
 
         ISystemGuiCoreParentWidget::WidgetShowType showtype;
-        if(act->text() == "Map")
-        {
+        if ( act->property(ACTION_SHOW_TYPE).isValid() && act->property(ACTION_SHOW_TYPE).toBool() )
             showtype = ISystemGuiCoreParentWidget::ShowMaximized;
-        }
-        else showtype = ISystemGuiCoreParentWidget::ShowNormal;
+        else
+            showtype = ISystemGuiCoreParentWidget::ShowNormal;
 
         QWidget* buffWidget = buffParent->getWidget (act->text (), actionSignature, type, showtype);
 
@@ -1026,9 +1028,15 @@ void MainWindow::clickAction ()
                 buffWidget->setAccessibleName (actionSignature);
                 buffWidget->setAccessibleDescription (SUBWINDOW_TYPE_ACTION);
 
-
                 ((QMdiArea*)centralWidget())->cascadeSubWindows();
-                QMdiSubWindow* subWindow = ((QMdiArea*)centralWidget ())->addSubWindow (buffWidget);
+                QMdiSubWindow* subWindow = ((QMdiArea*)centralWidget())->addSubWindow(buffWidget);
+//                if ( auto * cmdiw = qobject_cast<CustomMdiSubWindow *>( subWindow ) )
+//                {
+//                    buffWidget = subWindow->widget();
+//                    connect( cmdiw, &CustomMdiSubWindow::HideSubWindow,
+//                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnHideSubWindow );
+//                }
+
                 subWindow->setAccessibleName(actionSignature);
                 subWindow->setAccessibleDescription(SUBWINDOW_TYPE_ACTION);
                 subWindow->setWindowIcon(act->icon());

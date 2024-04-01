@@ -27,6 +27,7 @@ TRANSLATIONS += ComponentProcessingGui.ts
 
 SOURCES += \
     ComponentProcessingGui.cpp      \
+    Object/GuiWidgetsManager.cpp \
     Object/MapWidget.cpp \
     Object/ProcessingGui.cpp        \
     Object/Settings.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
 HEADERS += \
     ComponentProcessingGui.h        \
     ComponentProcessingGui_global.h \
+    Object/GuiWidgetsManager.h \
     Object/MapWidget.h \
     Object/ProcessingGui.h          \
     Object/Settings.h \
