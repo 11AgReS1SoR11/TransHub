@@ -29,6 +29,9 @@ signals:
     //! \param pos Позиция мыши
     void mousePos (const QPoint pos);
 
+public slots:
+    void OnDeleteMdiSubWindow();
+
 protected:
     QMdiSubWindow *_subWindow;  //!< внутренее окно
 

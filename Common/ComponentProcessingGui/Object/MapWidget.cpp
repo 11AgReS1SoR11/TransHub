@@ -1,6 +1,7 @@
 #include "MapWidget.h"
 #include "ui_MapWidget.h"
 #include "StyleHelper.h"
+#include <QHideEvent>
 
 
 MapWidget::MapWidget(QWidget *parent)
@@ -50,13 +51,6 @@ void MapWidget::createToolBar ()
     _toolBar->addSeparator ();
     _toolBar->addAction (QIcon (":/icons/help_32x32.png"), tr ("Help"));
 }
-
-void MapWidget::hideEvent(QHideEvent *event)
-{
-    QWidget::hideEvent(event);
-    setWindowFlags(Qt::FramelessWindowHint);
-}
-
 
 bool MapWidget::plotRoute(double startLat, double startLng, double endLat, double endLng) {
     // Здесь можно добавить код для прокладки маршрута на карте

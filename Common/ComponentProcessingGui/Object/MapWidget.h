@@ -29,8 +29,6 @@ protected:
 
     void createToolBar();
 
-    void hideEvent(QHideEvent* event) override;
-
 private:
 
     QWebEngineView *webView { nullptr };
