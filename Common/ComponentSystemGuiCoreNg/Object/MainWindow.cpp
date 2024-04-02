@@ -1058,6 +1058,9 @@ void MainWindow::clickAction ()
                 // --- set filter ---
                 MdiSubWindowFilter *buffFilter = new MdiSubWindowFilter (subWindow, buffWidget);
                 connect (buffFilter, &MdiSubWindowFilter::mousePos, this, &MainWindow::mousePos);
+                if ( CustomMdiSubWindow * cmdiw = dynamic_cast<CustomMdiSubWindow *>( subWindow ) )
+                    connect (cmdiw, &CustomMdiSubWindow::DeleteMdiSubWindow, buffFilter, &MdiSubWindowFilter::OnDeleteMdiSubWindow);
+
                 buffWidget->setMouseTracking (true);
                 buffWidget->installEventFilter (buffFilter);
                 // ---

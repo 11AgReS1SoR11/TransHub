@@ -5,11 +5,12 @@
 #include <QMdiSubWindow>
 #include <experimental/optional>
 
-class Q_DECL_IMPORT CustomMdiSubWindow : public QMdiSubWindow {
+class Q_DECL_EXPORT CustomMdiSubWindow : public QMdiSubWindow {
     Q_OBJECT
 
 public:
     CustomMdiSubWindow(QWidget *parent = nullptr) : QMdiSubWindow(parent) {}
+    ~CustomMdiSubWindow();
 
 protected:
     void hideEvent(QHideEvent * ) override;
@@ -20,6 +21,7 @@ signals:
     void CloseGWidget( const QString & );
     void HideSubWindow();
     void CloseSubWindow();
+    void DeleteMdiSubWindow();
 };
 
 #endif // QCUSTOMMDISUBWINDOW_H

@@ -1,6 +1,11 @@
 #include"CustomMdiSubWindow.h"
 #include<QHideEvent>
 
+CustomMdiSubWindow::~CustomMdiSubWindow()
+{
+    emit DeleteMdiSubWindow();
+}
+
 void CustomMdiSubWindow::hideEvent( QHideEvent * event )
 {
     if (windowState() & Qt::WindowMinimized)
