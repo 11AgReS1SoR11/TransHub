@@ -1046,6 +1046,9 @@ void MainWindow::clickAction ()
                 else
                     subWindow = ((QMdiArea*)centralWidget())->addSubWindow( buffWidget );
 
+                if ( subWindow->property(MDI_POSITION).isValid() )
+                    subWindow->move( subWindow->property(MDI_POSITION).toPoint() );
+
                 subWindow->setAccessibleName(actionSignature);
                 subWindow->setAccessibleDescription(SUBWINDOW_TYPE_ACTION);
                 subWindow->setWindowIcon(act->icon());

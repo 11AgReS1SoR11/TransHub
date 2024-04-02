@@ -74,7 +74,7 @@ void ProcessingGui::initGui ()
 }
 
 QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
-                                   WidgetType &, WidgetShowType & )
+                                   WidgetType &, WidgetShowType & showType )
 {
     ISystemGuiCoreMainWindow *wnd = mainWindow ();
     if (!wnd)
@@ -91,7 +91,11 @@ QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
 
     auto gw_sett = _gwmanager->GetWidgetSettings( actionName );
     if ( gw_sett != std::experimental::nullopt )
-        mdisw->restoreGeometry( gw_sett.value() );
+    {
+        showType = ISystemGuiCoreParentWidget::ShowNormal;
+        mdisw->restoreGeometry( gw_sett.value().first );
+        mdisw->setProperty( MDI_POSITION , gw_sett.value().second );
+    }
 
     connect( mdisw, &CustomMdiSubWindow::SaveGWSettings, _gwmanager, &GuiWidgetsManager::OnSaveGWSettings );
     connect( mdisw, &CustomMdiSubWindow::CloseGWidget, _gwmanager, &GuiWidgetsManager::OnCloseGWidget );

@@ -5,7 +5,8 @@
 #include <QMdiSubWindow>
 #include <experimental/optional>
 
-class Q_DECL_EXPORT CustomMdiSubWindow : public QMdiSubWindow {
+class Q_DECL_EXPORT CustomMdiSubWindow : public QMdiSubWindow
+{
     Q_OBJECT
 
 public:
@@ -17,7 +18,7 @@ protected:
     void closeEvent(QCloseEvent * ) override;
 
 signals:
-    void SaveGWSettings( const QString &, std::experimental::optional<QByteArray> );
+    void SaveGWSettings( const QString &, std::experimental::optional<QPair<QByteArray, QPoint>> );
     void CloseGWidget( const QString & );
     void HideSubWindow();
     void CloseSubWindow();

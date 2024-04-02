@@ -10,11 +10,12 @@ void CustomMdiArea::OnHideSubWindow()
 {
     if ( auto * mdisw = dynamic_cast<CustomMdiSubWindow *>( sender() ) )
     {
-        removeSubWindow( mdisw );
         QWidget * swt = mdisw->widget();
         swt->setParent(nullptr);
         QByteArray mdisw_state = mdisw->saveGeometry();
-        emit mdisw->SaveGWSettings( swt->objectName(), mdisw_state );
+        QPoint mdisw_pos = mdisw->pos();
+        removeSubWindow( mdisw );
+        emit mdisw->SaveGWSettings( swt->objectName(), QPair( mdisw_state, mdisw_pos ) );
         mdisw->deleteLater();
         swt->hide();
     }

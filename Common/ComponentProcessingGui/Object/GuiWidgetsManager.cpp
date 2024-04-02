@@ -33,7 +33,7 @@ QWidget * GuiWidgetsManager::GetWidget( const QString & gwkey )
     return nullptr;
 }
 
-std::experimental::optional<QByteArray> GuiWidgetsManager::GetWidgetSettings( const QString & gwkey )
+GuiWidgetsManager::GWSettings GuiWidgetsManager::GetWidgetSettings( const QString & gwkey )
 {
     if ( _gui_widgets.contains( gwkey ) )
         return _gui_widgets[ gwkey ].second;
@@ -51,7 +51,7 @@ void GuiWidgetsManager::OnCloseGWidget( const QString & gwkey )
     }
 }
 
-void GuiWidgetsManager::OnSaveGWSettings( const QString & gwkey, std::experimental::optional<QByteArray> gwsett )
+void GuiWidgetsManager::OnSaveGWSettings( const QString & gwkey, GWSettings gwsett )
 {
     if ( _gui_widgets.contains( gwkey ) )
         _gui_widgets[ gwkey ].second = gwsett;
