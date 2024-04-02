@@ -37,6 +37,8 @@ TRANSLATIONS += ComponentSystemGuiCoreNg.ts
 SOURCES += \
     ComponentSystemGuiCoreNg.cpp \
     Object/MainWindow.cpp \
+    Object/MdiArea/CustomMdiArea.cpp \
+    Object/MdiArea/CustomMdiSubWindow.cpp \
     Object/SettingsPanel/SettingsGuiCoreWidget.cpp \
     Object/StatusBarInfo/StatusBarMapWidget.cpp \
     Object/StatusBarInfo/StatusBarMapWidgetToolTip.cpp \
@@ -89,6 +91,8 @@ HEADERS += \
     ComponentSystemGuiCoreNg_global.h \
     Object/GuiCoreTagDefines.h \
     Object/MainWindow.h \
+    Object/MdiArea/CustomMdiArea.h \
+    Object/MdiArea/CustomMdiSubWindow.h \
     Object/SettingsPanel/SettingsGuiCoreWidget.h \
     Object/StatusBarInfo/StatusBarMapWidget.h \
     Object/StatusBarInfo/StatusBarMapWidgetToolTip.h \

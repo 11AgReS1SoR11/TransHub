@@ -1,15 +1,17 @@
 #include "ProcessingGui.h"
 #include <ComponentsCore5alpha/ComponentManager>
-#include "Object/PlanningWidget.h"
 #include "Object/CommandPanel.h"
-#include "Object/MapWidget.h"
-#include "MapWidget.h"
+#include "../ComponentSystemGuiCoreNg/Object/MainWindowDefines.h"
+#include "GuiWidgetsManager.h"
 
 #include <QtWidgets/QDockWidget>
+#include "../ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h"
+#include <QMdiSubWindow>
 
 ProcessingGui::ProcessingGui (QObject* parent)
     : QObject (parent)
 {
+    _gwmanager = new GuiWidgetsManager( this );
     if (auto gc = guicore ())
         gc->registrateGuiComponent (this);
     else
@@ -45,7 +47,7 @@ void ProcessingGui::initGui ()
     auto menu_planning = wnd->getMenu (tr ("Planning"));
     if (menu_planning)
     {
-        auto act_commands = new QAction (tr ("Planning"), this);
+        QAction * act_commands = new QAction (tr ("Planning"), this);
         menu_planning->addMenuAction (act_commands);
         wnd->addMenuInMenuBar (menu_planning);
     }
@@ -59,7 +61,8 @@ void ProcessingGui::initGui ()
     auto menu_map = wnd->getMenu (tr ("Map"));
     if (menu_map)
     {
-        auto act_commands = new QAction (tr ("Map"), this);
+        QAction * act_commands = new QAction (tr ("Map"), this);
+        act_commands->setProperty(ACTION_SHOW_TYPE, true);
         menu_map->addMenuAction (act_commands);
         wnd->addMenuInMenuBar (menu_map);
     }
@@ -70,35 +73,34 @@ void ProcessingGui::initGui ()
     }
 }
 
-QWidget *ProcessingGui::getWidget (const QString &actionName, const QString &actionSignature,
-                                       ISystemGuiCoreParentWidget::WidgetType &type,
-                                       ISystemGuiCoreParentWidget::WidgetShowType &showType)
+QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
+                                   WidgetType &, WidgetShowType & showType )
 {
-    (void)actionSignature;
-    (void)type;
-    (void)showType;
-
     ISystemGuiCoreMainWindow *wnd = mainWindow ();
-    if (!wnd) {
+    if (!wnd)
+    {
         qCritical () << "[ProcessingGui][getWidget] Could not find main window *";
         return nullptr;
     }
 
-    if (actionName == tr ("Planning"))
+
+    CustomMdiSubWindow * mdisw = new CustomMdiSubWindow;
+    QWidget * gwgt = _gwmanager->GetWidget( actionName );
+    gwgt->setParent( wnd->getMainWindowParentWidget() );
+    mdisw->setWidget( gwgt );
+
+    auto gw_sett = _gwmanager->GetWidgetSettings( actionName );
+    if ( gw_sett != std::experimental::nullopt )
     {
-        auto fmw = new PlanningWidget (wnd->getMainWindowParentWidget ());
-        fmw->setAttribute (Qt::WA_DeleteOnClose);
-        return fmw;
+        showType = ISystemGuiCoreParentWidget::ShowNormal;
+        mdisw->restoreGeometry( gw_sett.value().first );
+        mdisw->setProperty( MDI_POSITION , gw_sett.value().second );
     }
 
-    if(actionName == tr("Map"))
-    {
-        auto fmw = new MapWidget (wnd->getMainWindowParentWidget ());
-        fmw->setAttribute (Qt::WA_DeleteOnClose);
-        return fmw;
-    }
+    connect( mdisw, &CustomMdiSubWindow::SaveGWSettings, _gwmanager, &GuiWidgetsManager::OnSaveGWSettings );
+    connect( mdisw, &CustomMdiSubWindow::CloseGWidget, _gwmanager, &GuiWidgetsManager::OnCloseGWidget );
 
-    return nullptr;
+    return mdisw;
 }
 
 ISystemGuiCore *ProcessingGui::guicore () const
