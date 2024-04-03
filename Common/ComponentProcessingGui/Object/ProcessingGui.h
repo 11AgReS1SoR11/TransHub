@@ -12,7 +12,7 @@
 //!
 
 class GuiWidgetsManager;
-class ProcessingGui : public QObject, public ISystemGuiCoreParentWidget
+class Q_DECL_IMPORT ProcessingGui : public QObject, public ISystemGuiCoreParentWidget
 {
     Q_OBJECT
 
