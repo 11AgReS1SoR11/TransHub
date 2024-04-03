@@ -7,4 +7,4 @@ SOURCES += test.cpp
 
 INCLUDEPATH +=  ../src
 
-LIBS += -L$$PWD/../../../build/Common/Matrix/src -lMatrix
+LIBS += -L$$PWD/../../../build/Common/ComponentMatrix/src -lComponentMatrix

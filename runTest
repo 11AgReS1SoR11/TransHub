@@ -4,7 +4,7 @@ LD_LIBRARY_PATH=$PWD/build/Common/ComponentsCore5alpha/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentSystemGuiCoreNg/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentProcessingGui/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/ComponentFull_Search/src/:${LD_LIBRARY_PATH}
-LD_LIBRARY_PATH=$PWD/build/Common/Matrix/src/:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=$PWD/build/Common/ComponentMatrix/src/:${LD_LIBRARY_PATH}
 LD_LIBRARY_PATH=$PWD/build/Common/TCP/src/:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
@@ -18,7 +18,7 @@ elif [ "$1" = "--Common" ]; then
     ./build/Common/TCP/test/TCPTest
     ./build/Common/ComponentFull_Search/test/Full_SearchTest
 elif [ "$1" = "--Matrix" ]; then
-    ./build/Common/Matrix/test/MatrixTest
+    ./build/Common/ComponentMatrix/test/MatrixTest
 elif [ "$1" = "--TCP" ]; then
     ./build/Common/TCP/test/TCPTest
 elif [ "$1" = "--Full_Search" ]; then
@@ -27,7 +27,7 @@ else
     # default - run all tests
     ./build/GuiApplication/test/GuiApplicationTest
     ./build/ServiceApplication/test/ServiceApplicationTest
-    ./build/Common/Matrix/test/MatrixTest
+    ./build/Common/ComponentMatrix/test/MatrixTest
     ./build/Common/TCP/test/TCPTest
     ./build/Common/ComponentFull_Search/test/Full_SearchTest
 fi

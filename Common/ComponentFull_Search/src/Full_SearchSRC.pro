@@ -10,7 +10,7 @@ HEADERS += Object/Full_Search.hpp \
            ComponentFull_Search.hpp \
            ComponentFull_Search_global.h
 
-INCLUDEPATH += ../../Matrix/src
+INCLUDEPATH += ../../ComponentMatrix/src/
 INCLUDEPATH += ../../Application/
 INCLUDEPATH += ../../3rdparty/
 INCLUDEPATH += ../../IObject/ISystemGuiCore/

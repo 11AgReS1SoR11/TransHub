@@ -1,6 +1,7 @@
 #include <QtTest/QtTest>
 #include "Matrix.hpp"
 
+
 using namespace Mtx;
 
 class TestClass : public QObject{
@@ -20,7 +21,7 @@ private slots:
 
 void TestClass::initTestCase()
 {
-    std::cout << "Called before everything else.";
+    qDebug() << "Called before everything else.";
 }
 
 
@@ -117,7 +118,7 @@ void TestClass::test_case4(){
     };
 
 
-    QVERIFY_EXCEPTION_THROWN(Matrix mat1(vec1), std::runtime_error);
+    QVERIFY_EXCEPTION_THROWN(Matrix mat1(vec1), QException);
 }
 
 void TestClass::test_case5(){
@@ -135,7 +136,7 @@ void TestClass::test_case5(){
     Matrix mat2(vec2);
 
 
-    QVERIFY_EXCEPTION_THROWN(mat1 * mat2, std::runtime_error);
+    QVERIFY_EXCEPTION_THROWN(mat1 * mat2, QException);
 }
 void TestClass::test_case6(){
     QVector<QVector<int>> vec1 = {
@@ -155,7 +156,7 @@ void TestClass::test_case6(){
 
     Matrix mat2(vec2);
 
-    QVERIFY_EXCEPTION_THROWN(mat2.determinant(), std::runtime_error);
+    QVERIFY_EXCEPTION_THROWN(mat2.determinant(), QException);
 }
 
 void TestClass::test_case7(){
@@ -173,10 +174,10 @@ void TestClass::test_case7(){
     Matrix mat1(vec1);
     Matrix mat2(vec2);
 
-    QVERIFY_EXCEPTION_THROWN(mat1 + mat2, std::runtime_error);
+    QVERIFY_EXCEPTION_THROWN(mat1 + mat2, QException);
 }
 void TestClass::cleanupTestCase(){
-    std::cout <<  "Called after all tests.";
+    qDebug() <<  "Called after all tests.";
 }
 
 
