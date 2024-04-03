@@ -22,5 +22,6 @@ MOC_DIR     = objects
 UI_DIR      = objects
 RCC_DIR     = objects
 
+
 DISTFILES += \
     ComponentSystemGuiCoreNg.json
