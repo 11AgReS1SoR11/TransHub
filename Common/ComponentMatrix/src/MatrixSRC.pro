@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = Matrix
+TARGET = $$qtLibraryTarget(ComponentMatrix)
 
 SOURCES += matrix.cpp 
 

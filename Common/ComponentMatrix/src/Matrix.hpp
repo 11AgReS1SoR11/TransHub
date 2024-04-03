@@ -1,9 +1,20 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-//#include "Matrix_global.h"
+#include "Matrix_global.h"
 #include <QVector>
-#include <iostream>
+#include <QDebug>
+#include <QException>
+#include <QString>
+
+class RunTimeException : public QException {
+public:
+    RunTimeException(const QString &message) : m_message(message) {}
+    void raise() const override { throw *this; }
+    const char *what() const noexcept override { return m_message.toUtf8().constData(); }
+private:
+    QString m_message;
+};
 
 namespace Mtx
 {
@@ -72,8 +83,8 @@ Matrix<T>::Matrix(QVector<QVector<T>>& vec)
     _columns = vec[0].size();
     for (const auto& tmp : vec)
     {
-        if (tmp.size() != static_cast<std::size_t>(_columns))
-            throw std::runtime_error("Incorrect vector of vectors");
+        if (tmp.size() != (_columns))
+            throw RunTimeException("Incorrect vector of vectors");
     }
 
     _data = vec;
@@ -96,8 +107,8 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> list) : _rows(
 {
     for (const auto& row : list)
     {
-        if (row.size() != static_cast<std::size_t>(_columns))
-            throw std::runtime_error("Incorrect vector of vectors");
+        if (row.size() != (_columns))
+            throw RunTimeException("Incorrect vector of vectors");
 
         _data.push_back(row);
     }
@@ -142,7 +153,7 @@ template <typename T>
 Matrix<T> Matrix<T>::operator * (const Matrix& other_matrix) const
 {
     if (this->_columns != other_matrix._rows)
-        throw std::runtime_error("Number of columns from first matrix is not equal to number of rows from second matrix");
+        throw RunTimeException("Number of columns from first matrix is not equal to number of rows from second matrix");
 
     QVector<QVector<T>> ans(_rows, QVector<T>(other_matrix._columns, 0));
     for (int i = 0; i < _rows; ++i){
@@ -159,7 +170,7 @@ template <typename T>
 Matrix<T> Matrix<T>::operator + (const Matrix& other_matrix) const
 {
     if (!match_sizes(*this, other_matrix))
-        throw std::runtime_error("Matrix sizes don't match");
+        throw RunTimeException("Matrix sizes don't match");
 
     QVector<QVector<T>> ans(_rows, QVector<T>(_columns));
     for (int i = 0; i < _rows; ++i)
@@ -186,7 +197,7 @@ template <typename T>
 Matrix<T> Matrix<T>::concatenation(const Matrix& other_matrix) const
 {
     if (_rows != other_matrix._rows)
-        throw std::runtime_error("Row sizes don`t match");
+        throw RunTimeException("Row sizes don`t match");
 
     QVector<QVector<T>> ans(_rows , QVector<T>(_columns + other_matrix._columns));
 
@@ -205,7 +216,7 @@ template <typename T>
 void Matrix<T>::addRow(const QVector<T>& row)
 {
     if (_columns == 0) { _columns = row.size(); }
-    else if (_columns != row.size()) { throw std::runtime_error("Row sizes don`t match"); }
+    else if (_columns != row.size()) { throw RunTimeException("Row sizes don`t match"); }
 
     _data.push_back(row);
     ++_rows;
@@ -223,7 +234,7 @@ template <typename T>
 double Matrix<T>::determinant() const
 {
     if (_rows != _columns)
-        throw std::runtime_error("Matrix is not square");
+        throw RunTimeException("Matrix is not square");
 
     return Matrix<T>::det(this->_data);
 }
@@ -231,15 +242,15 @@ double Matrix<T>::determinant() const
 template <typename T>
 void Matrix<T>::print() const noexcept
 {
-    std::cout << "Data:\n";
+    qDebug() << "Data:\n";
     for (int i = 0; i < _rows; ++i)
     {
         for (int j = 0; j < _columns; ++j)
-            std::cout << _data[i][j] << ' ';
-        std::cout << std::endl;
+            qDebug() << _data[i][j] << ' ' << "%\r" << Qt::flush;;
+        qDebug() << "";
     }
 
-    std::cout << "Size: number of rows " << _rows << ", numbers of columns " << _columns << std::endl;
+    qDebug() << "Size: number of rows " << _rows << ", numbers of columns " << _columns;
 }
 
 template <typename T>
@@ -283,14 +294,14 @@ template <typename T>
 QVector<QVector<T>> Matrix<T>::minor(const QVector<QVector<T>>& matrix, int row, int col)
 {
     QVector<QVector<T>> result;
-    for (std::size_t i = 0; i < matrix.size(); ++i)
+    for (int i = 0; i < (matrix.size()); ++i)
     {
-        if (i != static_cast<std::size_t>(row))
+        if (i != (row))
         {
             QVector<T> temp;
-            for (std::size_t j = 0; j < matrix[i].size(); ++j)
+            for (int j = 0; j < (matrix[i].size()); ++j)
             {
-                if (j != static_cast<std::size_t>(col))
+                if (j != (col))
                 {
                     temp.push_back(matrix[i][j]);
                 }
