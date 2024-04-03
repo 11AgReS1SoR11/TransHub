@@ -2,6 +2,7 @@ TARGET = GuiApplication
 TEMPLATE = app
 
 QT += core gui network widgets location quick webenginewidgets webengine
+
 LIBS += -L$$PWD/../../build/Common/ComponentsCore5alpha -lComponentsCore5alpha
 LIBS += -L$$PWD/../../build/Common/ComponentSystemGuiCoreNg -lComponentSystemGuiCoreNg
 
@@ -78,3 +79,22 @@ FORMS += \
     LoadDialog.ui \
     RunErrorDialog.ui \
     UnloadDialog.ui
+
+
+COMMON_PATH = $$PWD/../../build/Common
+COMPONENT_FULL_SEARCH = $$COMMON_PATH/ComponentFull_Search/src/libComponentFull_Search.so
+COMPONENT_PROCESSING_GUI = $$COMMON_PATH/ComponentProcessingGui/libComponentProcessingGui.so
+COMPONENT_SYSTE_GUI_CORE = $$COMMON_PATH/ComponentSystemGuiCoreNg/libComponentSystemGuiCoreNg.so
+
+
+first.depends = checkdirectory copyfile
+checkdirectory.commands = test -d $$OUT_PWD/components || mkdir -p $$OUT_PWD/components
+copyfile.commands = cp $$COMPONENT_FULL_SEARCH $$OUT_PWD/components/ \
+                    && cp $$COMPONENT_PROCESSING_GUI $$OUT_PWD/components/ \
+                    && cp $$COMPONENT_SYSTE_GUI_CORE $$OUT_PWD/components/
+
+export(first.depends)
+export(checkdirectory.commands)
+export(copyfile.commands)
+
+QMAKE_EXTRA_TARGETS += first checkdirectory copyfile

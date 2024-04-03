@@ -30,6 +30,7 @@ OBJECTS_DIR = objects
 MOC_DIR     = objects
 UI_DIR      = objects
 RCC_DIR     = objects
+#DESTDIR = ../../GuiApplication/src/components
 
 DEFINES += COMPONENTSYSTEMGUICORENG_LIBRARY
 TRANSLATIONS += ComponentSystemGuiCoreNg.ts

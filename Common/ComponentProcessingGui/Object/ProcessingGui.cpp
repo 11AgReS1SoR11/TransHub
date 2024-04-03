@@ -1,12 +1,14 @@
-#include "ProcessingGui.h"
+#include <QtWidgets/QDockWidget>
+#include <QMdiSubWindow>
+
 #include <ComponentsCore5alpha/ComponentManager>
+
+#include "ProcessingGui.h"
 #include "Object/CommandPanel.h"
-#include "../ComponentSystemGuiCoreNg/Object/MainWindowDefines.h"
 #include "GuiWidgetsManager.h"
 
-#include <QtWidgets/QDockWidget>
-#include "../ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h"
-#include <QMdiSubWindow>
+#include "ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h"
+#include "ComponentSystemGuiCoreNg/Object/MainWindowDefines.h"
 
 ProcessingGui::ProcessingGui (QObject* parent)
     : QObject (parent)
