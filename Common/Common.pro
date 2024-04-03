@@ -6,5 +6,5 @@ SUBDIRS += ComponentsCore5alpha \
            ComponentProcessingGui \
            ComponentSystemGuiCoreNg \
            ComponentFull_Search \
-           Matrix \
+           ComponentMatrix \
            TCP
