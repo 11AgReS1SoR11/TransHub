@@ -1,6 +1,9 @@
 #include"CustomMdiSubWindow.h"
 #include<QHideEvent>
 
+CustomMdiSubWindow::CustomMdiSubWindow(QWidget *parent) : QMdiSubWindow(parent) {}
+
+
 CustomMdiSubWindow::~CustomMdiSubWindow()
 {
     emit DeleteMdiSubWindow();

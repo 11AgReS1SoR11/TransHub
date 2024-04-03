@@ -3,7 +3,9 @@
 
 #include <QMdiArea>
 
-class CustomMdiArea : public QMdiArea
+#define CUSTOMMDIAREASHARED_EXPORT Q_DECL_EXPORT
+
+class CUSTOMMDIAREASHARED_EXPORT CustomMdiArea : public QMdiArea
 {
     Q_OBJECT
 public:

@@ -1,16 +1,16 @@
 #ifndef QCUSTOMMDISUBWINDOW_H
 #define QCUSTOMMDISUBWINDOW_H
 
-//#include "../ComponentProcessingGui/ComponentProcessingGui_global.h"
 #include <QMdiSubWindow>
 #include <experimental/optional>
+#include "ComponentSystemGuiCoreNg/ComponentSystemGuiCoreNg_global.h"
 
-class Q_DECL_EXPORT CustomMdiSubWindow : public QMdiSubWindow
+class CUSTOMMDISUBWINDOWSHARED_EXPORT CustomMdiSubWindow : public QMdiSubWindow
 {
     Q_OBJECT
 
 public:
-    CustomMdiSubWindow(QWidget *parent = nullptr) : QMdiSubWindow(parent) {}
+    CustomMdiSubWindow(QWidget *parent = nullptr);
     ~CustomMdiSubWindow();
 
 protected:
