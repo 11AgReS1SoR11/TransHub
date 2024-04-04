@@ -94,7 +94,18 @@ int main (int argc, char *argv[])
     QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF8"));
 
     //-- загрузка и инсталяция переводов
-    QList<QTranslator*> translators = loadAndInstallTr (&app);
+
+    QTranslator qt1LanguageTranslator;
+    qt1LanguageTranslator.load(QString("QtLanguage_") + QString("ru_RU"));
+    qApp->installTranslator(&qt1LanguageTranslator);
+
+    QTranslator qt2LanguageTranslator;
+    qt2LanguageTranslator.load("ComponentProcessingGui.qm");
+    qApp->installTranslator(&qt2LanguageTranslator);
+
+    QTranslator qt3LanguageTranslator;
+    qt3LanguageTranslator.load("ComponentSystemGuiCoreNg.qm");
+    qApp->installTranslator(&qt3LanguageTranslator);
 
     //-- ищем алтернативные иконки логотипа
     QFileInfoList iconsFiles = loadIcons ();
@@ -134,11 +145,6 @@ int main (int argc, char *argv[])
 
     int returnValue = app.exec();
 
-    //-- удаление переводов
-    for (QTranslator *translator : qAsConst (translators)) {
-        app.removeTranslator (translator);
-        delete translator;
-    }
 
     return returnValue;
 }

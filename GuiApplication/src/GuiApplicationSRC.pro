@@ -50,7 +50,9 @@ RESOURCES += \
     qml.qrc
 
 TRANSLATIONS += \
-    GuiApplication_en_GB.ts
+    QtLanguage_ru.ts \
+
+
 CONFIG += lrelease
 CONFIG += embed_translations
 CONFIG   += mobility
