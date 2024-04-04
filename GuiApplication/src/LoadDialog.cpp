@@ -550,3 +550,11 @@ void LoadDialog::changeProgressBarValue (int value)
 {
     _infoWidget->progBarOther ()->setValue (value);
 }
+
+void LoadDialog::changeEvent(QEvent *event)
+{
+    // В случае получения события изменения языка приложения
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);    // переведём окно заново
+    }
+}
