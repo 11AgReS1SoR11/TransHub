@@ -29,6 +29,7 @@ protected:
 
     void createToolBar();
 
+
 private:
 
     QWebEngineView *webView { nullptr };

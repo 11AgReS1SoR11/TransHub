@@ -162,13 +162,18 @@
         <source>Deleted:</source>
         <translation>Удалено:</translation>
     </message>
+    <message>
+        <location filename="Object/WindowCreator/AboutSystemDialog.cpp" line="94"/>
+        <source>TransHub org.</source>
+        <translation>Трансхаб орг.</translation>
+    </message>
 </context>
 <context>
     <name>BasePanelWidget</name>
     <message>
         <location filename="Object/BasePanel/BasePanelWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
 </context>
 <context>
@@ -184,22 +189,22 @@
     <message>
         <location filename="Object/HelpDesigner/HelpSearchWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpSearchWidget.ui" line="48"/>
         <source>Искать:</source>
-        <translation type="unfinished"></translation>
+        <translation>Искать:</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpSearchWidget.ui" line="65"/>
         <source>Следующее</source>
-        <translation type="unfinished"></translation>
+        <translation>Следующее</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpSearchWidget.ui" line="72"/>
         <source>Предыдущее</source>
-        <translation type="unfinished"></translation>
+        <translation>Предыдущее</translation>
     </message>
 </context>
 <context>
@@ -207,42 +212,42 @@
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Главное окно</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.ui" line="26"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Панель интструментов</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.cpp" line="52"/>
         <source>Поиск</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.cpp" line="59"/>
         <source>К оглавлению</source>
-        <translation type="unfinished"></translation>
+        <translation>К оглавлению</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.cpp" line="65"/>
         <source>Назад</source>
-        <translation type="unfinished"></translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.cpp" line="69"/>
         <source>Вперёд</source>
-        <translation type="unfinished"></translation>
+        <translation>Вперёд</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.cpp" line="73"/>
         <source>Очистить историю</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить историю</translation>
     </message>
     <message>
         <location filename="Object/HelpDesigner/HelpWindow.cpp" line="79"/>
         <source>Сохранить в *.pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить в *.pdf</translation>
     </message>
 </context>
 <context>
@@ -250,165 +255,166 @@
     <message>
         <location filename="Object/MainWindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Главное окно</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="244"/>
+        <location filename="Object/MainWindow.cpp" line="273"/>
         <source>Окно &quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Окно &quot;</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="245"/>
+        <location filename="Object/MainWindow.cpp" line="274"/>
         <source>&quot; было свернуто в трей.
 Для открытия - выберите нужный пункт меню.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot; было свернуто в трей.
+Для открытия - выберите нужный пункт меню.</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="382"/>
-        <location filename="Object/MainWindow.cpp" line="393"/>
-        <location filename="Object/MainWindow.cpp" line="601"/>
-        <location filename="Object/MainWindow.cpp" line="602"/>
-        <location filename="Object/MainWindow.cpp" line="607"/>
-        <location filename="Object/MainWindow.cpp" line="1156"/>
+        <location filename="Object/MainWindow.cpp" line="411"/>
+        <location filename="Object/MainWindow.cpp" line="422"/>
+        <location filename="Object/MainWindow.cpp" line="630"/>
+        <location filename="Object/MainWindow.cpp" line="631"/>
+        <location filename="Object/MainWindow.cpp" line="636"/>
+        <location filename="Object/MainWindow.cpp" line="904"/>
         <source>File</source>
         <translatorcomment>Файл</translatorcomment>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="396"/>
-        <location filename="Object/MainWindow.cpp" line="1156"/>
+        <location filename="Object/MainWindow.cpp" line="425"/>
+        <location filename="Object/MainWindow.cpp" line="904"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="406"/>
-        <location filename="Object/MainWindow.cpp" line="567"/>
-        <location filename="Object/MainWindow.cpp" line="608"/>
-        <location filename="Object/MainWindow.cpp" line="613"/>
-        <location filename="Object/MainWindow.cpp" line="614"/>
-        <location filename="Object/MainWindow.cpp" line="755"/>
-        <location filename="Object/MainWindow.cpp" line="965"/>
-        <location filename="Object/MainWindow.cpp" line="1336"/>
-        <location filename="Object/MainWindow.cpp" line="1691"/>
+        <location filename="Object/MainWindow.cpp" line="435"/>
+        <location filename="Object/MainWindow.cpp" line="596"/>
+        <location filename="Object/MainWindow.cpp" line="637"/>
+        <location filename="Object/MainWindow.cpp" line="642"/>
+        <location filename="Object/MainWindow.cpp" line="643"/>
+        <location filename="Object/MainWindow.cpp" line="759"/>
+        <location filename="Object/MainWindow.cpp" line="789"/>
+        <location filename="Object/MainWindow.cpp" line="1115"/>
+        <location filename="Object/MainWindow.cpp" line="1462"/>
         <source>Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="410"/>
-        <location filename="Object/MainWindow.cpp" line="1690"/>
+        <location filename="Object/MainWindow.cpp" line="439"/>
+        <location filename="Object/MainWindow.cpp" line="1461"/>
         <source>Windows</source>
         <translatorcomment>Окна</translatorcomment>
-        <translation type="unfinished">Окна</translation>
+        <translation>Окна</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="413"/>
+        <location filename="Object/MainWindow.cpp" line="442"/>
         <source>Close active</source>
         <translatorcomment>Закрыть активное</translatorcomment>
-        <translation type="unfinished">Закрыть активное</translation>
+        <translation>Закрыть активное</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="418"/>
+        <location filename="Object/MainWindow.cpp" line="447"/>
         <source>Close all</source>
         <translatorcomment>Закрыть все</translatorcomment>
-        <translation type="unfinished">Закрыть все</translation>
+        <translation>Закрыть все</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="423"/>
+        <location filename="Object/MainWindow.cpp" line="452"/>
         <source>Tile</source>
         <translatorcomment>Плитка</translatorcomment>
-        <translation type="unfinished">Плитка</translation>
+        <translation>Плитка</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="428"/>
+        <location filename="Object/MainWindow.cpp" line="457"/>
         <source>Cascade</source>
         <translatorcomment>Каскад</translatorcomment>
-        <translation type="unfinished">Каскад</translation>
+        <translation>Каскад</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="446"/>
-        <location filename="Object/MainWindow.cpp" line="453"/>
-        <location filename="Object/MainWindow.cpp" line="609"/>
-        <location filename="Object/MainWindow.cpp" line="616"/>
-        <location filename="Object/MainWindow.cpp" line="617"/>
-        <location filename="Object/MainWindow.cpp" line="1295"/>
-        <location filename="Object/MainWindow.cpp" line="1692"/>
+        <location filename="Object/MainWindow.cpp" line="475"/>
+        <location filename="Object/MainWindow.cpp" line="482"/>
+        <location filename="Object/MainWindow.cpp" line="638"/>
+        <location filename="Object/MainWindow.cpp" line="645"/>
+        <location filename="Object/MainWindow.cpp" line="646"/>
+        <location filename="Object/MainWindow.cpp" line="1071"/>
+        <location filename="Object/MainWindow.cpp" line="1463"/>
         <source>About ...</source>
         <translation>О программе...</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="447"/>
+        <location filename="Object/MainWindow.cpp" line="476"/>
         <source>Components status</source>
         <translatorcomment>Статус компонентов</translatorcomment>
         <translation>Статус компонентов</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="460"/>
+        <location filename="Object/MainWindow.cpp" line="489"/>
         <source>Context help</source>
         <translatorcomment>Контекстная помощь</translatorcomment>
-        <translation type="unfinished">Контекстная помощь</translation>
+        <translation>Контекстная помощь</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="469"/>
-        <location filename="Object/MainWindow.cpp" line="1140"/>
+        <location filename="Object/MainWindow.cpp" line="498"/>
+        <location filename="Object/MainWindow.cpp" line="888"/>
         <source>About Qt</source>
         <translatorcomment>О Qt ...</translatorcomment>
-        <translation type="unfinished">О Qt ...</translation>
+        <translation>О Qt ...</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="520"/>
+        <location filename="Object/MainWindow.cpp" line="549"/>
         <source>Console</source>
         <translatorcomment>Консоль</translatorcomment>
-        <translation type="unfinished">Консоль</translation>
+        <translation>Консоль</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="569"/>
+        <location filename="Object/MainWindow.cpp" line="598"/>
         <source>Options</source>
         <translatorcomment>Параметры</translatorcomment>
-        <translation type="unfinished">Параметры</translation>
+        <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="577"/>
-        <location filename="Object/MainWindow.cpp" line="757"/>
-        <location filename="Object/MainWindow.cpp" line="967"/>
-        <location filename="Object/MainWindow.cpp" line="1336"/>
+        <location filename="Object/MainWindow.cpp" line="606"/>
+        <location filename="Object/MainWindow.cpp" line="761"/>
+        <location filename="Object/MainWindow.cpp" line="791"/>
+        <location filename="Object/MainWindow.cpp" line="1115"/>
         <source>Minimize to tray</source>
         <translatorcomment>Свернуть в трей</translatorcomment>
-        <translation type="unfinished">Свернуть в трей</translation>
+        <translation>Свернуть в трей</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="1336"/>
+        <location filename="Object/MainWindow.cpp" line="1115"/>
         <source>%1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="1686"/>
+        <location filename="Object/MainWindow.cpp" line="1457"/>
         <source>Left panel</source>
         <translatorcomment>Левая панель</translatorcomment>
-        <translation type="unfinished">Левая панель</translation>
+        <translation>Левая панель</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="1687"/>
+        <location filename="Object/MainWindow.cpp" line="1458"/>
         <source>Right panel</source>
         <translatorcomment>Правая панель</translatorcomment>
-        <translation type="unfinished">Правая панель</translation>
+        <translation>Правая панель</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="1688"/>
+        <location filename="Object/MainWindow.cpp" line="1459"/>
         <source>Workspace</source>
         <translatorcomment>Рабочее пространство</translatorcomment>
-        <translation type="unfinished">Рабочее пространство</translation>
+        <translation>Рабочее пространство</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="1689"/>
+        <location filename="Object/MainWindow.cpp" line="1460"/>
         <source>Bottom panel</source>
         <translatorcomment>Нижняя панель</translatorcomment>
-        <translation type="unfinished">Нижняя панель</translation>
+        <translation>Нижняя панель</translation>
     </message>
     <message>
-        <location filename="Object/MainWindow.cpp" line="1693"/>
+        <location filename="Object/MainWindow.cpp" line="1464"/>
         <source>Toolbars</source>
         <translatorcomment>Панель инструментов</translatorcomment>
-        <translation type="unfinished">Панель инструментов</translation>
+        <translation>Панель инструментов</translation>
     </message>
 </context>
 <context>
@@ -416,37 +422,37 @@
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.cpp" line="30"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Отладка</translation>
     </message>
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.cpp" line="33"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Предупреждение</translation>
     </message>
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.cpp" line="36"/>
         <source>Critical</source>
-        <translation type="unfinished"></translation>
+        <translation>Критическая ошибка</translation>
     </message>
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.cpp" line="39"/>
         <source>Проматывать в конец</source>
-        <translation type="unfinished"></translation>
+        <translation>Проматывать в конец</translation>
     </message>
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.cpp" line="42"/>
         <source>Очистить список</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить список</translation>
     </message>
     <message>
         <location filename="Object/MainWindowConsole/MainWindowConsole.cpp" line="217"/>
         <source>Копировать</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать</translation>
     </message>
 </context>
 <context>
@@ -454,34 +460,34 @@
     <message>
         <location filename="Object/SettingsPanel/SettingsAppLoader.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsAppLoader.ui" line="20"/>
         <source>Игнорировать ошибки загрузки</source>
-        <translation type="unfinished"></translation>
+        <translation>Игнорировать ошибки загрузки</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsAppLoader.ui" line="27"/>
         <source>Игнорировать ошибки инициализации</source>
-        <translation type="unfinished"></translation>
+        <translation>Игнорировать ошибки инициализации</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsAppLoader.cpp" line="15"/>
         <source>Graphics kernel loader</source>
-        <translation type="unfinished">Загрузчик графического ядра</translation>
+        <translation>Загрузчик графического ядра</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsAppLoader.cpp" line="18"/>
         <location filename="Object/SettingsPanel/SettingsAppLoader.cpp" line="54"/>
         <source>Ignore initialization errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Игнорировать ошибки инициализации</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsAppLoader.cpp" line="21"/>
         <location filename="Object/SettingsPanel/SettingsAppLoader.cpp" line="56"/>
         <source>Ignore load errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Игнорировать ошибки загрузки</translation>
     </message>
 </context>
 <context>
@@ -489,52 +495,52 @@
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="20"/>
         <source>Показывать панель</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать панель</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="27"/>
         <source>Фиксировать размер</source>
-        <translation type="unfinished"></translation>
+        <translation>Фиксировать размер</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="34"/>
         <source>Автоматически скрывать</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматически скрывать</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="41"/>
         <source>Перетаскивание вкладок</source>
-        <translation type="unfinished"></translation>
+        <translation>Перетаскивание вкладок</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="50"/>
         <source>Расположение вкладок: </source>
-        <translation type="unfinished"></translation>
+        <translation>Расположение вкладок: </translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.ui" line="69"/>
         <source>Вкладки:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладки:</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.cpp" line="75"/>
         <source>Левая информационная панель</source>
-        <translation type="unfinished"></translation>
+        <translation>Левая информационная панель</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.cpp" line="81"/>
         <source>Правая информационная панель</source>
-        <translation type="unfinished"></translation>
+        <translation>Правая информационная панель</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsBasePanel.cpp" line="87"/>
         <source>Нижняя информационная панель</source>
-        <translation type="unfinished"></translation>
+        <translation>Нижняя информационная панель</translation>
     </message>
 </context>
 <context>
@@ -542,47 +548,47 @@
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="115"/>
         <source>Show tool button text</source>
-        <translation type="unfinished">Отображать текст на кнопках панели</translation>
+        <translation>Отображать текст на кнопках панели</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="122"/>
         <source>Show status bar</source>
-        <translation type="unfinished">Отображать панель состояния</translation>
+        <translation>Отображать панель состояния</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.cpp" line="26"/>
         <source>Workspace</source>
-        <translation type="unfinished">Рабочее пространство</translation>
+        <translation>Рабочее пространство</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="57"/>
         <source>Tabs</source>
-        <translation type="unfinished">Вкладки</translation>
+        <translation>Вкладки</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="50"/>
         <source>Windows</source>
-        <translation type="unfinished">Окна</translation>
+        <translation>Окна</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="64"/>
         <source>Horizontal scrollbar</source>
-        <translation type="unfinished">Горизонтальная прокрутка</translation>
+        <translation>Горизонтальная прокрутка</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="71"/>
         <source>Vertical scrollbar</source>
-        <translation type="unfinished">Вертикальная прокрутка</translation>
+        <translation>Вертикальная прокрутка</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsGuiCoreWidget.ui" line="99"/>
         <source>Reopen windows after restart</source>
-        <translation type="unfinished">Открыть окна после перезагрузки</translation>
+        <translation>Открыть окна после перезагрузки</translation>
     </message>
 </context>
 <context>
@@ -590,28 +596,28 @@
     <message>
         <location filename="Object/SettingsPanel/SettingsPanel.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsPanel.ui" line="200"/>
         <source>Ok</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ок</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsPanel.ui" line="213"/>
         <source>Save</source>
-        <translation type="unfinished">Сохранить</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsPanel.cpp" line="15"/>
         <source>Options</source>
         <translatorcomment>Параметры</translatorcomment>
-        <translation type="unfinished">Параметры</translation>
+        <translation>Параметры</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsPanel.cpp" line="61"/>
         <source>Поиск раздела настроек</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск раздела настроек</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsPanel.cpp" line="92"/>
@@ -633,12 +639,12 @@
     <message>
         <location filename="Object/SettingsPanel/SettingsToolBar.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsToolBar.cpp" line="10"/>
         <source>Settings toolbars</source>
-        <translation type="unfinished">Панели инструментов</translation>
+        <translation>Панели инструментов</translation>
     </message>
 </context>
 <context>
@@ -646,40 +652,40 @@
     <message>
         <location filename="Object/SettingsPanel/SettingsToolBarProps.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsToolBarProps.ui" line="78"/>
         <source>Разрешить перетаскивание</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить перетаскивание</translation>
     </message>
     <message>
         <location filename="Object/SettingsPanel/SettingsToolBarProps.ui" line="85"/>
         <source>Отображать подписи</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображать подписи</translation>
     </message>
 </context>
 <context>
     <name>StatusBarInfoWidget</name>
     <message>
-        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="281"/>
+        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="243"/>
         <source>Guid</source>
-        <translation type="unfinished"></translation>
+        <translation>Гид</translation>
     </message>
     <message>
-        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="287"/>
+        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="249"/>
         <source>Время добавления</source>
-        <translation type="unfinished"></translation>
+        <translation>Время добавления</translation>
     </message>
     <message>
-        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="290"/>
+        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="252"/>
         <source>Название</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
-        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="293"/>
+        <location filename="Object/StatusBarInfo/StatusBarInfoWidget.cpp" line="255"/>
         <source>Описание</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
 </context>
 <context>
@@ -687,22 +693,22 @@
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.cpp" line="10"/>
         <source>Список уведомлений</source>
-        <translation type="unfinished"></translation>
+        <translation>Список уведомлений</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.cpp" line="60"/>
         <source>Удалить из списка</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить из списка</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.cpp" line="65"/>
         <source>Очистить список</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить список</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.cpp" line="71"/>
@@ -710,7 +716,7 @@
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.cpp" line="90"/>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetData.cpp" line="92"/>
         <source>Проматывать в конец</source>
-        <translation type="unfinished"></translation>
+        <translation>Проматывать в конец</translation>
     </message>
 </context>
 <context>
@@ -718,18 +724,18 @@
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetPopupWindow.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetPopupWindow.ui" line="64"/>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetPopupWindow.ui" line="131"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Текс надписи</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetPopupWindow.cpp" line="70"/>
         <source>Закрыть окно</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть окно</translation>
     </message>
 </context>
 <context>
@@ -737,34 +743,80 @@
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.ui" line="75"/>
         <source>Уведомления</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомления</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.ui" line="96"/>
         <source>Активных уведомлений:</source>
-        <translation type="unfinished"></translation>
+        <translation>Активных уведомлений:</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.ui" line="115"/>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.ui" line="150"/>
         <source>0</source>
-        <translation type="unfinished"></translation>
+        <translation>0</translation>
     </message>
     <message>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.ui" line="131"/>
         <source>Всего уведомлений:</source>
-        <translation type="unfinished"></translation>
+        <translation>Всего уведомлений:</translation>
     </message>
     <message>
+        <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.cpp" line="16"/>
         <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.cpp" line="17"/>
-        <location filename="Object/StatusBarInfo/StatusBarInfoWidgetToolTip.cpp" line="18"/>
         <source>нет</source>
-        <translation type="unfinished"></translation>
+        <translation>нет</translation>
+    </message>
+</context>
+<context>
+    <name>StatusBarMapWidgetToolTip</name>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarMapWidgetToolTip.ui" line="32"/>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarMapWidgetToolTip.ui" line="75"/>
+        <source>Виджет карты</source>
+        <translation>Виджет карты</translation>
+    </message>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarMapWidgetToolTip.ui" line="96"/>
+        <source>Навигация</source>
+        <translation>Навигация</translation>
+    </message>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarMapWidgetToolTip.ui" line="115"/>
+        <source>Поиск маршрута</source>
+        <translation>Поиск маршрута</translation>
+    </message>
+</context>
+<context>
+    <name>StatusBarPlanningWidgetToolTip</name>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.ui" line="32"/>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.ui" line="75"/>
+        <source>Планирование</source>
+        <translation>Планирование</translation>
+    </message>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.ui" line="96"/>
+        <source>Навигация</source>
+        <translation>Навигация</translation>
+    </message>
+    <message>
+        <location filename="Object/StatusBarInfo/StatusBarPlanningWidgetToolTip.ui" line="115"/>
+        <source>Поиск маршрута</source>
+        <translation>Поиск маршрута</translation>
     </message>
 </context>
 <context>
@@ -772,127 +824,127 @@
     <message>
         <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.ui" line="63"/>
         <source>Звук уведомлений:</source>
-        <translation type="unfinished"></translation>
+        <translation>Звук уведомлений:</translation>
     </message>
     <message>
         <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.ui" line="95"/>
-        <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.cpp" line="27"/>
+        <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.cpp" line="26"/>
         <source>выкл.</source>
-        <translation type="unfinished"></translation>
+        <translation>выкл.</translation>
     </message>
     <message>
-        <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.cpp" line="25"/>
+        <location filename="Object/StatusBarVolume/StatusBarVolumeToolTip.cpp" line="24"/>
         <source>вкл.</source>
-        <translation type="unfinished"></translation>
+        <translation>вкл.</translation>
     </message>
 </context>
 <context>
     <name>SystemGuiCoreNg</name>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="49"/>
-        <source>Graphic Core System &quot;Phoenix&quot;</source>
-        <translation type="unfinished"></translation>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="48"/>
+        <source>TransHub</source>
+        <translation>ТрансХаб</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="102"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="66"/>
         <source>[SystemGuiCoreNg][initComponent] Не добавлено ни одного окна! Инициализация остановлена! Смотри конфигурационный файл!</source>
-        <translation type="unfinished"></translation>
+        <translation>[SystemGuiCoreNg][initComponent] Не добавлено ни одного окна! Инициализация остановлена! Смотри конфигурационный файл!</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="284"/>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="497"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="248"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="461"/>
         <source>Выйти из системы</source>
-        <translation type="unfinished"></translation>
+        <translation>Выйти из системы</translation>
+    </message>
+    <message>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="283"/>
+        <source>Управление интерфейсом комплекса</source>
+        <translation>Управление интерфейсом комплекса</translation>
+    </message>
+    <message>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="288"/>
+        <source>Graphics kernel loader</source>
+        <translation>Загрузчик графического ядра</translation>
+    </message>
+    <message>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="300"/>
+        <source>Левая информационная панель</source>
+        <translation>Левая информационная панель</translation>
+    </message>
+    <message>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="310"/>
+        <source>Правая информационная панель</source>
+        <translation>Правая информационная панель</translation>
     </message>
     <message>
         <location filename="Object/SystemGuiCoreNg.cpp" line="319"/>
-        <source>Управление интерфейсом комплекса</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="324"/>
-        <source>Graphics kernel loader</source>
-        <translation type="unfinished">Загрузчик графического ядра</translation>
-    </message>
-    <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="336"/>
-        <source>Левая информационная панель</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="346"/>
-        <source>Правая информационная панель</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="355"/>
         <source>Нижняя информационная панель</source>
-        <translation type="unfinished"></translation>
+        <translation>Нижняя информационная панель</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="364"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="328"/>
         <source>Settings toolbars</source>
-        <translation type="unfinished">Панели инструментов</translation>
+        <translation>Панели инструментов</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="370"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="334"/>
         <source>Workspace</source>
         <translation>Рабочее пространство</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="379"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="343"/>
         <source>Управление открытыми окнами</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление открытыми окнами</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="387"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="351"/>
         <source>Сворачивание в системный трей</source>
-        <translation type="unfinished"></translation>
+        <translation>Сворачивание в системный трей</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="395"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="359"/>
         <source>Завершение работы</source>
-        <translation type="unfinished"></translation>
+        <translation>Завершение работы</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="403"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="367"/>
         <source>Справочная информация о комплексе</source>
-        <translation type="unfinished"></translation>
+        <translation>Справочная информация о комплексе</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="408"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="372"/>
         <source>Статусы компонентов</source>
-        <translation type="unfinished"></translation>
+        <translation>Статусы компонентов</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="418"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="382"/>
         <source>О системе</source>
-        <translation type="unfinished"></translation>
+        <translation>О системе</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="424"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="388"/>
         <source>О Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="432"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="396"/>
         <source>Уведомления</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомления</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="437"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="401"/>
         <source>Управление уведомлениями</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление уведомлениями</translation>
     </message>
     <message>
-        <location filename="Object/SystemGuiCoreNg.cpp" line="450"/>
+        <location filename="Object/SystemGuiCoreNg.cpp" line="414"/>
         <source>Управление звуком уведомлений</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление звуком уведомлений</translation>
     </message>
 </context>
 <context>
@@ -917,14 +969,14 @@
 <context>
     <name>TableBoolDelegate</name>
     <message>
-        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="85"/>
-        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="104"/>
+        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="79"/>
+        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="98"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="90"/>
-        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="106"/>
+        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="84"/>
+        <location filename="Object/Delegates/TableBoolDelegate.cpp" line="100"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>

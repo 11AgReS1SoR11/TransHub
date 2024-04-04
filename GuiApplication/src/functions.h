@@ -200,14 +200,14 @@ QList<QTranslator*> loadAndInstallTr (QApplication *app)
 {
     QList<QTranslator*> translators;
 
-    //-- set translator for the default widget's text (for example: QMessageBox's buttons)
+   // -- set translator for the default widget's text (for example: QMessageBox's buttons)
     QTranslator *qtTranslator = new QTranslator (app);
     if (qtTranslator->load ("qt_ru", QLibraryInfo::location (QLibraryInfo::TranslationsPath))) {
         if (!app->installTranslator (qtTranslator))
             qWarning () << "[main] Could not installe translation 'qt_ru'";
         else {
             qInfo () << "[main] Successfuly loaded and installed translation 'qt_ru'";
-            //translators.append (qtTranslator); //--> почему то при удалении этого перевода SIGFAULT
+            translators.append (qtTranslator); //--> почему то при удалении этого перевода SIGFAULT
         }
     } else {
         qWarning () << "[main] Could not load translations file 'qt_ru'";
@@ -219,7 +219,6 @@ QList<QTranslator*> loadAndInstallTr (QApplication *app)
     QDir trDir (qApp->applicationDirPath ());
     if (trDir.cd ("resources/translations"))
         trfiles = trDir.entryInfoList ({"*.qm"}, QDir::Files);
-
     for (int i = 0; i < trfiles.size (); ++i)
     {
         QTranslator *translator = new QTranslator ();
@@ -241,6 +240,7 @@ QList<QTranslator*> loadAndInstallTr (QApplication *app)
             delete translator;
         }
     }
+
 
     return translators;
 }
