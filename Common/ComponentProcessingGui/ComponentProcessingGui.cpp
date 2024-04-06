@@ -1,6 +1,6 @@
 #include "ComponentProcessingGui.h"
 #include "Object/Settings.h"
-
+#include <QTranslator>
 #include <QtCore/QDebug>
 #include <ComponentsCore5alpha/ComponentManager>
 using namespace ComponentsCore;

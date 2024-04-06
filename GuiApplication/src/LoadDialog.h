@@ -133,6 +133,8 @@ protected slots:
     // \brief Обработчик закрытия.
     //void reject () override;
 
+    void changeEvent(QEvent * event) override;
+
 signals:
     //! \brief Сигнал, информирующий об ошибке инициализации системы
     void loadError ();

@@ -96,6 +96,7 @@ protected:
     //! Инстанс
     static Application *_instance;
 
+
 signals:
     //! \brief Сигнал, информирующий о начале инициализации приложения
     void applicationStartLog4Qt ();
