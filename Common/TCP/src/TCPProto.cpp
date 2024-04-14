@@ -120,4 +120,30 @@ QDataStream& operator>>(QDataStream& in, Proto& proto)
     return in;
 }
 
+QDebug operator<<(QDebug debug, const Proto& proto)
+{
+    if (auto data_ptr = std::get_if<QString*>(&proto.m_data))
+    {
+        auto const* string_ptr = *data_ptr;
+        debug << *string_ptr;
+    }
+    else if (auto data_ptr = std::get_if<Mtx::Matrix<int>*>(&proto.m_data))
+    {
+        auto const* matrix_ptr = *data_ptr;
+        matrix_ptr->print();
+    }
+    else if (auto data_ptr = std::get_if<Mtx::Matrix<double>*>(&proto.m_data))
+    {
+        auto const* matrix_ptr = *data_ptr;
+        matrix_ptr->print();
+    }
+    else
+    {
+        // TODO: some exception?
+        debug << "No message";
+    }
+
+    return debug;
+}
+
 } // namespace TCP::Protocol
