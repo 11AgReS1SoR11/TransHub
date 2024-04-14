@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 
 #include "TCPServer.hpp"
+#include "TCPProto.hpp"
 
 namespace TCP
 {
@@ -78,8 +79,11 @@ void TCPServer::readSocket()
         return;
     }
 
-    QString message = QString::fromStdString(buffer.toStdString());
-    emit newMessage(socket->socketDescriptor(), message);
+    Protocol::Proto proto;
+    QDataStream in(&buffer, QIODevice::ReadOnly);
+    in >> proto;
+
+    emit newMessage(socket->socketDescriptor(), proto);
 }
 
 void TCPServer::discardSocket()
@@ -126,7 +130,7 @@ void TCPServer::displayError(QAbstractSocket::SocketError socketError)
     }
 }
 
-void TCPServer::sendMessage(tcp_id_t receiverid, const QString& msg)
+void TCPServer::sendMessage(tcp_id_t receiverid, const Protocol::Proto& proto)
 {
     qDebug() << QString("[TCPServer] sending message to Client[ID=%1]").arg(receiverid);
 
@@ -135,7 +139,7 @@ void TCPServer::sendMessage(tcp_id_t receiverid, const QString& msg)
     {
         if (socket->socketDescriptor() == receiverid)
         {
-            sendMessage(socket, msg);
+            sendMessage(socket, proto);
             sended = true;
             break;
         }
@@ -145,7 +149,7 @@ void TCPServer::sendMessage(tcp_id_t receiverid, const QString& msg)
         qDebug() << QString("[TCPServer] No connection with Client[ID=%1]").arg(receiverid);
 }
 
-void TCPServer::sendMessage(QTcpSocket* socket, const QString& str)
+void TCPServer::sendMessage(QTcpSocket* socket, const Protocol::Proto& proto)
 {
     if(!isConnected(socket))
     {
@@ -153,15 +157,17 @@ void TCPServer::sendMessage(QTcpSocket* socket, const QString& str)
         return;
     }
 
-    QDataStream socketStream(socket);
+    QByteArray byteArray;
+    QDataStream out(&byteArray, QIODevice::WriteOnly);
+    out << proto;
 
-    QByteArray byteArray = str.toUtf8();
+    QDataStream socketStream(socket);
     socketStream << byteArray;
 }
 
-void TCPServer::displayMessage(tcp_id_t clientId, const QString& str) const noexcept
+void TCPServer::displayMessage(tcp_id_t clientId, const Protocol::Proto& msg) const noexcept
 {
-    qDebug() << QString("Client[ID=%1]: %2").arg(clientId).arg(str);
+    qDebug() << QString("Client[ID=%1]:").arg(clientId) << msg;
 }
 
 bool TCPServer::isConnected(QTcpSocket* socket) noexcept
