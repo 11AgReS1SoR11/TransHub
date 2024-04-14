@@ -9,6 +9,10 @@
 
 class QTcpSocket; // forward declaration
 class QTimer; // forward declaration
+namespace TCP::Protocol
+{
+    class Proto; // forward declaration
+}
 
 namespace TCP
 {
@@ -24,10 +28,10 @@ public:
 
     bool connectToHost(port_t port, const QHostAddress& address = QHostAddress::LocalHost);
     bool isConnected() const noexcept;
-    void sendMessage(const QString&);
+    void sendMessage(const Protocol::Proto&);
 
 signals:
-    void newMessage(const QString&);
+    void newMessage(const Protocol::Proto&);
 
 public slots:
     void disconnect() noexcept;
@@ -37,7 +41,7 @@ private slots:
     void discardSocket();
 
     void displayError(QAbstractSocket::SocketError socketError) const noexcept;
-    void displayMessage(const QString& str) const noexcept;
+    void displayMessage(const Protocol::Proto& str) const noexcept;
 
     void restartTimer();
     void stopTimer();

@@ -5,6 +5,8 @@
 #include <QTimer>
 
 #include "TCPClient.hpp"
+#include "TCPProto.hpp"
+
 namespace TCP
 {
 
@@ -60,7 +62,7 @@ bool TCPClient::connectToHost(port_t port, const QHostAddress& address)
 
     if (socket->waitForConnected())
     {
-        qDebug() << "Connected to Server";
+        qDebug() << "[TCPClient] Connected to Server";
         return true;
     }
 
@@ -90,8 +92,11 @@ void TCPClient::readSocket()
         return;
     }
 
-    QString message = QString::fromStdString(buffer.toStdString());
-    emit newMessage(message);
+    Protocol::Proto proto;
+    QDataStream in(&buffer, QIODevice::ReadOnly);
+    in >> proto;
+
+    emit newMessage(proto);
 }
 
 void TCPClient::disconnect() noexcept
@@ -144,7 +149,7 @@ void TCPClient::displayError(QAbstractSocket::SocketError socketError) const noe
     }
 }
 
-void TCPClient::sendMessage(const QString& msg)
+void TCPClient::sendMessage(const Protocol::Proto& proto)
 {
     qDebug() << "[TCPClient] sending message...";
 
@@ -154,15 +159,17 @@ void TCPClient::sendMessage(const QString& msg)
         return;
     }
 
-    QDataStream socketStream(socket);
-    QByteArray byteArray = msg.toUtf8();
+    QByteArray byteArray;
+    QDataStream out(&byteArray, QIODevice::WriteOnly);
+    out << proto;
 
+    QDataStream socketStream(socket);
     socketStream << byteArray;
 
     restartTimer();
 }
 
-void TCPClient::displayMessage(const QString& msg) const noexcept
+void TCPClient::displayMessage(const Protocol::Proto& msg) const noexcept
 {
     qDebug() << "[TCPClient] displayMessage: " << msg;
 }
