@@ -5,6 +5,7 @@ QT += network testlib core
 LIBS += -L$$PWD/../../../build/Common/TCP/src -lTCP
 
 INCLUDEPATH += ../headers
+INCLUDEPATH += ../../ComponentMatrix/src/
 
 # Build dirs
 OBJECTS_DIR = objects
