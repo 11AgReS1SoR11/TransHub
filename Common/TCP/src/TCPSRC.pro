@@ -3,7 +3,7 @@ TARGET = TCP
 
 QT += network core
 
-CONFIG += c++14
+CONFIG += c++17
 CONFIG += plugin
 
 # Build dirs
@@ -13,12 +13,15 @@ UI_DIR      = objects
 RCC_DIR     = objects
 
 INCLUDEPATH += ../headers
+INCLUDEPATH += ../../ComponentMatrix/src/
 
 SOURCES += \
     TCPServer.cpp \
     TCPClient.cpp \
+    TCPProto.cpp
 
 HEADERS +=\
     ../headers/TCPServer.hpp \
     ../headers/TCPClient.hpp \
+    ../headers/TCPProto.hpp \
     ../headers/Constants.hpp

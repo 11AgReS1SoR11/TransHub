@@ -27,6 +27,8 @@ public:
 
     Matrix();
 
+    Matrix(int row, int col);
+
     Matrix(const Matrix& mat) = default;
 
     Matrix(std::initializer_list<std::initializer_list<T>>);
@@ -55,6 +57,10 @@ public:
 
     void popRow();
 
+    int rows() const noexcept;
+
+    int columns() const noexcept;
+
     Matrix& operator = (const Matrix& other_matrix) noexcept;
 
     double determinant() const;
@@ -80,6 +86,9 @@ private:
 
 template<typename T>
 Matrix<T>::Matrix() : _rows(0), _columns(0) {}
+
+template<typename T>
+Matrix<T>::Matrix(int row, int col) : _data(row, QVector<T>(col)), _rows(row), _columns(col) {}
 
 template<typename T>
 Matrix<T>::Matrix(QVector<QVector<T>>& vec)
@@ -111,7 +120,7 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> list) : _rows(
 {
     for (const auto& row : list)
     {
-        if (row.size() != (_columns))
+        if (row.size() != static_cast<size_t>(_columns))
             throw RunTimeException("Incorrect vector of vectors");
 
         _data.push_back(row);
@@ -233,6 +242,12 @@ void Matrix<T>::popRow()
     --_rows;
     if (_rows == 0) _columns = 0;
 }
+
+template <typename T>
+int Matrix<T>::rows() const noexcept { return _rows; }
+
+template <typename T>
+int Matrix<T>::columns() const noexcept { return _columns; }
 
 template <typename T>
 double Matrix<T>::determinant() const
