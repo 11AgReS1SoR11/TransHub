@@ -25,6 +25,8 @@ public:
     friend QDataStream& operator<<(QDataStream& out, const Proto& proto);
     friend QDataStream& operator>>(QDataStream& in, Proto& proto);
 
+    friend QDebug operator<<(QDebug debug, const Proto& proto);
+
 private:
     enum class DataTypeIndex { MatrixInt = 0, MatrixDouble = 1, String = 2 }; // mb short?
     using DataType = std::variant<Mtx::Matrix<int>*, Mtx::Matrix<double>*, QString*>;
