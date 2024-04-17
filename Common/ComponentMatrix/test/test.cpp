@@ -16,6 +16,8 @@ private slots:
     void test_case5();
     void test_case6();
     void test_case7();
+    void test_case8();
+    void test_case9();
     void cleanupTestCase();
 };
 
@@ -176,6 +178,38 @@ void TestClass::test_case7(){
 
     QVERIFY_EXCEPTION_THROWN(mat1 + mat2, QException);
 }
+
+void TestClass::test_case8()
+{
+    QVector<QVector<double>> vec1 = {
+        {1, 1, 1},
+        {4, 2, 1},
+        {9, 3, 1}
+        
+    };
+
+    Matrix mat1(vec1);
+    QVector<double> b {0, 1, 3};
+    QVector<double> ans {0.5,-0.5,0};
+    Mtx::Matrix<double>::solve(mat1, b);
+    QVERIFY(Mtx::Matrix<double>::solve(mat1, b) == ans);
+}
+
+void TestClass::test_case9()
+{
+    QVector<QVector<double>> vec1 = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+        
+    };
+
+    Matrix mat1(vec1);
+    QVector<double> b {1, 1, 1};
+    QVERIFY_EXCEPTION_THROWN(Mtx::Matrix<double>::solve(mat1, b), QException); //система вырожденная, бесконечное число решений
+}
+
+
 void TestClass::cleanupTestCase(){
     qDebug() <<  "Called after all tests.";
 }
