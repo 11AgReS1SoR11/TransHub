@@ -63,6 +63,10 @@ public:
 
     static void print(const Matrix& matrix) noexcept;
 
+    static QVector<double> solve(const Matrix<T>& A, const QVector<T>& b);
+
+    int size() const noexcept;
+
 private:
 
     QVector<QVector<T>> _data;
@@ -251,6 +255,7 @@ void Matrix<T>::print() const noexcept
     }
 
     qDebug() << "Size: number of rows " << _rows << ", numbers of columns " << _columns;
+    
 }
 
 template <typename T>
@@ -317,6 +322,117 @@ template <typename T>
 void Matrix<T>::print(const Matrix& matrix) noexcept
 {
     matrix.print();
+}
+
+template <typename T>
+QVector<double> Matrix<T>::solve(const Matrix<T>& A, const QVector<T>& b)
+{
+    const double eps = 0.0001;
+    
+    if (A._columns != b.size())
+        throw(RunTimeException("Number of rows from matrix not equal to size of b"));
+    if (A._columns != A._rows)
+        throw(RunTimeException("Matrix is not square"));
+    int n = A._columns;
+
+    // Создаем расширенную матрицу [A | b]
+
+    Matrix augmentedMatrix(QVector<QVector<T>> (n, QVector<T>(n + 1)));
+    
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            augmentedMatrix[i][j] = A[i][j];
+        }
+        augmentedMatrix[i][n] = b[i];
+    }
+        
+    // Прямой ход метода Гаусса
+    for (int i = 0; i < n; ++i)
+    {
+        // Делаем текущий элемент главным
+        if (double divisor = augmentedMatrix[i][i]; abs(divisor) >= eps)
+        {
+            for (int j = i; j <= n; ++j)
+            {
+                augmentedMatrix[i][j] /= divisor;
+            }
+        }
+        
+        // Вычитаем текущую строку из остальных строк
+        for (int k = i + 1; k < n; ++k)
+        {
+            bool flag = true; //flag that signalizes if there zero-row in matrix
+            double factor = augmentedMatrix[k][i];
+            for (int j = 0; j <= n; ++j)
+            {
+                augmentedMatrix[k][j] -= factor * augmentedMatrix[i][j];//вот тут добавить проверку на ненулевость строки (иначе выход)
+                if (abs(augmentedMatrix[k][j]) >= eps)
+                {
+                    flag = false;
+                }
+            }
+            if (flag == true)
+            {
+                throw(RunTimeException("Incorrect matrix, multiple solutions"));
+            }
+        }
+    }
+
+    //Обратный ход 
+
+    for (int i = n-1; i >= 0; --i)
+    {
+        // Делаем текущий элемент главным
+        if (double divisor = augmentedMatrix[i][i]; abs(divisor) >= eps)
+        {
+            for (int j = i; j <= n; ++j)
+            {
+                augmentedMatrix[i][j] /= divisor;
+            }
+        }
+
+        
+        // Вычитаем текущую строку из остальных строк
+        for (int k = 0; k < i; ++k)
+
+        {
+            bool flag = true; //flag that signalizes if there zero-row in matrix
+                double factor = augmentedMatrix[k][i];
+                
+                for (int j = 0; j <= n; ++j)
+                {
+                    augmentedMatrix[k][j] -= factor * augmentedMatrix[i][j];//вот тут добавить проверку на ненулевость строки (иначе выход)
+                    if (abs(augmentedMatrix[k][j]) >= eps)
+                    {
+                        flag = false;
+                    }
+                }
+                if (flag == true)
+                {
+                    throw(RunTimeException("Incorrect matrix, multiple solutions"));
+                }
+        }
+    }
+
+        
+    // Получаем решение
+    QVector<double> solution(n);
+    
+    for (int i = 0; i < n; ++i)
+    {
+        solution[i] = augmentedMatrix[i][n];
+    }
+
+    return solution;
+
+}
+
+template<typename T>
+int Matrix<T>::size() const noexcept
+{
+    return _rows * _columns;
 }
 
 } // namespace Matrix
