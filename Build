@@ -48,6 +48,18 @@ elif [ "$1" = "--Service" ]; then
 
 else
     qmake ../TransHub.pro # default - build all project
+
+    mkdir -p GuiApplication
+    cd GuiApplication
+    mkdir -p src
+
+    cd ..
+
+    # Копируем файлы из одной папки в другую
+    cp "../Common/ComponentProcessingGui/dictionaries/ComponentProcessingGui.qm" "GuiApplication/src"
+    cp "../Common/ComponentProcessingGui/dictionaries/ComponentSystemGuiCoreNg.qm" "GuiApplication/src"
+    cp "../Common/ComponentProcessingGui/dictionaries/QtLanguage_ru.qm" "GuiApplication/src"
+
 fi
 
 # Building the project using make
