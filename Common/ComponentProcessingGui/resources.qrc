@@ -22,5 +22,8 @@
         <file>truck_64px.png</file>
         <file>truck_128px.png</file>
         <file>truck_256px.png</file>
+        <file>man.png</file>
+        <file>storage.png</file>
+        <file>eraser.png</file>
     </qresource>
 </RCC>
