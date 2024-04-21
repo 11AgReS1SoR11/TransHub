@@ -327,7 +327,7 @@ void Matrix<T>::print(const Matrix& matrix) noexcept
 template <typename T>
 QVector<double> Matrix<T>::solve(const Matrix<T>& A, const QVector<T>& b)
 {
-    const double eps = 0.0001;
+    const double eps = 0.00000001;
     
     if (A._columns != b.size())
         throw(RunTimeException("Number of rows from matrix not equal to size of b"));
