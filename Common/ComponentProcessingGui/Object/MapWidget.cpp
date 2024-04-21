@@ -39,17 +39,19 @@ void MapWidget::createToolBar ()
     _toolBar->setOrientation (Qt::Vertical);
     _toolBar->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 
-    _toolBar->addAction (QIcon (":/icons/show_32x32.png"), tr ("Show"));
+    _toolBar->addAction (QIcon (":/man.png"), tr ("Client"), [this](){webView->page()->runJavaScript("flag = 'user';");});
     _toolBar->addSeparator ();
-    _toolBar->addAction (QIcon (":/icons/edit_32x32.png"), tr ("Edit"));
-    _toolBar->addAction (QIcon (":/icons/cancel_32x32.png"), tr ("Cancel"));
+    _toolBar->addAction (QIcon (":/storage.png"), tr ("Storage"), [this](){webView->page()->runJavaScript("flag = 'storage';");});
+    _toolBar->addAction (QIcon (":/truck_128px.png"), tr ("Track"), [this](){webView->page()->runJavaScript("flag = 'track'");});
     _toolBar->addSeparator ();
-    _toolBar->addAction (QIcon (":/icons/print_32x32.png"), tr ("Print\njournal"));
+    _toolBar->addAction (QIcon (":/eraser.png"), tr ("Erase"), [this](){webView->page()->runJavaScript("map.eachLayer(function (layer) {if (layer instanceof L.Marker) {map.removeLayer(layer);}});");});
     _toolBar->addSeparator ();
     _toolBar->addAction (QIcon (":/icons/export_32x32.png"), tr ("Export"));
     _toolBar->addAction (QIcon (":/icons/import_32x32.png"), tr ("Import"));
     _toolBar->addSeparator ();
     _toolBar->addAction (QIcon (":/icons/help_32x32.png"), tr ("Help"));
+
+    //connect(action, &QAction::triggered, this, &MainWindow::changeVariable("user"));
 }
 
 bool MapWidget::plotRoute(double startLat, double startLng, double endLat, double endLng) {
