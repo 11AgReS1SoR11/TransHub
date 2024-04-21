@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,52 +12,38 @@
         margin: 0;
         padding: 0;
         background-color: lightblue;
-        /*display: flex;*/
+        display: flex;
     }
 
     #map {
+        flex: 1;
         height: 100vh;
-        width: 100%;
-        margin: 0;
     }
+
     #coordinates {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: white;
-            padding: 5px;
-            border: 1px solid #ccc;
-            z-index: 1000;
-        }
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: white;
+        padding: 5px;
+        border: 1px solid #ccc;
+        z-index: 1000;
+    }
 
     #side-panel {
-        height: 100vh;
-        width: 7%;
+        width: 100px;
         background-color: #E0DEDC;
-        padding: 0px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1); /* Тень */
-    }
-
-    .top-buttons {
-        border: none;
-        border-radius: 5px;
-        color: #ffffff;
-        padding: 10px 14px;
-        font-size: 16px;
-        margin-top: 20px;
-    }
-
-    .bottom-buttons {
-        border: none;
-        border-radius: 5px;
-        color: #ffffff;
-        padding: 10px 14px;
-        font-size: 16px;
-        margin-top: auto; /* Позволяет прижать кнопки к низу */
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 10px;
+        z-index: 1000;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     }
 
     button {
@@ -67,6 +54,8 @@
         font-size: 16px;
         cursor: pointer;
         margin: 10px;
+        width: 80px;
+        text-align: center;
     }
 
     button:hover {
@@ -83,7 +72,7 @@
     }
 
     .truck {
-        background-color: #C7C5AD
+        background-color: #C7C5AD;
     }
 
     .start {
@@ -93,43 +82,66 @@
     .clear {
         background-color: #D16752;
     }
-
-
 </style>
 </head>
 <body>
 <div id="map"></div>
 <div id="coordinates"></div>
-<!--<div id="side-panel">
-    <div id="map"></div>
-        <div id="side-panel">
-            <div class="top-buttons">
-                <button class="start"><i class="fas fa-play"></i> Start</button>
-                <button class="clear"><i class="fas fa-trash-alt"></i> Clear</button>
-            </div>
-            <div class="bottom-buttons">
-                <button class="user"><i class="fas fa-user"></i> User</button>
-                <button class="warehouse"><i class="fas fa-warehouse"></i> Home</button>
-                <button class="truck"><i class="fas fa-truck"></i> Truck</button>
-            </div>
-        </div>
-</div>-->
+
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-
     var map = L.map('map', { attributionControl: false }).setView([59.9386, 30.3141], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var coordinates = document.getElementById('coordinates');
 
-       map.on('mousemove', function(e) {
-           coordinates.innerHTML = 'N: ' + e.latlng.lat.toFixed(4) + '<br>E: ' + e.latlng.lng.toFixed(4);
-       });
+    map.on('mousemove', function(e) {
+        coordinates.innerHTML = 'N: ' + e.latlng.lat.toFixed(4) + '<br>E: ' + e.latlng.lng.toFixed(4);
+    });
 
+    var flag = 'neutral';
+
+    map.on('click', function(e) {
+        if (flag == 'user')
+        {
+        L.marker(e.latlng, {
+            icon: L.icon({
+                iconUrl: 'man.png', // URL иконки маркера
+                iconSize: [41, 41], // Размер иконки
+                iconAnchor: [20, 41], // Положение иконки относительно ее точки привязки
+                popupAnchor: [1, -34], // Смещение всплывающего окна относительно иконки
+                shadowSize: [41, 41] // Размер тени маркера
+            })
+        }).addTo(map);
+        }
+        if (flag == 'storage')
+        {
+        L.marker(e.latlng, {
+            icon: L.icon({
+                iconUrl: 'storage.png', // URL иконки маркера
+                iconSize: [41, 41], // Размер иконки
+                iconAnchor: [20, 41], // Положение иконки относительно ее точки привязки
+                popupAnchor: [1, -34], // Смещение всплывающего окна относительно иконки
+                shadowSize: [41, 41] // Размер тени маркера
+            })
+        }).addTo(map);
+        }
+        if (flag == 'track')
+        {
+        L.marker(e.latlng, {
+            icon: L.icon({
+                iconUrl: 'truck_128px.png', // URL иконки маркера
+                iconSize: [41, 41], // Размер иконки
+                iconAnchor: [20, 41], // Положение иконки относительно ее точки привязки
+                popupAnchor: [1, -34], // Смещение всплывающего окна относительно иконки
+                shadowSize: [41, 41] // Размер тени маркера
+            })
+        }).addTo(map);
+        }
+
+    });
 
 </script>
 </body>
 </html>
-
-
