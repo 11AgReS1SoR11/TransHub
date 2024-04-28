@@ -21,7 +21,6 @@ CommandPanel::CommandPanel (QWidget *parent)
     , ui { new Ui::CommandPanel }
 {
     ui->setupUi (this);
-    setWindowTitle (tr ("Routes"));
     slotInit();
 }
 
@@ -117,7 +116,6 @@ void CommandPanel::slotInit ()
     _sfModel->setSourceModel (_model);
 
     ui->tableView_->setModel (_sfModel);
-    ui->tableView_->setSortingEnabled (true);
     ui->tableView_->setEditTriggers (QAbstractItemView::NoEditTriggers);
     ui->tableView_->setSelectionMode (QAbstractItemView::SingleSelection);
     ui->tableView_->setSelectionBehavior (QAbstractItemView::SelectRows);
@@ -125,6 +123,7 @@ void CommandPanel::slotInit ()
 
     ui->tableView_->verticalHeader ()->hide ();
     ui->tableView_->horizontalHeader ()->setMinimumHeight (64);
+    ui->tableView_->horizontalHeader ()->setMinimumWidth (ui->tableView_->width() / 3);
     ui->tableView_->horizontalHeader ()->setStretchLastSection (true);
 
     ui->tableView_->setContextMenuPolicy (Qt::CustomContextMenu);
@@ -173,7 +172,6 @@ void CommandPanel::slotInit ()
 //    }
 
     ui->tableView_->resizeRowsToContents ();
-    ui->tableView_->resizeColumnsToContents ();
     ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::Receiver, QHeaderView::Stretch);
 }
 
