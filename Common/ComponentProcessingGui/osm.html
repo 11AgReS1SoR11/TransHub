@@ -5,6 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaflet Map with Side Panel</title>
+
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <style>
@@ -88,9 +90,10 @@
 <div id="map"></div>
 <div id="coordinates"></div>
 
-
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="../qwebchannel.js"></script>
 <script>
+
     var map = L.map('map', { attributionControl: false }).setView([59.9386, 30.3141], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -100,12 +103,20 @@
         coordinates.innerHTML = 'N: ' + e.latlng.lat.toFixed(4) + '<br>E: ' + e.latlng.lng.toFixed(4);
     });
 
-    var flag = 'neutral';
+    var markerType = 'user';
+    var opType = 'adding';
+
+     console.log("qwebchannel.js loading");
+    function scriptLoaded() {
+            console.log("qwebchannel.js loaded");
+            // Ваш код, который должен выполниться после загрузки qwebchannel.js
+        }
 
     map.on('click', function(e) {
-        if (flag == 'user')
+
+        if (markerType == 'user')
         {
-        L.marker(e.latlng, {
+        var marker = L.marker(e.latlng, {
             icon: L.icon({
                 iconUrl: 'man.png', // URL иконки маркера
                 iconSize: [41, 41], // Размер иконки
@@ -114,10 +125,13 @@
                 shadowSize: [41, 41] // Размер тени маркера
             })
         }).addTo(map);
+        marker.on('click', function() {
+            map.removeLayer(marker); // Удаление маркера при клике
+        });
         }
-        if (flag == 'storage')
+        if (markerType == 'storage')
         {
-        L.marker(e.latlng, {
+        var marker = L.marker(e.latlng, {
             icon: L.icon({
                 iconUrl: 'storage.png', // URL иконки маркера
                 iconSize: [41, 41], // Размер иконки
@@ -126,10 +140,13 @@
                 shadowSize: [41, 41] // Размер тени маркера
             })
         }).addTo(map);
+        marker.on('click', function() {
+            map.removeLayer(marker); // Удаление маркера при клике
+        });
         }
-        if (flag == 'track')
+        if (markerType == 'track')
         {
-        L.marker(e.latlng, {
+        var marker = L.marker(e.latlng, {
             icon: L.icon({
                 iconUrl: 'truck_128px.png', // URL иконки маркера
                 iconSize: [41, 41], // Размер иконки
@@ -138,7 +155,23 @@
                 shadowSize: [41, 41] // Размер тени маркера
             })
         }).addTo(map);
+
+        marker.on('click', function() {
+            map.removeLayer(marker); // Удаление маркера при клике
+            opType = 'deleting';
+        });
         }
+
+        new QWebChannel(qt.webChannelTransport, function(channel) {
+            var pointCoordinates = channel.objects.pointCoordinates;
+            var latlng =  e.latlng;
+            var latitude = latlng.lat;
+            var longitude = latlng.lng;
+
+            channel.objects.pointCoordinates.sendMessage(latitude, longitude, markerType, opType);
+
+            opType = 'adding';
+        });
 
     });
 
