@@ -6,6 +6,7 @@
 #include <QtWebEngineWidgets/QWebEngineView>
 #include <QtWebChannel/QWebChannel>
 #include <QToolBar>
+#include "PointCoordinates.h"
 
 
 namespace Ui {
@@ -17,6 +18,20 @@ class MapWidget : public QWidget {
     Q_OBJECT
 
 public:
+
+    struct Message{
+        double x;
+        double y;
+        QString markerType;
+        QString opType;
+    };
+
+    enum class State
+    {
+      WAITING = 0
+     ,PROCESSING
+    };
+
     explicit MapWidget(QWidget *parent = nullptr);
 
     ~MapWidget() {};
@@ -35,6 +50,16 @@ private:
     QWebEngineView *webView { nullptr };
     QWebChannel *channel { nullptr };
     QToolBar* _toolBar { nullptr };
+
+    PointCoordinates* pointCoordinates;
+
+    State appState = State::WAITING;
+
+signals:
+    void markerSignal(Message mes);
+    void strartProcessing();
+    void stopProcessing();
+
 
 };
 
