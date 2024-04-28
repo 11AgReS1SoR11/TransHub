@@ -1,6 +1,6 @@
 include (../IObject/ISystemGuiCore/ISystemGuiCore.pri)
 
-QT += core gui network widgets location quick webengine webenginewidgets
+QT += core gui network widgets location quick webengine webenginewidgets webchannel
 TARGET = $$qtLibraryTarget(ComponentProcessingGui)
 TEMPLATE = lib
 CONFIG += c++14
@@ -44,6 +44,7 @@ HEADERS += \
     ComponentProcessingGui_global.h \
     Object/GuiWidgetsManager.h \
     Object/MapWidget.h \
+    Object/PointCoordinates.h \
     Object/ProcessingGui.h          \
     Object/Settings.h \
     Object/PlanningWidget.h \
@@ -62,7 +63,9 @@ DISTFILES += \
     Changelist.txt \
     ComponentProcessingGui.json \
     ComponentProcessingGui.ts \
-    osm.html
+    osm.html \
+    qwebchannel.js \
+    qwebchannel.js
 
 RESOURCES += \
     resources.qrc
