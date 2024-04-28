@@ -36,7 +36,8 @@ SOURCES += \
     Object/PlanningWidget.cpp \
     Object/CommandPanel.cpp \
     Object/ResourceManager.cpp \
-    Object/StyleHelper.cpp
+    Object/StyleHelper.cpp \
+    Object/planningmanager.cpp
 
 HEADERS += \
     ComponentProcessingGui.h        \
@@ -48,7 +49,8 @@ HEADERS += \
     Object/PlanningWidget.h \
     Object/CommandPanel.h \
     Object/ResourceManager.h \
-    Object/StyleHelper.h
+    Object/StyleHelper.h \
+    Object/planningmanager.h
 
 FORMS += \
     Object/MapWidget.ui \

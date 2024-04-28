@@ -8,3 +8,6 @@ SUBDIRS += ComponentsCore5alpha \
            ComponentFull_Search \
            ComponentMatrix \
            TCP
+
+
+CONFIG += ordered

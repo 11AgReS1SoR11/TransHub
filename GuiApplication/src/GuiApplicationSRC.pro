@@ -89,14 +89,23 @@ COMPONENT_PROCESSING_GUI = $$COMMON_PATH/ComponentProcessingGui/libComponentProc
 COMPONENT_SYSTE_GUI_CORE = $$COMMON_PATH/ComponentSystemGuiCoreNg/libComponentSystemGuiCoreNg.so
 
 
+GUIAPPLICATION_PATH_DICTIONARIES = $$PWD/../../Common/ComponentProcessingGui/dictionaries
+
+
 first.depends = checkdirectory copyfile
 checkdirectory.commands = test -d $$OUT_PWD/components || mkdir -p $$OUT_PWD/components
 copyfile.commands = cp $$COMPONENT_FULL_SEARCH $$OUT_PWD/components/ \
                     && cp $$COMPONENT_PROCESSING_GUI $$OUT_PWD/components/ \
-                    && cp $$COMPONENT_SYSTE_GUI_CORE $$OUT_PWD/components/
+                    && cp $$COMPONENT_SYSTE_GUI_CORE $$OUT_PWD/components/ \
+                    && cp $$GUIAPPLICATION_PATH_DICTIONARIES/ComponentProcessingGui.qm $$OUT_PWD/ \
+                    && cp $$GUIAPPLICATION_PATH_DICTIONARIES/ComponentSystemGuiCoreNg.qm $$OUT_PWD/ \
+                    && cp $$GUIAPPLICATION_PATH_DICTIONARIES/QtLanguage_ru.qm $$OUT_PWD/ \
+
 
 export(first.depends)
 export(checkdirectory.commands)
 export(copyfile.commands)
 
 QMAKE_EXTRA_TARGETS += first checkdirectory copyfile
+
+

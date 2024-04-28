@@ -12,8 +12,7 @@ namespace Ui {
 }
 
 //!
-//! \brief Виджет для панели с командами.
-//! Отображение команд в сокращённом виде.
+//! \brief Виджет для панели с участниками маршрута.
 //! \author Кромачев Максим, Сажин Даниил
 //!
 class CommandPanel : public QWidget
@@ -43,14 +42,6 @@ protected slots:
     void slotInit ();
 
 private:
-//    enum Columns {
-//        RequestNumber = 0,  //-- Номер заявки
-//        RsRnNumber,         //-- Номер р/с,р/н
-//        Direction,          //-- Направление
-//        CommandNumber,      //-- Номер команды
-//        StartDate,          //-- Дата начала выполнения заявки
-//        ColumnsCount        //-- Количество колонок
-//    };
 
     enum Columns {
         Supplier = 0, //!<Поставщик
@@ -65,7 +56,6 @@ private:
 
     //! Интерфейс.
     Ui::CommandPanel *ui { nullptr };
-
 
     //! Модель заявок.
     QStandardItemModel *_model { nullptr };
