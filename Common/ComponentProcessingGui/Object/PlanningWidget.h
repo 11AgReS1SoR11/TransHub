@@ -64,23 +64,6 @@ private:
     //! Интерфейс.
     Ui::PlanningWidget *ui {nullptr};
 
-//    enum Columns {
-//        RequestNumber = 0,  //!< Номер заявки
-//        RsRnNumber,         //!< Номер р/с,р/н
-//        Status,             //!< Статус
-//        MapNumber,      //!< Номер команды
-//        ReceiverCallsign,   //!< Узел связи корреспондента
-//        Production,         //!< Технология (АПД Оникс, Созвездие, ОНИИП)
-//        CommunicationType,  //!< Вид связи
-//        InterfaceType,      //!< Тип стыка
-//        Mode,               //!< Режим работы
-//        StartDate,          //!< Дата начала
-//        FreqsRx,            //!< Частоты приёма
-//        FreqsTx,            //!< Частоты переадчи
-//        ReceiveDate,        //!< Время поступления
-//        Operator,           //!< Оператор
-//        ColumnsCount        //!< Количество колонок
-//    };
 
     enum Columns {
         Supplier = 0, //!<Поставщик
@@ -91,13 +74,13 @@ private:
 
 
 
+
     //! \brief Отобразить сообщение об ошибке.
     //! \param msg Сообщение.
     void showMessage (const QString &msg, bool vis = true);
 
     //! Тулбар.
     QToolBar *_toolBar { nullptr };
-
 
     //! Модель заявок.
     QStandardItemModel *_model { nullptr };

@@ -33,7 +33,7 @@ void ProcessingGui::initGui ()
     auto mwnd = dynamic_cast<QMainWindow*> (wnd->getMainWindowParentWidget ());
     if (mwnd)
     {
-        auto cdock = new QDockWidget (tr ("Routes"));
+        auto cdock = new QDockWidget ();
         cdock->setFeatures (QDockWidget::DockWidgetMovable
                             | QDockWidget::DockWidgetFloatable
                             /*| QDockWidget::DockWidgetVerticalTitleBar*/);

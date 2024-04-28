@@ -29,6 +29,7 @@
 #include <SplashScreen.h>
 #include <LoadDialog.h>
 #include <QtWidgets/QFileDialog>
+#include <QPalette>
 
 #include <execinfo.h>
 #include <signal.h>
@@ -45,6 +46,11 @@ int main (int argc, char *argv[])
 {
     Application app (argc, argv);
     app.setOrganizationName (QObject::tr ("TransHub"));
+
+    QColor backgroundColor = QColor(245, 245, 235);
+    QPalette palette;
+    palette.setColor(QPalette::Window, backgroundColor);
+    QApplication::setPalette(palette);
 
     QMultiMap<QString, QString> args;
     if (!parseArguments (app.QCoreApplication::arguments (), args)) {

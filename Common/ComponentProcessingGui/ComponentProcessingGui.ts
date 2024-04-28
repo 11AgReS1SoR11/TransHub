@@ -91,7 +91,7 @@ journal</source>
     <message>
         <location filename="Object/MapWidget.cpp" line="52"/>
         <source>Help</source>
-        <translation>Помощь</translation>
+        <translation type="unfinished">Помощь</translation>
     </message>
 </context>
 <context>
