@@ -176,7 +176,6 @@ void PlanningWidget::slotInit ()
     _sfmodel->setSourceModel (_model);
 
     ui->tableView_->setModel (_sfmodel);
-    ui->tableView_->setSortingEnabled (true);
     ui->tableView_->setEditTriggers (QAbstractItemView::NoEditTriggers);
     ui->tableView_->setSelectionMode (QAbstractItemView::SingleSelection);
     ui->tableView_->setSelectionBehavior (QAbstractItemView::SelectRows);
@@ -300,7 +299,6 @@ void PlanningWidget::slotInit ()
     connect (ui->tableView_->selectionModel (), &QItemSelectionModel::selectionChanged,
              this, &PlanningWidget::slotSelectionChanged);
 
-    ui->tableView_->resizeColumnsToContents ();
     ui->tableView_->resizeRowsToContents ();
 
     QTimer::singleShot (0, this, &PlanningWidget::updateSpan);

@@ -11,3 +11,4 @@ SUBDIRS += $$COMMON_DIR \
            $$GUI_APP_DIR \
            $$SERVICE_APP_DIR
 
+CONFIG += ordered

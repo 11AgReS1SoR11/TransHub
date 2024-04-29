@@ -9,3 +9,6 @@ SUBDIRS += ComponentsCore5alpha \
            ComponentMatrix \
            ComponentRouting \
            TCP
+
+
+CONFIG += ordered
