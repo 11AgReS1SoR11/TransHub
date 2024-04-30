@@ -4,6 +4,8 @@
 #include <QHideEvent>
 
 
+
+
 MapWidget::MapWidget(QWidget *parent)
     : QWidget { parent }
     , ui { new Ui::MapWidget }
@@ -29,6 +31,21 @@ MapWidget::MapWidget(QWidget *parent)
     layout->addWidget(webView);
     layout->addWidget(_toolBar);
     setLayout(layout);
+
+    pointCoordinates = new PointCoordinates(this);
+
+
+    channel = new QWebChannel();
+    webView->page()->setWebChannel(channel);
+
+
+
+    connect(pointCoordinates, &PointCoordinates::pointClicked, [=](double latitude, double longitude, QString markerType, QString opType) {
+        qDebug() << "Received coordinates: Latitude:" << latitude << ", Longitude:" << longitude << ", marker type:" << markerType << ", operation type:" << opType;
+        // Здесь вы можете выполнить необходимые действия с полученными координатами
+    });
+
+     channel->registerObject("pointCoordinates", pointCoordinates);
 }
 
 
@@ -39,19 +56,59 @@ void MapWidget::createToolBar ()
     _toolBar->setOrientation (Qt::Vertical);
     _toolBar->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 
-    _toolBar->addAction (QIcon (":/man.png"), tr ("Client"), [this](){webView->page()->runJavaScript("flag = 'user';");});
-    _toolBar->addSeparator ();
-    _toolBar->addAction (QIcon (":/storage.png"), tr ("Storage"), [this](){webView->page()->runJavaScript("flag = 'storage';");});
-    _toolBar->addAction (QIcon (":/truck_128px.png"), tr ("Track"), [this](){webView->page()->runJavaScript("flag = 'track'");});
-    _toolBar->addSeparator ();
-    _toolBar->addAction (QIcon (":/eraser.png"), tr ("Erase"), [this](){webView->page()->runJavaScript("map.eachLayer(function (layer) {if (layer instanceof L.Marker) {map.removeLayer(layer);}});");});
-    _toolBar->addSeparator ();
-    _toolBar->addAction (QIcon (":/icons/export_32x32.png"), tr ("Export"));
-    _toolBar->addAction (QIcon (":/icons/import_32x32.png"), tr ("Import"));
-    _toolBar->addSeparator ();
-    _toolBar->addAction (QIcon (":/icons/help_32x32.png"), tr ("Help"));
+    _toolBar->addAction (QIcon (":/man.png"), tr ("Client"), [this](){
+         webView->page()->runJavaScript("flag = 'user';");
+    });
 
-    //connect(action, &QAction::triggered, this, &MainWindow::changeVariable("user"));
+    _toolBar->addAction (QIcon (":/storage.png"), tr ("Storage"), [this](){
+        webView->page()->runJavaScript("flag = 'storage';");
+    });
+
+    _toolBar->addAction (QIcon (":/truck_128px.png"), tr ("Track"), [this](){
+        webView->page()->runJavaScript("flag = 'track'");
+    });
+
+    _toolBar->addSeparator ();
+
+    _toolBar->addAction (QIcon (":/eraser.png"), tr ("Erase"), [this](){
+        webView->page()->runJavaScript("map.eachLayer(function (layer) {if (layer instanceof L.Marker) {map.removeLayer(layer);}});");
+
+    });
+
+    _toolBar->addSeparator ();
+
+    _toolBar->addAction (QIcon (":/icons/export_32x32.png"), tr ("Export"), [this](){
+        qDebug() << "Export button pressed";
+    });
+    _toolBar->addAction (QIcon (":/icons/import_32x32.png"), tr ("Import"), [this](){
+        qDebug() << "Import button pressed";
+    });
+
+    _toolBar->addSeparator ();
+
+    _toolBar->addAction (QIcon (":/icons/help_32x32.png"), tr ("Help"), [this](){
+        qDebug() << "Help button pressed";
+    });
+
+    _toolBar->addSeparator();
+
+    _toolBar->addAction(QIcon::fromTheme("media-playback-start"), tr("Start"), [this](){
+        if (appState == State::WAITING)
+        {
+            appState = State::PROCESSING;
+            this->_toolBar->actions()[11]->setIcon(QIcon::fromTheme("media-playback-stop"));
+        }
+        else
+        {
+            appState = State::WAITING;
+            this->_toolBar->actions()[11]->setIcon(QIcon::fromTheme("media-playback-start"));
+        }
+    });
+
+    _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
+        qDebug() << "Refresh button pressed";
+    });
+
 }
 
 bool MapWidget::plotRoute(double startLat, double startLng, double endLat, double endLng) {

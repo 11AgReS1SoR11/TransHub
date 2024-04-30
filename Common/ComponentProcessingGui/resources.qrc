@@ -25,5 +25,6 @@
         <file>man.png</file>
         <file>storage.png</file>
         <file>eraser.png</file>
+        <file>qwebchannel.js</file>
     </qresource>
 </RCC>
