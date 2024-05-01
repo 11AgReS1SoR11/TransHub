@@ -57,9 +57,9 @@ else
     cd ..
 
     # Копируем файлы из одной папки в другую
-    cp "../Common/ComponentProcessingGui/dictionaries/ComponentProcessingGui.qm" "GuiApplication/src"
-    cp "../Common/ComponentProcessingGui/dictionaries/ComponentSystemGuiCoreNg.qm" "GuiApplication/src"
-    cp "../Common/ComponentProcessingGui/dictionaries/QtLanguage_ru.qm" "GuiApplication/src"
+    cp "../Common/ComponentProcessingGui/ComponentProcessingGui.qm" "GuiApplication/src"
+    cp "../Common/ComponentSystemGuiCoreNg/ComponentSystemGuiCoreNg.qm" "GuiApplication/src"
+    cp "../GuiApplication/src/QtLanguage_ru.qm" "GuiApplication/src"
 
 fi
 

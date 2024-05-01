@@ -90,7 +90,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="47"/>
+        <location filename="main.cpp" line="48"/>
         <source>TransHub</source>
         <translation>ТрансХаб</translation>
     </message>
@@ -164,5 +164,4 @@
         <translation>Диалог</translation>
     </message>
 </context>
-
 </TS>

@@ -56,16 +56,16 @@ void MapWidget::createToolBar ()
     _toolBar->setOrientation (Qt::Vertical);
     _toolBar->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 
-    _toolBar->addAction (QIcon (":/man.png"), tr ("Client"), [this](){
-         webView->page()->runJavaScript("flag = 'user';");
+    _toolBar->addAction (QIcon (":/user.png"), tr ("Client"), [this](){
+         webView->page()->runJavaScript("markerType = 'user';");
     });
 
-    _toolBar->addAction (QIcon (":/storage.png"), tr ("Storage"), [this](){
-        webView->page()->runJavaScript("flag = 'storage';");
+    _toolBar->addAction (QIcon (":/storage3.png"), tr ("Storage"), [this](){
+        webView->page()->runJavaScript("markerType = 'storage';");
     });
 
     _toolBar->addAction (QIcon (":/truck_128px.png"), tr ("Track"), [this](){
-        webView->page()->runJavaScript("flag = 'track'");
+        webView->page()->runJavaScript("markerType = 'track'");
     });
 
     _toolBar->addSeparator ();
@@ -75,6 +75,29 @@ void MapWidget::createToolBar ()
 
     });
 
+    _toolBar->addSeparator ();
+
+    QWidget* empty = new QWidget();
+        empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        _toolBar->addWidget(empty);
+
+
+        _toolBar->addAction(QIcon::fromTheme("media-playback-start"), tr("Start"), [this](){
+            if (appState == State::WAITING)
+            {
+                appState = State::PROCESSING;
+                this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-stop"));
+            }
+            else
+            {
+                appState = State::WAITING;
+                this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-start"));
+            }
+        });
+
+        _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
+            qDebug() << "Refresh button pressed";
+        });
     _toolBar->addSeparator ();
 
     _toolBar->addAction (QIcon (":/icons/export_32x32.png"), tr ("Export"), [this](){
@@ -92,22 +115,7 @@ void MapWidget::createToolBar ()
 
     _toolBar->addSeparator();
 
-    _toolBar->addAction(QIcon::fromTheme("media-playback-start"), tr("Start"), [this](){
-        if (appState == State::WAITING)
-        {
-            appState = State::PROCESSING;
-            this->_toolBar->actions()[11]->setIcon(QIcon::fromTheme("media-playback-stop"));
-        }
-        else
-        {
-            appState = State::WAITING;
-            this->_toolBar->actions()[11]->setIcon(QIcon::fromTheme("media-playback-start"));
-        }
-    });
 
-    _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
-        qDebug() << "Refresh button pressed";
-    });
 
 }
 
