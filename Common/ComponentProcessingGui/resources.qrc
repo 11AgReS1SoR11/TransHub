@@ -26,5 +26,8 @@
         <file>storage.png</file>
         <file>eraser.png</file>
         <file>qwebchannel.js</file>
+        <file>storage2.png</file>
+        <file>user.png</file>
+        <file>storage3.png</file>
     </qresource>
 </RCC>

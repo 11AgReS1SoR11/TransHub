@@ -97,10 +97,9 @@ checkdirectory.commands = test -d $$OUT_PWD/components || mkdir -p $$OUT_PWD/com
 copyfile.commands = cp $$COMPONENT_FULL_SEARCH $$OUT_PWD/components/ \
                     && cp $$COMPONENT_PROCESSING_GUI $$OUT_PWD/components/ \
                     && cp $$COMPONENT_SYSTE_GUI_CORE $$OUT_PWD/components/ \
-                    && cp $$GUIAPPLICATION_PATH_DICTIONARIES/ComponentProcessingGui.qm $$OUT_PWD/ \
-                    && cp $$GUIAPPLICATION_PATH_DICTIONARIES/ComponentSystemGuiCoreNg.qm $$OUT_PWD/ \
-                    && cp $$GUIAPPLICATION_PATH_DICTIONARIES/QtLanguage_ru.qm $$OUT_PWD/ \
-
+                    && cp $$PWD/../../Common/ComponentProcessingGui/ComponentProcessingGui.qm $$OUT_PWD/ \
+                    && cp $$PWD/../../Common/ComponentSystemGuiCoreNg/ComponentSystemGuiCoreNg.qm $$OUT_PWD/ \
+                    && cp $$PWD/../../GuiApplication/src/QtLanguage_ru.qm $$OUT_PWD/ \
 
 export(first.depends)
 export(checkdirectory.commands)

@@ -65,7 +65,9 @@ DISTFILES += \
     ComponentProcessingGui.ts \
     osm.html \
     qwebchannel.js \
-    qwebchannel.js
+    qwebchannel.js \
+    storage2.png \
+    user.png
 
 RESOURCES += \
     resources.qrc
