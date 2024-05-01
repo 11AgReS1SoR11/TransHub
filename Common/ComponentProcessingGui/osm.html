@@ -104,13 +104,7 @@
     });
 
     var markerType = 'user';
-    var opType = 'adding';
 
-     console.log("qwebchannel.js loading");
-    function scriptLoaded() {
-            console.log("qwebchannel.js loaded");
-            // Ваш код, который должен выполниться после загрузки qwebchannel.js
-        }
 
     map.on('click', function(e) {
 
@@ -118,7 +112,7 @@
         {
         var marker = L.marker(e.latlng, {
             icon: L.icon({
-                iconUrl: 'man.png', // URL иконки маркера
+                iconUrl: 'user.png', // URL иконки маркера
                 iconSize: [41, 41], // Размер иконки
                 iconAnchor: [20, 41], // Положение иконки относительно ее точки привязки
                 popupAnchor: [1, -34], // Смещение всплывающего окна относительно иконки
@@ -126,15 +120,17 @@
             })
         }).addTo(map);
         marker.on('click', function() {
-            map.removeLayer(marker); // Удаление маркера при клике
+            map.removeLayer(marker);
+            sendMessage('deleting');
+
         });
         }
         if (markerType == 'storage')
         {
         var marker = L.marker(e.latlng, {
             icon: L.icon({
-                iconUrl: 'storage.png', // URL иконки маркера
-                iconSize: [41, 41], // Размер иконки
+                iconUrl: 'storage3.png', // URL иконки маркера
+                iconSize: [43, 43], // Размер иконки
                 iconAnchor: [20, 41], // Положение иконки относительно ее точки привязки
                 popupAnchor: [1, -34], // Смещение всплывающего окна относительно иконки
                 shadowSize: [41, 41] // Размер тени маркера
@@ -142,6 +138,7 @@
         }).addTo(map);
         marker.on('click', function() {
             map.removeLayer(marker); // Удаление маркера при клике
+            sendMessage('deleting');
         });
         }
         if (markerType == 'track')
@@ -158,20 +155,21 @@
 
         marker.on('click', function() {
             map.removeLayer(marker); // Удаление маркера при клике
-            opType = 'deleting';
+            sendMessage('deleting');
         });
         }
 
-        new QWebChannel(qt.webChannelTransport, function(channel) {
-            var pointCoordinates = channel.objects.pointCoordinates;
-            var latlng =  e.latlng;
-            var latitude = latlng.lat;
-            var longitude = latlng.lng;
+        sendMessage('adding');
 
-            channel.objects.pointCoordinates.sendMessage(latitude, longitude, markerType, opType);
-
-            opType = 'adding';
-        });
+        function sendMessage(opType) {
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                var pointCoordinates = channel.objects.pointCoordinates;
+                var latlng = marker.getLatLng();
+                var latitude = latlng.lat;
+                var longitude = latlng.lng;
+                pointCoordinates.sendMessage(latitude, longitude, markerType, opType);
+            });
+    }
 
     });
 

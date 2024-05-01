@@ -9,22 +9,21 @@
         <translation>Команды</translation>
     </message>
     <message>
-        <location filename="Object/CommandPanel.cpp" line="24"/>
         <source>Routes</source>
-        <translation>Пути</translation>
+        <translation type="vanished">Пути</translation>
     </message>
     <message>
-        <location filename="Object/CommandPanel.cpp" line="111"/>
+        <location filename="Object/CommandPanel.cpp" line="110"/>
         <source>Supplier</source>
         <translation>Поставщик</translation>
     </message>
     <message>
-        <location filename="Object/CommandPanel.cpp" line="112"/>
+        <location filename="Object/CommandPanel.cpp" line="111"/>
         <source>Stockroom</source>
         <translation>Склад</translation>
     </message>
     <message>
-        <location filename="Object/CommandPanel.cpp" line="113"/>
+        <location filename="Object/CommandPanel.cpp" line="112"/>
         <source>Receiver</source>
         <translation>Получатель</translation>
     </message>
@@ -52,46 +51,72 @@
         <translation>Форма</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="17"/>
+        <location filename="Object/MapWidget.cpp" line="19"/>
         <source>Map</source>
         <translation>Карта</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="42"/>
         <source>Show</source>
-        <translation>Показать</translation>
+        <translation type="vanished">Показать</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="44"/>
         <source>Edit</source>
-        <translation>Редактировать</translation>
+        <translation type="vanished">Редактировать</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="45"/>
         <source>Cancel</source>
-        <translation>Отмена</translation>
+        <translation type="vanished">Отмена</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="47"/>
         <source>Print
 journal</source>
-        <translation>Вывести
+        <translation type="vanished">Вывести
 журнал</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="49"/>
+        <location filename="Object/MapWidget.cpp" line="59"/>
+        <source>Client</source>
+        <translation>Клиент</translation>
+    </message>
+    <message>
+        <location filename="Object/MapWidget.cpp" line="63"/>
+        <source>Storage</source>
+        <translation>Склад</translation>
+    </message>
+    <message>
+        <location filename="Object/MapWidget.cpp" line="67"/>
+        <source>Track</source>
+        <translation>Грузовик</translation>
+    </message>
+    <message>
+        <location filename="Object/MapWidget.cpp" line="73"/>
+        <source>Erase</source>
+        <translation>Очистить</translation>
+    </message>
+    <message>
+        <location filename="Object/MapWidget.cpp" line="83"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="50"/>
+        <location filename="Object/MapWidget.cpp" line="86"/>
         <source>Import</source>
         <translation>Импорт</translation>
     </message>
     <message>
-        <location filename="Object/MapWidget.cpp" line="52"/>
+        <location filename="Object/MapWidget.cpp" line="92"/>
         <source>Help</source>
-        <translation type="unfinished">Помощь</translation>
+        <translation>Помощь</translation>
+    </message>
+    <message>
+        <location filename="Object/MapWidget.cpp" line="98"/>
+        <source>Start</source>
+        <translation>Старт</translation>
+    </message>
+    <message>
+        <location filename="Object/MapWidget.cpp" line="111"/>
+        <source>Refresh</source>
+        <translation>Перезапуск</translation>
     </message>
 </context>
 <context>
@@ -118,39 +143,39 @@ journal</source>
         <translation>Получатель</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="352"/>
+        <location filename="Object/PlanningWidget.cpp" line="350"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="354"/>
+        <location filename="Object/PlanningWidget.cpp" line="352"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="355"/>
+        <location filename="Object/PlanningWidget.cpp" line="353"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="357"/>
+        <location filename="Object/PlanningWidget.cpp" line="355"/>
         <source>Print
 journal</source>
         <translation>Вывод
 журнала</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="359"/>
+        <location filename="Object/PlanningWidget.cpp" line="357"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="360"/>
+        <location filename="Object/PlanningWidget.cpp" line="358"/>
         <source>Import</source>
         <translation>Импорт</translation>
     </message>
     <message>
-        <location filename="Object/PlanningWidget.cpp" line="362"/>
+        <location filename="Object/PlanningWidget.cpp" line="360"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
@@ -158,9 +183,8 @@ journal</source>
 <context>
     <name>ProcessingGui</name>
     <message>
-        <location filename="Object/ProcessingGui.cpp" line="36"/>
         <source>Routes</source>
-        <translation>Пути</translation>
+        <translation type="vanished">Пути</translation>
     </message>
     <message>
         <location filename="Object/ProcessingGui.cpp" line="49"/>
