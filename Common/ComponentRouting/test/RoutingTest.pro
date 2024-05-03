@@ -3,8 +3,10 @@ TARGET = RoutingTest
 
 QT += testlib core
 LIBS += -L$$PWD/../../../build/Common/ComponentRouting/src -lComponentRouting
+LIBS += -L$$PWD/../../../build/Common/CommonStructures -lCommonStructures
 
 INCLUDEPATH += ../headers
+INCLUDEPATH += ../../CommonStructures/headers
 
 # Build dirs
 OBJECTS_DIR = objects

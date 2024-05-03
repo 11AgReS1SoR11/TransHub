@@ -24,8 +24,10 @@ private:
     TCP::TCPClient cli2;
 
     void client_server_communication();
+    TCP::Protocol::Proto encode_and_decode(TCP::Protocol::Proto in);
 
 private slots:
+    void test_protocol_coordinates();
     void test_protocol_matrix_int();
     void test_protocol_matrix_double();
     void test_protocol_string();
@@ -39,15 +41,8 @@ private slots:
     void compareMessageFromClientTimeout(qintptr clientId, TCP::Protocol::Proto);
 };
 
-void TestClass::test_protocol_matrix_int()
+TCP::Protocol::Proto TestClass::encode_and_decode(TCP::Protocol::Proto proto)
 {
-    Mtx::Matrix<int> matrixInt = {{1, 2, 2, 8},
-                                  {3, 1, 1, 5},
-                                  {4, 2, 2, 6},
-                                  {5, 2, 3, 5}};
-
-    TCP::Protocol::Proto proto{&matrixInt};
-
     QByteArray byteArray;
     QDataStream out(&byteArray, QIODevice::WriteOnly);
     out << proto;
@@ -57,10 +52,40 @@ void TestClass::test_protocol_matrix_int()
     QDataStream in(&byteArray, QIODevice::ReadOnly);
     in >> protoRestored;
 
-    QVERIFY(!protoRestored.getString());
-    QVERIFY(!protoRestored.getMatrixDouble());
+    return protoRestored;
+}
 
-    auto matrix_ptr = protoRestored.getMatrixInt();
+void TestClass::test_protocol_coordinates()
+{
+    Common::Coordinates_t coordinates = {{53.2, 22.3}, {44.845, 16.498}, {70.325, 43.561}};
+    TCP::Protocol::Proto proto{&coordinates};
+
+    TCP::Protocol::Proto protoRestored = encode_and_decode(proto);
+
+    QVERIFY(!protoRestored.get<QString>());
+    QVERIFY(!protoRestored.get<Mtx::Matrix<double>>());
+    QVERIFY(!protoRestored.get<Mtx::Matrix<int>>());
+
+    auto coordinates_ptr = protoRestored.get<Common::Coordinates_t>();
+    QVERIFY(coordinates_ptr);
+    QVERIFY(*coordinates_ptr == coordinates);
+}
+
+void TestClass::test_protocol_matrix_int()
+{
+    Mtx::Matrix<int> matrixInt = {{1, 2, 2, 8},
+                                  {3, 1, 1, 5},
+                                  {4, 2, 2, 6},
+                                  {5, 2, 3, 5}};
+
+    TCP::Protocol::Proto proto{&matrixInt};
+
+    TCP::Protocol::Proto protoRestored = encode_and_decode(proto);
+
+    QVERIFY(!protoRestored.get<QString>());
+    QVERIFY(!protoRestored.get<Mtx::Matrix<double>>());
+
+    auto matrix_ptr = protoRestored.get<Mtx::Matrix<int>>();
     QVERIFY(matrix_ptr);
     QVERIFY(*matrix_ptr == matrixInt);
 }
@@ -74,19 +99,12 @@ void TestClass::test_protocol_matrix_double()
 
     TCP::Protocol::Proto proto{&matrixDouble};
 
-    QByteArray byteArray;
-    QDataStream out(&byteArray, QIODevice::WriteOnly);
-    out << proto;
+    TCP::Protocol::Proto protoRestored = encode_and_decode(proto);
 
-    // Восстановление данных из QByteArray
-    TCP::Protocol::Proto protoRestored;
-    QDataStream in(&byteArray, QIODevice::ReadOnly);
-    in >> protoRestored;
+    QVERIFY(!protoRestored.get<QString>());
+    QVERIFY(!protoRestored.get<Mtx::Matrix<int>>());
 
-    QVERIFY(!protoRestored.getString());
-    QVERIFY(!protoRestored.getMatrixInt());
-
-    auto matrix_ptr = protoRestored.getMatrixDouble();
+    auto matrix_ptr = protoRestored.get<Mtx::Matrix<double>>();
     QVERIFY(matrix_ptr);
     QVERIFY(*matrix_ptr == matrixDouble);
 }
@@ -96,31 +114,24 @@ void TestClass::test_protocol_string()
     QString str = "Hello, world!";
     TCP::Protocol::Proto proto{&str};
 
-    QByteArray byteArray;
-    QDataStream out(&byteArray, QIODevice::WriteOnly);
-    out << proto;
+    TCP::Protocol::Proto protoRestored = encode_and_decode(proto);
 
-    // Восстановление данных из QByteArray
-    TCP::Protocol::Proto protoRestored;
-    QDataStream in(&byteArray, QIODevice::ReadOnly);
-    in >> protoRestored;
+    QVERIFY(!protoRestored.get<Mtx::Matrix<double>>());
+    QVERIFY(!protoRestored.get<Mtx::Matrix<int>>());
 
-    QVERIFY(!protoRestored.getMatrixDouble());
-    QVERIFY(!protoRestored.getMatrixInt());
-
-    auto string_ptr = protoRestored.getString();
+    auto string_ptr = protoRestored.get<QString>();
     QVERIFY(string_ptr);
     QVERIFY(*string_ptr == str);
 }
 
 void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
 {
-    if (auto string_ptr = proto.getString())
+    if (auto string_ptr = proto.get<QString>())
     {
         auto const& msg = *string_ptr;
         QVERIFY(msg == QString("Helloy, client"));
     }
-    else if (auto matrix_ptr = proto.getMatrixInt())
+    else if (auto matrix_ptr = proto.get<Mtx::Matrix<int>>())
     {
         auto const& matrix_received = *matrix_ptr;
         QVERIFY(matrix_received == matrix);
@@ -133,12 +144,12 @@ void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
 
 void TestClass::compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto proto)
 {
-    if (auto string_ptr = proto.getString())
+    if (auto string_ptr = proto.get<QString>())
     {
         auto const& msg = *string_ptr;
         QVERIFY(msg == QString("Helloy, server"));
     }
-    else if (auto matrix_ptr = proto.getMatrixInt())
+    else if (auto matrix_ptr = proto.get<Mtx::Matrix<int>>())
     {
         auto const& matrix_received = *matrix_ptr;
         QVERIFY(matrix_received == matrix);
@@ -155,12 +166,12 @@ void TestClass::compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto 
 
 void TestClass::compareMessageFromClientTimeout(qintptr, TCP::Protocol::Proto proto)
 {
-    if (auto string_ptr = proto.getString())
+    if (auto string_ptr = proto.get<QString>())
     {
         auto const& msg = *string_ptr;
         QVERIFY(msg == QString("Helloy, server"));
     }
-    else if (auto matrix_ptr = proto.getMatrixInt())
+    else if (auto matrix_ptr = proto.get<Mtx::Matrix<int>>())
     {
         auto const& matrix_received = *matrix_ptr;
         QVERIFY(matrix_received == matrix);

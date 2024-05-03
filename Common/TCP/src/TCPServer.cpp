@@ -134,19 +134,16 @@ void TCPServer::sendMessage(tcp_id_t receiverid, const Protocol::Proto& proto)
 {
     qDebug() << QString("[TCPServer] sending message to Client[ID=%1]").arg(receiverid);
 
-    bool sended = false;
     foreach(QTcpSocket* socket, connection_set)
     {
         if (socket->socketDescriptor() == receiverid)
         {
             sendMessage(socket, proto);
-            sended = true;
-            break;
+            return;
         }
     }
 
-    if (!sended)
-        qDebug() << QString("[TCPServer] No connection with Client[ID=%1]").arg(receiverid);
+    qDebug() << QString("[TCPServer] No connection with Client[ID=%1]").arg(receiverid);
 }
 
 void TCPServer::sendMessage(QTcpSocket* socket, const Protocol::Proto& proto)
