@@ -3,6 +3,8 @@ TARGET = $$qtLibraryTarget(ComponentRouting)
 
 QT += core
 
+LIBS += -L$$PWD/../../../build/Common/CommonStructures -lCommonStructures
+
 CONFIG += c++17
 CONFIG += plugin
 
@@ -13,6 +15,7 @@ UI_DIR      = objects
 RCC_DIR     = objects
 
 INCLUDEPATH += ../headers
+INCLUDEPATH += ../../CommonStructures/headers
 
 SOURCES += Routing.cpp
 

@@ -41,7 +41,7 @@ private slots:
     void discardSocket();
 
     void displayError(QAbstractSocket::SocketError socketError) const noexcept;
-    void displayMessage(const Protocol::Proto& str) const noexcept;
+    void displayMessage(const Protocol::Proto&) const noexcept;
 
     void restartTimer();
     void stopTimer();
