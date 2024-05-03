@@ -3,6 +3,8 @@ TARGET = TCP
 
 QT += network core
 
+LIBS += -L$$PWD/../../../build/Common/CommonStructures -lCommonStructures
+
 CONFIG += c++17
 CONFIG += plugin
 
@@ -14,6 +16,7 @@ RCC_DIR     = objects
 
 INCLUDEPATH += ../headers
 INCLUDEPATH += ../../ComponentMatrix/src/
+INCLUDEPATH += ../../CommonStructures/headers
 
 SOURCES += \
     TCPServer.cpp \

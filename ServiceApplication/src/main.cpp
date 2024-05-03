@@ -1,7 +1,9 @@
-#include <iostream>
+#include <QCoreApplication>
+#include "ServiceManager.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
-    std::cout << "Service Application" << std::endl;
-    return 0;
+    QCoreApplication app(argc, argv);
+    ServiceManager manager;
+    return app.exec();
 }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QVector>
 #include <QObject>
 #include "Matrix.hpp"
@@ -23,7 +25,7 @@ struct Rout_and_length
  * @returns struct with optimal routes and min road's length
  */
 template<typename T>
-Rout_and_length<T> Full_search(QVector<T>& storagesItems, QVector<T>& clientsNeeds, QVector<T>& couriersCapacity,
+Rout_and_length<T> Full_search(QVector<int>& storagesItems, QVector<int>& clientsNeeds, QVector<int>& couriersCapacity,
                                 const Mtx::Matrix<T>& roadsCouriersToStorages, const Mtx::Matrix<T>& roadsStoragesToClients);
 
 template<typename T>
@@ -36,10 +38,10 @@ public:
         return instance;
     }
 
-    Rout_and_length<T> operator()(QVector<T>& storagesItems, QVector<T>& clientsNeeds, QVector<T>& couriersCapacity,
+    Rout_and_length<T> operator()(QVector<int>& storagesItems, QVector<int>& clientsNeeds, QVector<int>& couriersCapacity,
                     const Mtx::Matrix<T>& roadsCouriersToStorages, const Mtx::Matrix<T>& roadsStoragesToClients) const
     {
-        Full_search(storagesItems, clientsNeeds, couriersCapacity, roadsCouriersToStorages, roadsStoragesToClients);
+        return Full_search(storagesItems, clientsNeeds, couriersCapacity, roadsCouriersToStorages, roadsStoragesToClients);
     }
 
 private:
