@@ -52,13 +52,12 @@
 #include "SettingsPanel/SettingsGuiCoreWidget.h"
 #include "SettingsPanel/SettingsAppLoader.h"
 
+#include "StatusBar/StatusBarTabContainer.h"
+
 #include "HelpDesigner/HelpDesigner.h"
 
 #include "ExternalMainWindow.h"
 #include "ExternalDialog.h"
-
-#include "StatusBarInfo/StatusBarMapWidget.h"
-#include "StatusBarInfo/StatusBarPlanningWidget.h"
 
 class SystemGuiCoreNg;
 class PopUpContainer;
@@ -208,6 +207,11 @@ public:
     //! \return true / false;
     bool removeSettingsWidget (ISystemGuiCoreSettingsPanelWidget* widget) override;
 
+    //! \brief Добавить закладку.
+    //! \param tabWidget Закладка.
+    //! \return true / false.
+    bool addTabWidget( ISystemGuiCoreStatusBarTabWidget * tabWidget ) override;
+
     //! \brief Задать активное окно внутри рабочей области.
     //! \param windowName Название окна (название QAction-а, которое его вызвало)
     //! \return true / false - если MainWindow не содержит запрашиваемое окно
@@ -271,19 +275,18 @@ private:
 
     mutable QMutex _mutex;      /**< мьютекс */
 
-    SettingsPanelContainer  *_settingsPanelContainer {nullptr}; //!< контейнер виджетов настроек
-    SystemGuiCoreNg         *_systemGuiCore {nullptr};          //!< ядро GuiCore
+    SettingsPanelContainer  *_settingsPanelContainer {nullptr};   //!< контейнер виджетов настроек
+    SystemGuiCoreNg         *_systemGuiCore {nullptr};            //!< ядро GuiCore
     ISystemIconManager      *_iconManager {nullptr};              /**< менеджер иконок */
     MainWindowConnector     *_mainWindowConnector {nullptr};      /**< коннектор MainWindow */
-    std::weak_ptr<QSystemTrayIcon> _systemTrayIcon;                 //!< иконка системного трея
+    std::weak_ptr<QSystemTrayIcon> _systemTrayIcon;               //!< иконка системного трея
     SystemWindowsCreator    *_windowsCreator {nullptr};           /**< "создатель" системных окон */
     StatusBarInfoWidget     *_statusBarInfoWidget {nullptr};      /**< виджет информации о всплывающих сообщениях в статус баре */
     StatusBarVolume         *_statusBarVolume {nullptr};          /**< виджет звука в статус баре (вкл./выкл.) */
-    StatusBarMapWidget      *_statusBarMapWidget {nullptr};       /**< виджет карты в стутус баре*/
-    StatusBarPlanningWidget *_statusBarPlanningWidget  {nullptr}; /**< виджет планирования в стутус баре*/
     QMdiArea                *_mdiArea {nullptr};                  /**< центральный виджет рабочей области */
     MdiAreaFilter           *_mdiAreaFilter {nullptr};            /**< фильтр событий центрального виджета */
     HelpDesigner            *_helpDesigner {nullptr};             /**< конструктор файла справки */
+    StatusBarTabContainer   *_statusBarTabContainer {nullptr};    /**< виджет, хранящий вкладки окон */
 
     // --- подменю окна
     QSignalMapper   *_windowMapper {nullptr};   //!< объект связки сигналов и отправителей

@@ -29,27 +29,35 @@ TRANSLATIONS += ComponentProcessingGui.ts
 
 SOURCES += \
     ComponentProcessingGui.cpp      \
-    Object/GuiWidgetsManager.cpp \
     Object/MapWidget.cpp \
     Object/ProcessingGui.cpp        \
+    Object/ProcessingGuiTabWindowsManager.cpp \
     Object/Settings.cpp \
     Object/PlanningWidget.cpp \
     Object/CommandPanel.cpp \
     Object/ResourceManager.cpp \
+    Object/StatusBarMapWidget.cpp \
+    Object/StatusBarMapWidgetToolTip.cpp \
+    Object/StatusBarPlanningWidget.cpp \
+    Object/StatusBarPlanningWidgetToolTip.cpp \
     Object/StyleHelper.cpp \
     Object/planningmanager.cpp
 
 HEADERS += \
     ComponentProcessingGui.h        \
     ComponentProcessingGui_global.h \
-    Object/GuiWidgetsManager.h \
     Object/MapWidget.h \
     Object/PointCoordinates.h \
     Object/ProcessingGui.h          \
+    Object/ProcessingGuiTabWindowsManager.h \
     Object/Settings.h \
     Object/PlanningWidget.h \
     Object/CommandPanel.h \
     Object/ResourceManager.h \
+    Object/StatusBarMapWidget.h \
+    Object/StatusBarMapWidgetToolTip.h \
+    Object/StatusBarPlanningWidget.h \
+    Object/StatusBarPlanningWidgetToolTip.h \
     Object/StyleHelper.h \
     Object/planningmanager.h
 
@@ -57,7 +65,9 @@ FORMS += \
     Object/MapWidget.ui \
     Object/RequestWidget.ui \
     Object/PlanningWidget.ui \
-    Object/CommandPanel.ui
+    Object/CommandPanel.ui \
+    Object/StatusBarMapWidgetToolTip.ui \
+    Object/StatusBarPlanningWidgetToolTip.ui
 
 DISTFILES += \
     Changelist.txt \

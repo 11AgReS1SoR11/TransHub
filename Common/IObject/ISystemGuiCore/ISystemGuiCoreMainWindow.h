@@ -14,6 +14,7 @@
 #include "ISystemGuiCorePopUpElement.h"
 #include "ISystemGuiCoreStyleItemDelegate.h"
 #include "ISystemGuiCoreSettingsPanelWidget.h"
+#include "ISystemGuiCoreStatusBarTabWidget.h"
 #include "IMainWindowConnector.h"
 
 //!
@@ -71,6 +72,11 @@ public:
     //! \param widget Виджет.
     //! \return true / false.
     virtual bool removeSettingsWidget (ISystemGuiCoreSettingsPanelWidget *widget) = 0;
+
+    //! \brief Добавить закладку.
+    //! \param tabWidget Закладка.
+    //! \return true / false.
+    virtual bool addTabWidget( ISystemGuiCoreStatusBarTabWidget * tabWidget ) = 0;
 
     //! \brief Задать активное окно внутри рабочей области.
     //! \param windowName Название окна (название QAction-а, которое его вызвало)
