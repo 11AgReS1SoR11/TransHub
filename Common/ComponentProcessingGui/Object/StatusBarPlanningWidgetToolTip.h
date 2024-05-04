@@ -1,7 +1,6 @@
 #ifndef STATUSBARPLANNINGWIDGETTOOLTIP_H
 #define STATUSBARPLANNINGWIDGETTOOLTIP_H
 
-
 #include <QtCore/QTimer>
 #include <QtWidgets/QWidget>
 #include <QtGui/QMouseEvent>
@@ -11,8 +10,8 @@ namespace Ui {
 }
 
 /*!
- * \file StatusBarInfoWidgetToolTip.h
- * \class StatusBarInfoWidgetToolTip
+ * \file StatusBarPlanningWidgetToolTip.h
+ * \class StatusBarPlanningWidgetToolTip
  * \brief Класс виджета всплывающей подсказки
  */
 class StatusBarPlanningWidgetToolTip : public QWidget
@@ -22,8 +21,6 @@ class StatusBarPlanningWidgetToolTip : public QWidget
 public:
     /*!
      * \brief Конструктор класса
-     * \param numActivePopUp Количество непросмотренных событий
-     * \param numAllPopUp Всего событий
      * \param parent Виджет-родитель
      */
     explicit StatusBarPlanningWidgetToolTip(QWidget *parent = 0);
@@ -33,27 +30,8 @@ public:
      */
     ~StatusBarPlanningWidgetToolTip();
 
-    /*!
-     * \brief Запустить таймер авто.скрытия
-     */
-    void startTimerW();
-
 private:
     Ui::StatusBarPlanningWidgetToolTip *ui; /**< объект графического интерфейса */
-    QTimer _timerClose;                 /**< таймер, отвечающий за авто.скрытие окна */
-
-protected:
-    /*!
-     * \brief Метод обработки нажатия на окне
-     * \param event QMouseEvent
-     */
-    void mousePressEvent(QMouseEvent *event);
-
-signals:
-    /*!
-     * \brief Сигнал, информирующий о закрытии окна
-     */
-    void signalCloseToolTip();
 };
 
 

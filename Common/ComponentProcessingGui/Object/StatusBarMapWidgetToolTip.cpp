@@ -1,5 +1,5 @@
-#include "StatusBarPlanningWidgetToolTip.h"
-#include "ui_StatusBarPlanningWidgetToolTip.h"
+#include "StatusBarMapWidgetToolTip.h"
+#include "ui_StatusBarMapWidgetToolTip.h"
 #include <QtGui/QPainter>
 #include <QtGui/QPainterPath>
 #include <QtGui/QPalette>
@@ -8,12 +8,12 @@
 #include <QtGui/QLinearGradient>
 #include <QtGui/QBitmap>
 
-StatusBarPlanningWidgetToolTip::StatusBarPlanningWidgetToolTip(QWidget *parent) :
-    ui(new Ui::StatusBarPlanningWidgetToolTip)
+StatusBarMapWidgetToolTip::StatusBarMapWidgetToolTip(QWidget *parent) :
+    QWidget(parent), ui(new Ui::StatusBarMapWidgetToolTip)
 {
     ui->setupUi(this);
 
-    QPixmap icon(":/icons/icons/planning.png");
+    QPixmap icon(":/icons/icons/novigator.png");
     this->ui->labelInfoIcon->setPixmap(icon);
 
     int _widthW = this->width();
@@ -46,24 +46,9 @@ StatusBarPlanningWidgetToolTip::StatusBarPlanningWidgetToolTip(QWidget *parent) 
 
     this->render(&tempIcon,QPoint(),QRegion(), DrawChildren);
     this->setMask(tempIcon.mask());
-
-    connect(&_timerClose, SIGNAL(timeout()), this, SIGNAL(signalCloseToolTip()));
 }
 
-StatusBarPlanningWidgetToolTip::~StatusBarPlanningWidgetToolTip()
+StatusBarMapWidgetToolTip::~StatusBarMapWidgetToolTip()
 {
     delete ui;
-}
-
-void StatusBarPlanningWidgetToolTip::startTimerW()
-{
-    _timerClose.start(3 * 1000); // 3 sec
-}
-
-void StatusBarPlanningWidgetToolTip::mousePressEvent(QMouseEvent *event)
-{
-    if(event->button() == Qt::LeftButton) {
-        _timerClose.stop();
-        emit this->signalCloseToolTip();
-    }
 }
