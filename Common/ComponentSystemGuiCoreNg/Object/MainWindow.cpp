@@ -18,6 +18,10 @@
 #include "MdiArea/CustomMdiSubWindow.h"
 #include "MdiArea/CustomMdiArea.h"
 
+#include "StatusBar/StatusBarTabContainer.h"
+
+#include <QScrollArea>
+
 MainWindow::MainWindow (QWidget *parent)
     : QMainWindow (parent)
     , ui (new Ui::MainWindow)
@@ -54,12 +58,39 @@ MainWindow::MainWindow (QWidget *parent)
     _mdiArea->setHorizontalScrollBarPolicy (Qt::ScrollBarAsNeeded);
     _mdiArea->setVerticalScrollBarPolicy (Qt::ScrollBarAsNeeded);
     connect (_mdiArea, &QMdiArea::subWindowActivated, this, &MainWindow::updateMenus);
+    connect ((CustomMdiArea*)_mdiArea, &CustomMdiArea::SettingsChanged, this, [this]()
+    {
+        if (_mdiArea->viewMode() == QMdiArea::SubWindowView)
+        {
+            if ( !_statusBarTabContainer->isVisible() )
+                _statusBarTabContainer->setVisible(true);
+        }
+        else
+        {
+            if ( _statusBarTabContainer->isVisible() )
+            {
+                _statusBarTabContainer->setVisible(false);
+                _statusBarTabContainer->ShowAll();
+            }
+        }
+    } );
+
     setCentralWidget (_mdiArea);
     // end mdi area
 
     _windowMapper = new QSignalMapper (this);
     connect (_windowMapper, QOverload<QWidget*>::of (&QSignalMapper::mapped),
              this, &MainWindow::setActiveSubWindow);
+
+    // status bar tab container with scroll area
+    _statusBarTabContainer = new StatusBarTabContainer( this );
+    QScrollArea* scrollArea = new QScrollArea( this );
+    scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    scrollArea->setFixedHeight(50);
+    scrollArea->setStyleSheet("QScrollArea { border: none; }");
+    scrollArea->setWidgetResizable( true );
+    scrollArea->setWidget( _statusBarTabContainer );
+    statusBar()->addWidget(scrollArea);
 
     // status bar
     // --- set filter ---
@@ -69,35 +100,13 @@ MainWindow::MainWindow (QWidget *parent)
     // ---
 
     _statusBarInfoWidget = new StatusBarInfoWidget (this, this);
+    _statusBarInfoWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     _statusBarVolume = new StatusBarVolume (this, this);
-    _statusBarMapWidget = new StatusBarMapWidget(this, this);
-    _statusBarPlanningWidget = new StatusBarPlanningWidget(this, this);
-
-    QAction* action = new QAction(this);
-
-    _statusBarMapWidget->addAction(action);
+    _statusBarVolume->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 
     connect (_statusBarVolume, &StatusBarVolume::signalVolumeChanged, _statusBarInfoWidget, &StatusBarInfoWidget::slotVolumeChanged);
-
     connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
-    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarMapWidget, &StatusBarMapWidget::slotHideToolTip);
-    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarPlanningWidget, &StatusBarPlanningWidget::slotHideToolTip);
-
     connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
-    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarMapWidget, &StatusBarMapWidget::slotHideToolTip);
-    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarPlanningWidget, &StatusBarPlanningWidget::slotHideToolTip);
-
-    connect (_statusBarMapWidget, &StatusBarMapWidget::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
-    connect (_statusBarMapWidget, &StatusBarMapWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
-    connect (_statusBarMapWidget, &StatusBarMapWidget::signalHideToolTip, _statusBarPlanningWidget, &StatusBarPlanningWidget::slotHideToolTip);
-
-    connect (_statusBarPlanningWidget, &StatusBarPlanningWidget::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
-    connect (_statusBarPlanningWidget, &StatusBarPlanningWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
-    connect (_statusBarPlanningWidget, &StatusBarPlanningWidget::signalHideToolTip, _statusBarMapWidget, &StatusBarMapWidget::slotHideToolTip);
-
-
-    ui->statusbar->addPermanentWidget(_statusBarMapWidget);
-    ui->statusbar->addPermanentWidget(_statusBarPlanningWidget);
     ui->statusbar->addPermanentWidget(_statusBarVolume);
     ui->statusbar->addPermanentWidget(_statusBarInfoWidget);
 
@@ -764,8 +773,8 @@ void MainWindow::loadWindowStyle ()
     }
 
 
-    if (_systemGuiCore && _systemGuiCore->settings ())
-        ui->statusbar->setVisible (_systemGuiCore->settings ()->statusBarVisible ());
+//    if (_systemGuiCore && _systemGuiCore->settings ())
+//        ui->statusbar->setVisible (_systemGuiCore->settings ()->statusBarVisible ());
 }
 
 void MainWindow::saveWindowStyle ()
@@ -937,7 +946,8 @@ void MainWindow::clickAction ()
         ISystemGuiCoreParentWidget::WidgetType type = ISystemGuiCoreParentWidget::MdiType;
 
         ISystemGuiCoreParentWidget::WidgetShowType showtype;
-        if ( act->property(ACTION_SHOW_TYPE).isValid() && act->property(ACTION_SHOW_TYPE).toBool() )
+        if ( static_cast<CustomMdiArea *>( centralWidget() )->viewMode() == QMdiArea::TabbedView ||
+             ( act->property(ACTION_SHOW_TYPE).isValid() && act->property(ACTION_SHOW_TYPE).toBool() ) )
             showtype = ISystemGuiCoreParentWidget::ShowMaximized;
         else
             showtype = ISystemGuiCoreParentWidget::ShowNormal;
@@ -1025,29 +1035,44 @@ void MainWindow::clickAction ()
             }
             else
             {
-                QMdiSubWindow * subWindow = nullptr;
-                // qobject_cast ?
-                if ( CustomMdiSubWindow * cmdiw = dynamic_cast<CustomMdiSubWindow *>( buffWidget ) )
-                {
-                    subWindow = cmdiw;
-                    buffWidget = cmdiw->widget();
-                    connect( cmdiw, &CustomMdiSubWindow::HideSubWindow,
-                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnHideSubWindow );
-                    connect( cmdiw, &CustomMdiSubWindow::CloseSubWindow,
-                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnCloseSubWindow );
-                }
-
                 buffWidget->setAccessibleName (actionSignature);
                 buffWidget->setAccessibleDescription (SUBWINDOW_TYPE_ACTION);
-
                 ((QMdiArea *)centralWidget())->cascadeSubWindows();
-                if ( subWindow )
-                    subWindow = ((QMdiArea*)centralWidget())->addSubWindow( subWindow );
-                else
-                    subWindow = ((QMdiArea*)centralWidget())->addSubWindow( buffWidget );
 
-                if ( subWindow->property(MDI_POSITION).isValid() )
-                    subWindow->move( subWindow->property(MDI_POSITION).toPoint() );
+                QMdiSubWindow * subWindow = nullptr;
+                if ( ISystemGuiCoreStatusBarTabWindow * tabw = dynamic_cast<ISystemGuiCoreStatusBarTabWindow *>( buffWidget ) )
+                {
+                    subWindow = new CustomMdiSubWindow;
+                    subWindow->setWidget( tabw );
+
+                    connect( (CustomMdiSubWindow *)subWindow, &CustomMdiSubWindow::HideSubWindow,
+                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnHideSubWindow );
+                    connect( (CustomMdiSubWindow *)subWindow, &CustomMdiSubWindow::CloseSubWindow,
+                             (CustomMdiArea*)centralWidget(), &CustomMdiArea::OnCloseSubWindow );
+
+                    subWindow = ((QMdiArea*)centralWidget())->addSubWindow( subWindow );
+                    if ( static_cast<CustomMdiArea *>( centralWidget() )->viewMode() == QMdiArea::TabbedView )
+                    {
+                        buffWidget->setProperty(MDI_POSITION, QVariant());
+                        buffWidget->setProperty(MDI_GEOMETRY, QVariant());
+                        showtype = ISystemGuiCoreParentWidget::ShowMaximized;
+                    }
+                    else
+                    {
+                        if ( buffWidget->property(MDI_POSITION).isValid() )
+                            subWindow->move( buffWidget->property(MDI_POSITION).toPoint() );
+
+                        if ( buffWidget->property(MDI_GEOMETRY).isValid() )
+                            subWindow->restoreGeometry( buffWidget->property(MDI_GEOMETRY).toByteArray() );
+                    }
+
+                    connect ( tabw, &ISystemGuiCoreStatusBarTabWindow::OpenTabWindow,
+                              (CustomMdiArea *)centralWidget(), &CustomMdiArea::OnOpenSubWindow );
+                }
+                else
+                {
+                    subWindow = ((QMdiArea*)centralWidget())->addSubWindow( buffWidget );
+                }
 
                 subWindow->setAccessibleName(actionSignature);
                 subWindow->setAccessibleDescription(SUBWINDOW_TYPE_ACTION);
@@ -1061,8 +1086,7 @@ void MainWindow::clickAction ()
                 // --- set filter ---
                 MdiSubWindowFilter *buffFilter = new MdiSubWindowFilter (subWindow, buffWidget);
                 connect (buffFilter, &MdiSubWindowFilter::mousePos, this, &MainWindow::mousePos);
-                if ( CustomMdiSubWindow * cmdiw = dynamic_cast<CustomMdiSubWindow *>( subWindow ) )
-                    connect (cmdiw, &CustomMdiSubWindow::DeleteMdiSubWindow, buffFilter, &MdiSubWindowFilter::OnDeleteMdiSubWindow);
+                connect (subWindow, &QMdiSubWindow::destroyed, buffFilter, &MdiSubWindowFilter::OnDeleteMdiSubWindow);
 
                 buffWidget->setMouseTracking (true);
                 buffWidget->installEventFilter (buffFilter);
@@ -1582,6 +1606,11 @@ bool MainWindow::removeSettingsWidget (ISystemGuiCoreSettingsPanelWidget *widget
     return _settingsPanelContainer->removeWidget (widget);
 }
 
+bool MainWindow::addTabWidget( ISystemGuiCoreStatusBarTabWidget * tabWidget )
+{
+    _statusBarTabContainer->addTab( tabWidget );
+}
+
 bool MainWindow::mdiSubWindowSetFocus (const QString &windowName)
 {
     //    QMutexLocker a(&_mutex);
@@ -1701,58 +1730,61 @@ ISystemGuiCorePopUpElement* MainWindow::addPopUpMessage (const QString &messageC
                                                          const QIcon &messageIcon_16x16,
                                                          const QIcon &messageIcon_48x48)
 {
-    QIcon icon_16x16;
-    QIcon icon_48x48;
+    return nullptr; // вылетает сообщение об успешной загрузке
+    // компонент с сырой памятью под messageText messageCaption
 
-    switch(messageType) {
-    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpInfo: {
-        icon_16x16 = QIcon(":/icons/icons/information-white.png");
-        icon_48x48 = QIcon(":/icons/icons/information_6199.png");
-        break;
-    }
-    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpOk: {
-        icon_16x16 = QIcon(":/icons/icons/tick-circle.png");
-        icon_48x48 = QIcon(":/icons/icons/check_9806.png");
-        break;
-    }
-    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpWarning: {
-        icon_16x16 = QIcon(":/icons/icons/exclamation.png");
-        icon_48x48 = QIcon(":/icons/icons/alert_2136.png");
-        break;
-    }
-    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpCritical: {
-        icon_16x16 = QIcon(":/icons/icons/icon_cancel.png");
-        icon_48x48 = QIcon(":/icons/icons/delete_2626.png");
-        break;
-    }
-    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpNotType: {
-        icon_16x16 = messageIcon_16x16;
-        icon_48x48 = messageIcon_48x48;
-        break;
-    }
-    }
+//    QIcon icon_16x16;
+//    QIcon icon_48x48;
 
-    QDateTime addTime = QDateTime::currentDateTimeUtc ();
-    SystemGuiCorePopUpElement* buffElement = new SystemGuiCorePopUpElement (QUuid::createUuid ().toString (QUuid::WithoutBraces),
-                                                                            messageCaption,
-                                                                            messageText,
-                                                                            messageType,
-                                                                            addTime,
-                                                                            icon_16x16,
-                                                                            icon_48x48);
+//    switch(messageType) {
+//    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpInfo: {
+//        icon_16x16 = QIcon(":/icons/icons/information-white.png");
+//        icon_48x48 = QIcon(":/icons/icons/information_6199.png");
+//        break;
+//    }
+//    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpOk: {
+//        icon_16x16 = QIcon(":/icons/icons/tick-circle.png");
+//        icon_48x48 = QIcon(":/icons/icons/check_9806.png");
+//        break;
+//    }
+//    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpWarning: {
+//        icon_16x16 = QIcon(":/icons/icons/exclamation.png");
+//        icon_48x48 = QIcon(":/icons/icons/alert_2136.png");
+//        break;
+//    }
+//    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpCritical: {
+//        icon_16x16 = QIcon(":/icons/icons/icon_cancel.png");
+//        icon_48x48 = QIcon(":/icons/icons/delete_2626.png");
+//        break;
+//    }
+//    case ISystemGuiCorePopUpElement::ISystemGuiCorePopUpNotType: {
+//        icon_16x16 = messageIcon_16x16;
+//        icon_48x48 = messageIcon_48x48;
+//        break;
+//    }
+//    }
 
-    if (!_statusBarInfoWidget) {
-        delete buffElement;
-        buffElement = nullptr;
-        return nullptr;
-    }
+//    QDateTime addTime = QDateTime::currentDateTimeUtc ();
+//    SystemGuiCorePopUpElement* buffElement = new SystemGuiCorePopUpElement (QUuid::createUuid ().toString (QUuid::WithoutBraces),
+//                                                                            messageCaption,
+//                                                                            messageText,
+//                                                                            messageType,
+//                                                                            addTime,
+//                                                                            icon_16x16,
+//                                                                            icon_48x48);
 
-    if (_isShowed)
-        _statusBarInfoWidget->addStatusElement (buffElement, autoClose);
-    else
-        _popUps.push_back (new PopUpContainer (autoClose, buffElement));
+//    if (!_statusBarInfoWidget) {
+//        delete buffElement;
+//        buffElement = nullptr;
+//        return nullptr;
+//    }
 
-    return buffElement;
+//    if (_isShowed)
+//        _statusBarInfoWidget->addStatusElement (buffElement, autoClose);
+//    else
+//        _popUps.push_back (new PopUpContainer (autoClose, buffElement));
+
+//    return buffElement;
 }
 
 QWidget *MainWindow::getMainWindowParentWidget ()

@@ -1,13 +1,14 @@
 #ifndef PLANNINGWIDGET_H
 #define PLANNINGWIDGET_H
 
-#include <QtWidgets/QWidget>
 #include <QtWidgets/QToolBar>
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QSortFilterProxyModel>
 #include <QtCore/QItemSelection>
-
 #include <qglobal.h>
+
+#include "ISystemGuiCoreStatusBarTabWindow.h"
+#include "../ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h"
 
 namespace Ui {
     class PlanningWidget;
@@ -17,7 +18,7 @@ namespace Ui {
 //! \brief Виджет отображения команд.
 //! \author Кромачев Максим.
 //!
-class PlanningWidget : public QWidget
+class PlanningWidget : public ISystemGuiCoreStatusBarTabWindow
 {
     Q_OBJECT
 
@@ -25,8 +26,13 @@ public:
     //! \brief Конструктор.
     //! \param parent Родительский виджет.
     explicit PlanningWidget (QWidget *parent = nullptr);
+
     //! \brief Деструктор.
     virtual ~PlanningWidget ();
+
+    //! \brief Получение иконки для вкладки
+    //! \return соответствующая иконка
+    QPixmap GetWindowIcon() override;
 
 protected slots:
     //! \brief Обработчик обновления информации о заявках.
@@ -56,6 +62,8 @@ protected slots:
 
     //! \brief Обработчик выделения строки в таблице.
     void slotSelectionChanged (const QItemSelection &se, const QItemSelection &de);
+
+    void OnTabClicked(bool is_only_open) override;
 
 private:
     //! \brief Создание тулбара.

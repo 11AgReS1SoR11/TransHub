@@ -5,15 +5,18 @@
 
 #include "ProcessingGui.h"
 #include "Object/CommandPanel.h"
-#include "GuiWidgetsManager.h"
+#include "ProcessingGuiTabWindowsManager.h"
 
-#include "ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h"
 #include "ComponentSystemGuiCoreNg/Object/MainWindowDefines.h"
+#include "ISystemGuiCoreStatusBarTabWidget.h"
+#include "ISystemGuiCoreStatusBarTabWindow.h"
+#include "StatusBarMapWidget.h"
+#include "StatusBarPlanningWidget.h"
 
 ProcessingGui::ProcessingGui (QObject* parent)
     : QObject (parent)
 {
-    _gwmanager = new GuiWidgetsManager( this );
+    _gwmanager = new ProcessingGuiTabWindowsManager( this );
     if (auto gc = guicore ())
         gc->registrateGuiComponent (this);
     else
@@ -51,6 +54,7 @@ void ProcessingGui::initGui ()
     {
         QAction * act_commands = new QAction (tr ("Planning"), this);
         menu_planning->addMenuAction (act_commands);
+        act_commands->setProperty(ACTION_SHOW_TYPE, true);
         wnd->addMenuInMenuBar (menu_planning);
     }
     else
@@ -85,24 +89,27 @@ QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
         return nullptr;
     }
 
+    if ( _gwmanager->Contained( actionName ) )
+        return nullptr;
 
-    CustomMdiSubWindow * mdisw = new CustomMdiSubWindow;
-    QWidget * gwgt = _gwmanager->GetWidget( actionName );
-    gwgt->setParent( wnd->getMainWindowParentWidget() );
-    mdisw->setWidget( gwgt );
+    ISystemGuiCoreStatusBarTabWindow * tabw = _gwmanager->GetWidget( actionName );
+    tabw->setParent( wnd->getMainWindowParentWidget() );
 
-    auto gw_sett = _gwmanager->GetWidgetSettings( actionName );
-    if ( gw_sett != std::experimental::nullopt )
-    {
-        showType = ISystemGuiCoreParentWidget::ShowNormal;
-        mdisw->restoreGeometry( gw_sett.value().first );
-        mdisw->setProperty( MDI_POSITION , gw_sett.value().second );
-    }
+    connect( tabw, &ISystemGuiCoreStatusBarTabWindow::SaveTabWindowSettings,
+             _gwmanager, &ProcessingGuiTabWindowsManager::OnSaveGWSettings );
+    connect( tabw, &ISystemGuiCoreStatusBarTabWindow::CloseTabWindow,
+             _gwmanager, &ProcessingGuiTabWindowsManager::OnCloseGWidget );
 
-    connect( mdisw, &CustomMdiSubWindow::SaveGWSettings, _gwmanager, &GuiWidgetsManager::OnSaveGWSettings );
-    connect( mdisw, &CustomMdiSubWindow::CloseGWidget, _gwmanager, &GuiWidgetsManager::OnCloseGWidget );
+    ISystemGuiCoreStatusBarTabWidget * sbtw;
+    if ( actionName == tr("Планирование") )
+        sbtw = new StatusBarPlanningWidget( (QMainWindow *)wnd->getMainWindowParentWidget(), tabw->GetWindowIcon() );
+    else if ( actionName == tr("Карта") )
+        sbtw = new StatusBarMapWidget( (QMainWindow *)wnd->getMainWindowParentWidget(), tabw->GetWindowIcon() );
 
-    return mdisw;
+    sbtw->ConnectTabWindow( tabw );
+    wnd->addTabWidget( sbtw );
+
+    return tabw;
 }
 
 ISystemGuiCore *ProcessingGui::guicore () const

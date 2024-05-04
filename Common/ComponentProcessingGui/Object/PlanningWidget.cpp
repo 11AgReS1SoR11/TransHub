@@ -14,7 +14,7 @@ using namespace ComponentsCore;
 #include <QtGui/QPixmap>
 
 PlanningWidget::PlanningWidget (QWidget *parent)
-    : QWidget { parent }
+    : ISystemGuiCoreStatusBarTabWindow { parent }
     , ui { new Ui::PlanningWidget }
 {
     ui->setupUi (this);
@@ -35,6 +35,11 @@ PlanningWidget::~PlanningWidget ()
     }
 
     delete ui;
+}
+
+QPixmap PlanningWidget::GetWindowIcon()
+{
+    return QPixmap( ":/icons/icons/planning.png" );
 }
 
 void PlanningWidget::slotUpdated (const QString &/*guid*/, int /*type*/)
@@ -338,6 +343,21 @@ void PlanningWidget::slotSelectionChanged (const QItemSelection &se, const QItem
         _currentIndex = selection.indexes ().at (0);
     else
         _currentIndex = QModelIndex ();
+}
+
+void PlanningWidget::OnTabClicked(bool is_only_open)
+{
+    if ( !is_only_open && isVisible() )
+    {
+        if ( QWidget * parWidget = qobject_cast<QWidget *>( parent() ) )
+            if ( CustomMdiSubWindow * parMdi = dynamic_cast<CustomMdiSubWindow *>( parWidget ) )
+                parMdi->TabHide();
+    }
+    else
+    {
+        if ( !isVisible() )
+            emit OpenTabWindow();
+    }
 }
 
 void PlanningWidget::createToolBar ()

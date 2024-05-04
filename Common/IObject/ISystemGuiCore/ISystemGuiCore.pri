@@ -4,6 +4,8 @@ HEADERS += \
     $$PWD/ISystemGuiCoreMenu.h \
     $$PWD/ISystemGuiCoreSettings.h \
     $$PWD/ISystemGuiCoreSettingsPanelWidget.h \
+    $$PWD/ISystemGuiCoreStatusBarTabWidget.h \
+    $$PWD/ISystemGuiCoreStatusBarTabWindow.h \
     $$PWD/ISystemIconManager.h \
     $$PWD/IDelegateManager.h \
     $$PWD/IHelpSection.h \
@@ -15,4 +17,5 @@ HEADERS += \
     $$PWD/ISystemGuiCoreMainWindow.h \
     $$PWD/ISystemGuiCorePopUpElement.h \
     $$PWD/ISystemGuiCoreToolBar.h \
+    $$PWD/ISystemGuiCoreStatusBarTabWidget.h \
     $$PWD/IFloatingWidget.h
