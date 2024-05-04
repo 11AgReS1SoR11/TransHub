@@ -37,12 +37,13 @@ PlanningWidget::~PlanningWidget ()
     delete ui;
 }
 
+
 QPixmap PlanningWidget::GetWindowIcon()
 {
     return QPixmap( ":/icons/icons/planning.png" );
 }
 
-void PlanningWidget::slotUpdated (const QString &/*guid*/, int /*type*/)
+void PlanningWidget::slotUpdated ()
 {
     if (!_model) {
         qCritical () << "[MapWidget][slotUpdated] Empty QStandardItemModel object";
@@ -51,111 +52,63 @@ void PlanningWidget::slotUpdated (const QString &/*guid*/, int /*type*/)
     _model->removeRows (0, _model->rowCount ());
     _model->setRowCount (0);
 
-//    for (auto const &request : requests)
-//    {
-//        auto const Maps = request->events<MapEvent> ();
-//        if (Maps.empty ())
-//            continue;
+    for(auto object : Planning::PlanningManager::instance()->allObjects()) {
 
-//        for (auto const &cmd : Maps)
-//        {
-//            QList<QStandardItem*> items_list;
+        QString name;
+        QPair<double, double> NE;
 
-//            //-- Columns::RequestNumber
-//            auto item = new QStandardItem (request->number ());
-//            item->setIcon (ResourceManager::urgencyCategory (cmd->_urgency_category));
-//            item->setData (request->guid (), Qt::UserRole + 1); //-- идентификатор заявки
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
 
-//            //-- Columns::RsRnNumber
-//            item = new QStandardItem (request->rsrnNumber ());
-//            item->setData (request->guid (), Qt::UserRole + 1); //-- идентификатор заявки
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        if (qobject_cast<Planning::Storage*>(object) != nullptr)
+        {
 
-//            //-- Columns::Status,
-//            item = createStateItem (request);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
+                                    qobject_cast<Planning::Storage*>(object)->NE.second);
+            name = "Storage";
+            qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
+        }
+        else if (qobject_cast<Planning::User*>(object) != nullptr)
+        {
 
-//            //-- Columns::MapNumber
-//            item = new QStandardItem (QString ("%1 %2 %3").arg (cmd->_cn + 1).arg (tr ("of")).arg (cmd->_cc));
-//            item->setData (request->guid (), Qt::UserRole + 1); //-- идентификатор заявки
-//            item->setData (cmd->_cn, Qt::UserRole + 2);           //-- номер команды в заявке
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
+                                    qobject_cast<Planning::User*>(object)->NE.second);
+            name = "User";
+            qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
+        }
+        else if (qobject_cast<Planning::Truck*>(object) != nullptr)
+        {
 
-//            //-- Columns::ReceiverCallsign
-//            item = new QStandardItem (cmd->_callsign_receiver);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
+                                    qobject_cast<Planning::Truck*>(object)->NE.second);
+            name = "Truck";
+            qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
+        }
+        else
+        {
+            qCritical () << QString ("[PlanningManager] Object load failed");
+            continue;
+        }
 
-//            //-- Columns::Production
-//            item = new QStandardItem (EventFunc::productionTypeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        QList<QStandardItem*> items_list;
 
-//            //-- Columns::CommunicationType,  //-- Вид связи
-//            item = new QStandardItem  (EventFunc::communicationTypeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        auto item = new QStandardItem (name);
+        //item->setIcon ();
+        item->setData (name, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-//            //-- Columns::InterfaceType,      //-- Тип стыка
-//            item = new QStandardItem (EventFunc::interfaceTypeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        item = new QStandardItem (NE.first);
+        item->setData (NE.first, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-//            //-- Columns::Mode,               //-- Режим работы
-//            item = new QStandardItem (EventFunc::modeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        item = new QStandardItem (NE.second);
+        item->setData (NE.second, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-//            //-- Columns::StartDate,          //-- Дата начала
-//            item =  new QStandardItem (request->startTime () == 0 ? tr ("ASAP") : QDateTime::fromMSecsSinceEpoch
-//                                                                    (request->startTime ()).toString ("dd.MM.yyyy hh:mm:ss")/*.replace (" ", "\n")*/);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        _model->appendRow (items_list);
 
-//            //-- Columns::FreqsRx
-//            QString freqs_rx;
-//            for (auto const &f : cmd->_freqs_rx) {
-//                freqs_rx .append (QString::number (f));
-//                freqs_rx.append (", ");
-//            }
-//            if (!freqs_rx.isEmpty ())
-//                freqs_rx.remove (freqs_rx.size () - 2, 2);
-//            item = new QStandardItem (freqs_rx);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
-
-//            //-- Columns::FreqsTx
-//            QString freqs_tx;
-//            for (auto const &f : cmd->_freqs_tx) {
-//                freqs_tx .append (QString::number (f));
-//                freqs_tx.append (", ");
-//            }
-//            if (!freqs_tx.isEmpty ())
-//                freqs_tx.remove (freqs_tx.size () - 2, 2);
-//            item = new QStandardItem (freqs_tx);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
-
-//            //-- Columns::ReceiveDate,        //-- Время поступления
-//            item = new QStandardItem (QDateTime::fromMSecsSinceEpoch
-//                                      (request->receiveTime ()).toString ("dd.MM.yyyy hh:mm:ss"));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
-
-//            //-- Columns::Operator,           //-- Оператор
-//            item = new QStandardItem ();
-//            item->setTextAlignment (Qt::AlignCenter);
-//            item->setText (cmd->_user);
-//            items_list << item;
-
-//            _model->appendRow (items_list);
-//        }
-//    }
+    }
 
     ui->tableView_->resizeColumnsToContents ();
     ui->tableView_->resizeRowsToContents ();
@@ -195,111 +148,65 @@ void PlanningWidget::slotInit ()
     connect (ui->tableView_, &QTableView::customContextMenuRequested,
              this, &PlanningWidget::slotRequestContextMenu);
 
-//    auto const requests = _rqm->requests ();
-//    for (auto const &request : requests)
-//    {
-//        auto const Maps = request->events<MapEvent> ();
-//        if (Maps.empty ())
-//            continue;
+    Planning::PlanningManager::instance()->init();
 
-//        for (auto const &cmd : Maps)
-//        {
-//            QList<QStandardItem*> items_list;
+    for(auto object : Planning::PlanningManager::instance()->allObjects()) {
 
-//            //-- Columns::RequestNumber
-//            auto item = new QStandardItem (request->number ());
-//            item->setIcon (ResourceManager::urgencyCategory (cmd->_urgency_category));
-//            item->setData (request->guid (), Qt::UserRole + 1); //-- идентификатор заявки
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        QString name;
+        QPair<double, double> NE;
 
-//            item = new QStandardItem (request->rsrnNumber ());
-//            item->setData (request->guid (), Qt::UserRole + 1); //-- идентификатор заявки
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
 
-//            //-- Columns::Status,             //-- Статус
-//            item = createStateItem (request);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        if (qobject_cast<Planning::Storage*>(object) != nullptr)
+        {
 
-//            //-- Columns::MapNumber
-//            item = new QStandardItem (QString ("%1 %2 %3").arg (cmd->_cn + 1).arg (tr ("of")).arg (cmd->_cc));
-//            item->setData (request->guid (), Qt::UserRole + 1); //-- идентификатор заявки
-//            item->setData (cmd->_cn, Qt::UserRole + 2);           //-- номер команды в заявке
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
+                                    qobject_cast<Planning::Storage*>(object)->NE.second);
+            name = "Storage";
+            qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
+        }
+        else if (qobject_cast<Planning::User*>(object) != nullptr)
+        {
 
-//            //-- Columns::ReceiverCallsign
-//            item = new QStandardItem (cmd->_callsign_receiver);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
+                                    qobject_cast<Planning::User*>(object)->NE.second);
+            name = "User";
+            qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
+        }
+        else if (qobject_cast<Planning::Truck*>(object) != nullptr)
+        {
 
-//            //-- Columns::Production
-//            item = new QStandardItem (EventFunc::productionTypeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
+                                    qobject_cast<Planning::Truck*>(object)->NE.second);
+            name = "Truck";
+            qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
+        }
+        else
+        {
+            qCritical () << QString ("[PlanningManager] Object load failed");
+            continue;
+        }
 
-//            //-- Columns::CommunicationType,  //-- Вид связи
-//            item = new QStandardItem  (EventFunc::communicationTypeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        QList<QStandardItem*> items_list;
 
-//            //-- Columns::InterfaceType,      //-- Тип стыка
-//            item = new QStandardItem (EventFunc::interfaceTypeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        auto item = new QStandardItem (name);
+        //item->setIcon ();
+        item->setData (name, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-//            //-- Columns::Mode,               //-- Режим работы
-//            item = new QStandardItem (EventFunc::modeString (cmd));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        item = new QStandardItem (NE.first);
+        item->setData (NE.first, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-//            //-- Columns::StartDate,          //-- Дата начала
-//            item =  new QStandardItem (request->startTime () == 0 ? tr ("ASAP") : QDateTime::fromMSecsSinceEpoch
-//                                                                    (request->startTime ()).toString ("dd.MM.yyyy hh:mm:ss"));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        item = new QStandardItem (NE.second);
+        item->setData (NE.second, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-//            //-- Columns::FreqsRx
-//            QString freqs_rx;
-//            for (auto const &f : cmd->_freqs_rx) {
-//                freqs_rx .append (QString::number (f));
-//                freqs_rx.append (", ");
-//            }
-//            if (!freqs_rx.isEmpty ())
-//                freqs_rx.remove (freqs_rx.size () - 2, 2);
-//            item = new QStandardItem (freqs_rx);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        _model->appendRow (items_list);
 
-//            //-- Columns::FreqsTx
-//            QString freqs_tx;
-//            for (auto const &f : cmd->_freqs_tx) {
-//                freqs_tx .append (QString::number (f));
-//                freqs_tx.append (", ");
-//            }
-//            if (!freqs_tx.isEmpty ())
-//                freqs_tx.remove (freqs_tx.size () - 2, 2);
-//            item = new QStandardItem (freqs_tx);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
-
-//            //-- Columns::ReceiveDate,        //-- Время поступления
-//            item = new QStandardItem (QDateTime::fromMSecsSinceEpoch
-//                                      (request->receiveTime ()).toString ("dd.MM.yyyy hh:mm:ss"));
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
-
-//            //-- Columns::Operator,           //-- Оператор
-//            item = new QStandardItem ();
-//            item->setTextAlignment (Qt::AlignCenter);
-//            item->setText (cmd->_user);
-//            items_list << item;
-
-//            _model->appendRow (items_list);
-//        }
-//    }
+    }
 
     connect (ui->tableView_->selectionModel (), &QItemSelectionModel::selectionChanged,
              this, &PlanningWidget::slotSelectionChanged);
@@ -315,16 +222,16 @@ void PlanningWidget::slotRequestContextMenu (const QPoint &/*pos*/)
 
 void PlanningWidget::updateSpan ()
 {
-//    ui->tableView_->clearSpans ();
-//    for (int i = 1; i < _sfmodel->rowCount (); ++i)
-//    {
-//        if (_sfmodel->index (i - 1, Columns::MapNumber).data (Qt::UserRole + 1).toString ()
-//                ==
-//                _sfmodel->index (i, Columns::MapNumber).data (Qt::UserRole + 1).toString ())
-//        {
-//            ui->tableView_->setSpan (i - 1, 0, 2, 1);
-//        }
-//    }
+    ui->tableView_->clearSpans ();
+    for (int i = 1; i < _sfmodel->rowCount (); ++i)
+    {
+        if (_sfmodel->index (i - 1, Columns::Supplier).data (Qt::UserRole + 1).toString ()
+                ==
+                _sfmodel->index (i, Columns::Supplier).data (Qt::UserRole + 1).toString ())
+        {
+            ui->tableView_->setSpan (i - 1, 0, 2, 1);
+        }
+    }
 }
 
 void PlanningWidget::updateToolbar ()
@@ -381,72 +288,6 @@ void PlanningWidget::createToolBar ()
 
     ui->mainLayout_->insertWidget (0, _toolBar);
 }
-
-//QStandardItem *MapWidget::createStateItem (/*IRequest::ptr_t request*/)
-//{
-//    if (!request)
-//        return new QStandardItem ();
-
-//    auto item = new QStandardItem ();
-//    item->setData (request->guid (), Qt::UserRole + 1);
-
-//    switch (request->state ()) {
-//    case IRequest::State::RS_1: {
-//        item->setText (tr ("Created"));
-//    }
-//        break;
-//    case IRequest::State::RS_2: {
-//        item->setText (tr ("Informed"));
-//    }
-//        break;
-//    case IRequest::State::RS_3: {
-//        item->setText (tr ("Processed"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R3_processed));
-//    }
-//        break;
-//    case IRequest::State::RS_4: {
-//        item->setText (tr ("Working"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R4));
-//    }
-//        break;
-//    case IRequest::State::RS_5: {
-//        item->setText (tr ("Finishing"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R5_confirmed));
-//    }
-//        break;
-//    case IRequest::State::RS_6: {
-//        item->setText (tr ("Finished"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R6_canceled));
-//    }
-//        break;
-//    case IRequest::State::RS_7: {
-//        item->setText (tr ("Canceled"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R6_cancel_confirm));
-//    }
-//    case IRequest::State::RS_8: {
-//        item->setText (tr ("Error: waiting new Map"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R8));
-//    }
-//        break;
-//    case IRequest::State::RS_98: {
-//        item->setText (tr ("Timeout"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R98));
-//    }
-//        break;
-//    case IRequest::State::RS_99: {
-//        item->setText (tr ("Error"));
-//        item->setBackground (QBrush (GlobalStyleScheet::R_R99));
-//    }
-//        break;
-//    default:
-//        break;
-//    }
-
-//    item->setEditable (false);
-//    return item;
-//}
-
-
 
 //void MapWidget::showMessage (const QString &msg, MessageWidget::MessageType type, bool vis)
 //{

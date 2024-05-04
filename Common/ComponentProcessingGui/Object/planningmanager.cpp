@@ -33,7 +33,7 @@ PlanningManager::PlanningManager (QObject* parent)
     connect (this, &PlanningManager::aboutToRemoveObject, this, [this](QObject* object) {
         removeObject(object);
     });
-    connect (this, &PlanningManager::objectAdded, this, [this](QObject* object) {
+    connect (this, &PlanningManager::aboutAddObject, this, [this](QObject* object) {
         addObject(object);
     });
 
@@ -51,6 +51,13 @@ PlanningManager::~PlanningManager () {}
 void PlanningManager::deleteInstance ()
 {
     if (_instance) {
+
+        QHashIterator<QPair<double, double>, QObject*> iter(_objects);
+        while(iter.hasNext()) {
+            iter.next();
+            delete iter.value();
+        }
+
         delete _instance;
         _instance = nullptr;
     }
@@ -86,6 +93,11 @@ void PlanningManager::startup()
     _state = State::Done;
 }
 
+void PlanningManager::stop()
+{
+
+}
+
 bool PlanningManager:: loadObjects ()
 {
 
@@ -106,7 +118,7 @@ bool PlanningManager:: loadObjects ()
         if (qobject_cast<Storage*>(object) != nullptr)
         {
 
-            _objects.insert(qMakePair<int,int>(qobject_cast<Storage*>(object)->NE.first,
+            _objects.insert(qMakePair<double, double>(qobject_cast<Storage*>(object)->NE.first,
                                                qobject_cast<Storage*>(object)->NE.second), object);
 
             qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
@@ -114,7 +126,7 @@ bool PlanningManager:: loadObjects ()
         else if (qobject_cast<User*>(object) != nullptr)
         {
 
-            _objects.insert(qMakePair<int,int>(qobject_cast<User*>(object)->NE.first,
+            _objects.insert(qMakePair<double, double>(qobject_cast<User*>(object)->NE.first,
                                                qobject_cast<User*>(object)->NE.second), object);
 
             qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
@@ -122,7 +134,7 @@ bool PlanningManager:: loadObjects ()
         else if (qobject_cast<Truck*>(object) != nullptr)
         {
 
-            _objects.insert(qMakePair<int,int>(qobject_cast<Truck*>(object)->NE.first,
+            _objects.insert(qMakePair<double, double>(qobject_cast<Truck*>(object)->NE.first,
                                                qobject_cast<Truck*>(object)->NE.second), object);
 
             qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
@@ -142,6 +154,11 @@ bool PlanningManager:: loadObjects ()
 
 
 void PlanningManager::init () {
+
+    if(_state != State::Preparing) {
+        return;
+    }
+
     instance()->loadObjects ();
 }
 
@@ -149,12 +166,19 @@ void PlanningManager::restart () {
     QTimer::singleShot (5 * 1000, this, &PlanningManager::signalRestartSystem);
 }
 
-QHash<QPair<double, double>, QObject*> PlanningManager::objects ()
+QList<QObject*> PlanningManager::objects ()
 {
     if (_instance == nullptr)
-        return QHash<QPair<double, double>, QObject*> ();
+        return QList<QObject*> ();
 
-    return _objects;
+    QList<QObject*> lst;
+    QHashIterator<QPair<double, double>, QObject*> iter(_objects);
+    while(iter.hasNext()) {
+        iter.next();
+        lst.append(iter.value());
+    }
+
+    return lst;
 }
 
 bool PlanningManager::isInitDone () const
@@ -169,12 +193,12 @@ PlanningManager::State PlanningManager::state () const
     return _state;
 }
 
-QHash<QPair<double, double>, QObject*> PlanningManager::allObjects ()
+QList<QObject*> PlanningManager::allObjects ()
 {
     if (_instance != nullptr)
         return objects();
 
-    return QHash<QPair<double, double>, QObject*> ();
+    return QList<QObject*> ();
 }
 
 
@@ -193,7 +217,7 @@ bool PlanningManager::addObject (QObject *object)
     if (qobject_cast<Storage*>(object) != nullptr)
     {
 
-        _objects.insert(qMakePair<int,int>(qobject_cast<Storage*>(object)->NE.first,
+        _objects.insert(qMakePair<double, double>(qobject_cast<Storage*>(object)->NE.first,
                                            qobject_cast<Storage*>(object)->NE.second), object);
 
         qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
@@ -201,7 +225,7 @@ bool PlanningManager::addObject (QObject *object)
     else if (qobject_cast<User*>(object) != nullptr)
     {
 
-        _objects.insert(qMakePair<int,int>(qobject_cast<User*>(object)->NE.first,
+        _objects.insert(qMakePair<double, double>(qobject_cast<User*>(object)->NE.first,
                                            qobject_cast<User*>(object)->NE.second), object);
 
         qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
@@ -209,14 +233,14 @@ bool PlanningManager::addObject (QObject *object)
     else if (qobject_cast<Truck*>(object) != nullptr)
     {
 
-        _objects.insert(qMakePair<int,int>(qobject_cast<Truck*>(object)->NE.first,
+        _objects.insert(qMakePair<double, double>(qobject_cast<Truck*>(object)->NE.first,
                                            qobject_cast<Truck*>(object)->NE.second), object);
 
         qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
     }
     else
     {
-        qCritical () << QString ("[PlanningManager] Object load failed");
+        qWarning () << QString ("[PlanningManager] Object load failed");
     }
     locker.unlock ();
 
@@ -238,7 +262,7 @@ bool PlanningManager::removeObject (QObject* object)
 
     QHashIterator<QPair<double, double>, QObject*> iterator(_objects);
 
-    if (qobject_cast<Storage*>(object) != nullptr)
+    if (object && qobject_cast<Storage*>(object) != nullptr)
     {
 
         Storage* _object = qobject_cast<Storage*>(object);
@@ -250,7 +274,8 @@ bool PlanningManager::removeObject (QObject* object)
             if(iterator.key().first == _object->NE.first && iterator.key().second == _object->NE.second) {
 
                 delete iterator.value();
-                qWarning () << "[PlanningManager] remove Storage object succesfully";
+                _objects.remove(qMakePair(_object->NE.first, _object->NE.second));
+                qInfo () << "[PlanningManager] remove Storage object succesfully";
                 break;
             }
         }
@@ -266,7 +291,8 @@ bool PlanningManager::removeObject (QObject* object)
             if(iterator.key().first == _object->NE.first && iterator.key().second == _object->NE.second) {
 
                 delete iterator.value();
-                qWarning () << "[PlanningManager] remove User object succesfully";
+                _objects.remove(qMakePair(_object->NE.first, _object->NE.second));
+                qInfo () << "[PlanningManager] remove User object succesfully";
                 break;
             }
         }
@@ -282,14 +308,15 @@ bool PlanningManager::removeObject (QObject* object)
             if(iterator.key().first == _object->NE.first && iterator.key().second == _object->NE.second) {
 
                 delete iterator.value();
-                qWarning () << "[PlanningManager] remove Truck object succesfully";
+                _objects.remove(qMakePair(_object->NE.first, _object->NE.second));
+                qInfo () << "[PlanningManager] remove Truck object succesfully";
                 break;
             }
         }
     }
     else
     {
-        qCritical () << QString ("[PlanningManager] Invalied object");
+        qWarning () << QString ("[PlanningManager] Invalied object");
         return false;
     }
 

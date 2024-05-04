@@ -5,6 +5,7 @@
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QSortFilterProxyModel>
 #include <QtCore/QItemSelection>
+#include "planningmanager.h"
 #include <qglobal.h>
 
 #include "ISystemGuiCoreStatusBarTabWindow.h"
@@ -35,10 +36,8 @@ public:
     QPixmap GetWindowIcon() override;
 
 protected slots:
-    //! \brief Обработчик обновления информации о заявках.
-    //! \param guid Идентификатор зявки.
-    //! \param type Тип запроса.
-    void slotUpdated (const QString &guid, int type);
+    //! \brief Обработчик обновления информации об участниках маршрута
+    void slotUpdated ();
 
     //! \brief Обработчик ответа с ошибкой от менеджера.
     //! \param msg Сообщение.
@@ -79,9 +78,6 @@ private:
         Receiver, //!<Получатель
         ColumnsCount
     };
-
-
-
 
     //! \brief Отобразить сообщение об ошибке.
     //! \param msg Сообщение.
