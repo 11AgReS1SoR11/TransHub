@@ -21,6 +21,16 @@ CommandPanel::CommandPanel (QWidget *parent)
     , ui { new Ui::CommandPanel }
 {
     ui->setupUi (this);
+
+    connect (Planning::PlanningManager::instance(), &Planning::PlanningManager::aboutAddedObject,
+             this, &CommandPanel::slotUpdated);
+
+    connect (Planning::PlanningManager::instance(), &Planning::PlanningManager::aboutRemovedObject,
+             this, &CommandPanel::slotUpdated);
+
+    connect(Planning::PlanningManager::instance(), &Planning::PlanningManager::aboutToRemoveAllObjects,
+             this, &CommandPanel::clearAll);
+
     slotInit();
 }
 
@@ -38,7 +48,7 @@ CommandPanel::~CommandPanel ()
     delete ui;
 }
 
-void CommandPanel::slotUpdated (const QString &/*guid*/, int /*type*/)
+void CommandPanel::slotUpdated ()
 {
     if (!_model) {
         qCritical () << "[CommandPanel][slotUpdated] Empty QStandardItemModel object";
@@ -48,52 +58,64 @@ void CommandPanel::slotUpdated (const QString &/*guid*/, int /*type*/)
     _model->removeRows (0, _model->rowCount ());
     _model->setRowCount (0);
 
-//    for (auto const &request : _manager->requests ())
-//    {
-//        auto const commands = request->events<CommandEvent> ();
-//        if (commands.empty ())
-//            continue;
+    for(auto object : Planning::PlanningManager::instance()->allObjects()) {
 
-//        for (auto const &cmd : commands)
-//        {
-//            QList<QStandardItem*> items_list;
+        QString name;
+        QPair<double, double> NE;
 
-//            //-- RequestNumber
-//            auto item = new QStandardItem (request->number ());
-//            item->setIcon (ResourceManager::urgencyCategory (cmd->_urgency_category));
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        if (object && qobject_cast<Planning::Storage*>(object) != nullptr)
+        {
 
-//            //-- RsRnNumber
-//            item = new QStandardItem (request->rsrnNumber ());
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
+                                    qobject_cast<Planning::Storage*>(object)->NE.second);
+            name = "storage";
+            qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
+        }
+        else if (qobject_cast<Planning::User*>(object) != nullptr)
+        {
 
-//            //-- Receiver
-//            item = new QStandardItem (cmd->_callsign_receiver);
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
+                                    qobject_cast<Planning::User*>(object)->NE.second);
+            name = "user";
+            qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
+        }
+        else if (qobject_cast<Planning::Truck*>(object) != nullptr)
+        {
 
-//            item = new QStandardItem (QString ("%1 %2 %3").arg (cmd->_cn + 1).arg (tr ("of")).arg (cmd->_cc));
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setData (cmd->_cn, Qt::UserRole + 2);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
+                                    qobject_cast<Planning::Truck*>(object)->NE.second);
+            name = "truck";
+            qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
+        }
+        else
+        {
+            qCritical () << QString ("[PlanningManager] Object load failed");
+            continue;
+        }
 
-//            item =  new QStandardItem (request->startTime () == 0 ? tr ("ASAP") : QDateTime::fromMSecsSinceEpoch
-//                                                                    (request->startTime ()).toString ("dd.MM.yyyy hh:mm:ss"));
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        QList<QStandardItem*> items_list;
 
-//            _model->appendRow (items_list);
-//        }
-//    }
+        auto item = new QStandardItem (name);
+        item->setIcon(QIcon (":/" + name + ".png"));
+        item->setData (name, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
 
-    ui->tableView_->resizeRowsToContents ();
+        item = new QStandardItem (QString::number(NE.first));
+        item->setData (QString::number(NE.first), Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
+
+        item = new QStandardItem (QString::number(NE.second));
+        item->setData (QString::number(NE.second), Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
+
+        _model->appendRow (items_list);
+
+    }
+
+    //ui->tableView_->resizeRowsToContents ();
     ui->tableView_->resizeColumnsToContents ();
     ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::Receiver, QHeaderView::Stretch);
 }
@@ -104,8 +126,6 @@ void CommandPanel::slotUpdateFailed (const QString &/*msg*/, int /*type*/)
 
 void CommandPanel::slotInit ()
 {
-
-
     _model = new QStandardItemModel(0, Columns::ColumnsCount);
     _model->setHorizontalHeaderItem (Columns::Supplier, new QStandardItem (tr ("Supplier")));            //-- Отправитель
     _model->setHorizontalHeaderItem (Columns::Stockroom, new QStandardItem (tr ("Stockroom")));          //-- Склад
@@ -128,55 +148,83 @@ void CommandPanel::slotInit ()
 
     ui->tableView_->setContextMenuPolicy (Qt::CustomContextMenu);
 
+    Planning::PlanningManager::instance()->init();
 
-//    for (auto const &request : _manager->requests ())
-//    {
-//        auto const commands = request->events<CommandEvent> ();
-//        if (commands.empty ())
-//            continue;
+    for(auto object : Planning::PlanningManager::instance()->allObjects()) {
 
-//        for (auto const &v : commands)
-//        {
-//            QList<QStandardItem*> items_list;
+        QString name;
+        QPair<double, double> NE;
 
-//            auto item = new QStandardItem (request->number ());
-//            item->setIcon (ResourceManager::urgencyCategory (v->_urgency_category));
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        if (qobject_cast<Planning::Storage*>(object) != nullptr)
+        {
 
-//            item = new QStandardItem (request->rsrnNumber ());
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
+                                    qobject_cast<Planning::Storage*>(object)->NE.second);
+            name = "storage";
+            qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
+        }
+        else if (qobject_cast<Planning::User*>(object) != nullptr)
+        {
 
-//            item = new QStandardItem (v->_callsign_receiver);
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
+                                    qobject_cast<Planning::User*>(object)->NE.second);
+            name = "user";
+            qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
+        }
+        else if (qobject_cast<Planning::Truck*>(object) != nullptr)
+        {
 
-//            item = new QStandardItem (QString ("%1 %2 %3").arg (v->_cn + 1).arg (tr ("of")).arg (v->_cc));
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setData (v->_cn, Qt::UserRole + 2);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+            NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
+                                    qobject_cast<Planning::Truck*>(object)->NE.second);
+            name = "truck";
+            qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
+        }
+        else
+        {
+            qCritical () << QString ("[PlanningManager] Object load failed");
+            continue;
+        }
 
-//            item =  new QStandardItem (request->startTime () == 0 ? tr ("ASAP") : QDateTime::fromMSecsSinceEpoch
-//                                                                    (request->startTime ()).toString ("dd.MM.yyyy hh:mm:ss"));
-//            item->setData (request->guid (), Qt::UserRole + 1);
-//            item->setTextAlignment (Qt::AlignCenter);
-//            items_list << item;
+        QList<QStandardItem*> items_list;
 
-//            _model->appendRow (items_list);
-//        }
-//    }
+        auto item = new QStandardItem (name);
+        item->setIcon(QIcon (":/" + name + ".png"));
+        item->setData (name, Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
+
+        item = new QStandardItem (QString::number(NE.first));
+        item->setData (QString::number(NE.first), Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
+
+        item = new QStandardItem (QString::number(NE.second));
+        item->setData (QString::number(NE.second), Qt::UserRole + 1);
+        item->setTextAlignment (Qt::AlignCenter);
+        items_list << item;
+
+        _model->appendRow (items_list);
+
+    }
 
     ui->tableView_->resizeRowsToContents ();
     ui->tableView_->horizontalHeader ()->setSectionResizeMode (Columns::Receiver, QHeaderView::Stretch);
 }
 
+void CommandPanel::clearAll()
+{
+    if (!_model) {
+        qCritical () << "[CommandPanel][slotUpdated] Empty QStandardItemModel object";
+        return;
+    }
+
+    _model->removeRows (0, _model->rowCount ());
+    _model->setRowCount (0);
+}
+
 void CommandPanel::showMessage (const QString &msg, bool vis)
-{/*
+{
+    /*
     if (!_msgWidget) {
         //-- Виджет с окном сообщения
         _msgWidget = new MessageWidget (this);
@@ -189,5 +237,6 @@ void CommandPanel::showMessage (const QString &msg, bool vis)
     _msgWidget->setMessageType (type);
     _msgWidget->setCloseButtonVisible (vis);
     if (!_msgWidget->isVisible ())
-        _msgWidget->animatedShow ();*/
+        _msgWidget->animatedShow ();
+*/
 }
