@@ -5,6 +5,7 @@
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QSortFilterProxyModel>
 #include <QtCore/QItemSelection>
+#include "planningmanager.h"
 
 
 namespace Ui {
@@ -28,18 +29,18 @@ public:
     virtual ~CommandPanel ();
 
 protected slots:
-    //! \brief Обработчик ответа успешного завершения запроса.
-    //! \param guid Идентификатор запроса.
-    //! \param type Тип запроса.
-    void slotUpdated (const QString &guid, int type);
+    //! \brief Обработчик добавления нового объекта на карту
+    void slotUpdated ();
 
     //! \brief Обработчик ответа с ошибкой от менеджера.
     //! \param msg Сообщение.
     //! \param type Тип запроса.
     void slotUpdateFailed (const QString &msg, int type);
 
-    //! \brief Инициализация списка заявок.
+    //! \brief Инициализация списка объектов
     void slotInit ();
+
+    void clearAll();
 
 private:
 
@@ -57,13 +58,17 @@ private:
     //! Интерфейс.
     Ui::CommandPanel *ui { nullptr };
 
-    //! Модель заявок.
+    //! Модель участников маршрута
     QStandardItemModel *_model { nullptr };
     //! Модель сортировки.
     QSortFilterProxyModel *_sfModel { nullptr };
 
     //! Флаг режима отладки.
     bool _debug {false};
+
+signals:
+
+    void UpdateSignal();
 };
 
 #endif // COMMANDPANEL_H

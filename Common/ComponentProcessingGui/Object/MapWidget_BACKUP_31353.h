@@ -26,10 +26,11 @@ class MapWidget : public ISystemGuiCoreStatusBarTabWindow
 
 public:
 
-    struct Marker{
-        double latitude;
-        double longitude;
+    struct Message{
+        double x;
+        double y;
         QString markerType;
+        QString opType;
     };
 
     enum class State
@@ -38,23 +39,22 @@ public:
      ,PROCESSING
     };
 
+<<<<<<< HEAD
     //! \brief Конструктор.
     //! \param parent Родительский виджет.
     explicit MapWidget(QWidget *parent = nullptr);
 
     //! \brief Деструктор.
-    ~MapWidget() {
-
-        emit Planning::PlanningManager::instance()->aboutToRemoveAllObjects();
-
-        Planning::PlanningManager::deleteInstance();
-    }
-
+    ~MapWidget() {};
+=======
     enum class Type {
         STORAGE = 0,
         USER,
         TRUCK
     };
+
+    explicit MapWidget(QWidget *parent = nullptr);
+>>>>>>> b4f24e6 (Connecting PlanningManager with Map)
 
     //! \brief Получение иконки для вкладки
     //! \return соответствующая иконка
@@ -80,9 +80,8 @@ private:
     PointCoordinates* pointCoordinates;
     State appState = State::WAITING;
 
-    QVector<Marker> markers; // vector of all existing markers
-
 signals:
+    void markerSignal(Message mes);
     void strartProcessing();
     void stopProcessing();
 
