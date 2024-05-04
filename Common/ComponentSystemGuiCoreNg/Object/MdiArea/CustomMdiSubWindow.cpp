@@ -3,10 +3,9 @@
 
 CustomMdiSubWindow::CustomMdiSubWindow(QWidget *parent) : QMdiSubWindow(parent) {}
 
-
-CustomMdiSubWindow::~CustomMdiSubWindow()
+void CustomMdiSubWindow::TabHide()
 {
-    emit DeleteMdiSubWindow();
+    emit HideSubWindow();
 }
 
 void CustomMdiSubWindow::hideEvent( QHideEvent * event )

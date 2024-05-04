@@ -7,7 +7,7 @@
 
 
 MapWidget::MapWidget(QWidget *parent)
-    : QWidget { parent }
+    : ISystemGuiCoreStatusBarTabWindow { parent }
     , ui { new Ui::MapWidget }
 {
 
@@ -46,6 +46,11 @@ MapWidget::MapWidget(QWidget *parent)
     });
 
      channel->registerObject("pointCoordinates", pointCoordinates);
+}
+
+QPixmap MapWidget::GetWindowIcon()
+{
+    return QPixmap( ":/icons/icons/map.png" );
 }
 
 
@@ -117,6 +122,21 @@ void MapWidget::createToolBar ()
 
 
 
+}
+
+void MapWidget::OnTabClicked(bool is_only_open)
+{
+    if ( !is_only_open && isVisible() )
+    {
+        if ( QWidget * parWidget = qobject_cast<QWidget *>( parent() ) )
+            if ( CustomMdiSubWindow * parMdi = dynamic_cast<CustomMdiSubWindow *>( parWidget ) )
+                parMdi->TabHide();
+    }
+    else
+    {
+        if ( !isVisible() )
+            emit OpenTabWindow();
+    }
 }
 
 bool MapWidget::plotRoute(double startLat, double startLng, double endLat, double endLng) {

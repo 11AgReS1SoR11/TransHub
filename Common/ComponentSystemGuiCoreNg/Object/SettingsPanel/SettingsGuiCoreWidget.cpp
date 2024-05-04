@@ -1,5 +1,6 @@
 #include "SettingsGuiCoreWidget.h"
 #include "ui_SettingsGuiCoreWidget.h"
+#include "Object/MdiArea/CustomMdiArea.h"
 #include <QtCore/QDebug>
 
 namespace GuiCoreSettings
@@ -120,7 +121,6 @@ void SettingsGuiCoreWidget::applySettings ()
                 _tileAct->setEnabled (false);
                 _cascadeAct->setEnabled (false);
                 _mdiArea->setViewMode (QMdiArea::TabbedView);
-
                 _mdiArea->setTabsClosable (true);
                 _mdiArea->setTabsMovable (false);
             }
@@ -142,6 +142,9 @@ void SettingsGuiCoreWidget::applySettings ()
         _settings->setStatusBarVisible (ui->_checkBoxStatusBarVisible->isChecked ());
         _settings->setToolButtonTexVisible (ui->_checkBoxToolButtonTextVisible->isChecked ());
     }
+
+    if ( auto cma = dynamic_cast<CustomMdiArea *>( _mdiArea ))
+        emit cma->SettingsChanged();
 
     saveLastState ();
 }
