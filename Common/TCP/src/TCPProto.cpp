@@ -3,36 +3,24 @@
 namespace TCP::Protocol
 {
 
-std::unique_ptr<QString> Proto::getString() noexcept
+template<typename T>
+std::unique_ptr<T> Proto::get() noexcept
 {
-    if (auto ptr = std::get_if<QString*>(&m_data))
+    if (auto ptr = std::get_if<T*>(&m_data))
     {
-        return std::unique_ptr<QString>(*ptr);
+        auto uniquePtr = std::unique_ptr<T>(*ptr);
+        std::visit([](auto& data){ data = nullptr; }, m_data);
+        return uniquePtr;
     }
 
     return nullptr;
 }
 
-std::unique_ptr<Mtx::Matrix<int>> Proto::getMatrixInt() noexcept
-{
-    if (auto ptr = std::get_if<Mtx::Matrix<int>*>(&m_data))
-    {
-        return std::unique_ptr<Mtx::Matrix<int>>(*ptr);
-    }
-
-    return nullptr;
-}
-
-std::unique_ptr<Mtx::Matrix<double>> Proto::getMatrixDouble() noexcept
-{
-    if (auto ptr = std::get_if<Mtx::Matrix<double>*>(&m_data))
-    {
-        return std::unique_ptr<Mtx::Matrix<double>>(*ptr);
-    }
-
-    return nullptr;
-}
-
+template std::unique_ptr<Common::Capacity_t> Proto::get<Common::Capacity_t>() noexcept;
+template std::unique_ptr<Common::Coordinates_t> Proto::get<Common::Coordinates_t>() noexcept;
+template std::unique_ptr<QString> Proto::get<QString>() noexcept;
+template std::unique_ptr<Mtx::Matrix<int>> Proto::get<Mtx::Matrix<int>>() noexcept;
+template std::unique_ptr<Mtx::Matrix<double>> Proto::get<Mtx::Matrix<double>>() noexcept;
 
 QDataStream& operator<<(QDataStream& out, const Proto& proto)
 {
@@ -63,6 +51,28 @@ QDataStream& operator<<(QDataStream& out, const Proto& proto)
     {
         out << static_cast<int>(proto.m_data.index()); // write type
         writeMatrix(out, *data_ptr);
+    }
+    else if (auto data_ptr = std::get_if<Common::Coordinates_t*>(&proto.m_data))
+    {
+        out << static_cast<int>(proto.m_data.index()); // write type
+        auto const* coordinates_ptr = *data_ptr;
+        auto const& coordinates = *coordinates_ptr;
+        out << coordinates.size();
+        for (int j = 0; j < coordinates.size(); ++j)
+        {
+            out << coordinates[j];
+        }
+    }
+    else if (auto data_ptr = std::get_if<Common::Capacity_t*>(&proto.m_data))
+    {
+        out << static_cast<int>(proto.m_data.index()); // write type
+        auto const* capacity_ptr = *data_ptr;
+        auto const& capacity = *capacity_ptr;
+        out << capacity.size();
+        for (int j = 0; j < capacity.size(); ++j)
+        {
+            out << capacity[j];
+        }
     }
     else
     {
@@ -111,6 +121,32 @@ QDataStream& operator>>(QDataStream& in, Proto& proto)
         in >> *str;
         proto.m_data = str;
     }
+    else if (dataTypeIndex == static_cast<int>(Proto::DataTypeIndex::Coordinates))
+    {
+        int size;
+        in >> size;
+        Common::Coordinates_t* coordinates = new Common::Coordinates_t(); // TODO: size
+        for (int j = 0; j < size; ++j)
+        {
+            Common::Coordinate coordinate;
+            in >> coordinate;
+            coordinates->push_back(coordinate);
+        }
+        proto.m_data = coordinates;
+    }
+    else if (dataTypeIndex == static_cast<int>(Proto::DataTypeIndex::Capacity))
+    {
+        int size;
+        in >> size;
+        Common::Capacity_t* capacity = new Common::Capacity_t();
+        for (int j = 0; j < size; ++j)
+        {
+            int cap;
+            in >> cap;
+            capacity->push_back(cap);
+        }
+        proto.m_data = capacity;
+    }
     else
     {
         // TODO: some exception?
@@ -136,6 +172,24 @@ QDebug operator<<(QDebug debug, const Proto& proto)
     {
         auto const* matrix_ptr = *data_ptr;
         matrix_ptr->print();
+    }
+    else if (auto data_ptr = std::get_if<Common::Coordinates_t*>(&proto.m_data))
+    {
+        auto const* coordinates_ptr = *data_ptr;
+        auto const& coordinates = *coordinates_ptr;
+        for (int j = 0; j < coordinates.size(); ++j)
+        {
+            debug << coordinates[j] << " ";
+        }
+    }
+    else if (auto data_ptr = std::get_if<Common::Capacity_t*>(&proto.m_data))
+    {
+        auto const* capacity_ptr = *data_ptr;
+        auto const& capacity = *capacity_ptr;
+        for (int j = 0; j < capacity.size(); ++j)
+        {
+            debug << capacity[j] << " ";
+        }
     }
     else
     {
