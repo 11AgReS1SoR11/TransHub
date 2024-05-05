@@ -190,6 +190,8 @@ namespace Planning {
 
         static QHash<QPair<double, double>, QObject*> _objects;
 
+        static QList<QObject*> lst_objects;
+
         static State _state;
 
         //! \brief Объект блокирования на запись/чтение.

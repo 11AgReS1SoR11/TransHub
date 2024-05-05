@@ -1,4 +1,6 @@
 #include "planningmanager.h"
+#include "TCPClient.hpp"
+#include "TCPProto.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
@@ -9,15 +11,20 @@
 #include <QtCore/QVariant>
 #include <QtCore/QUuid>
 #include <QtCore/QMetaClassInfo>
+#include <QtTest/QtTest>
 
 #include <algorithm>
 #include <iostream>
+
+#define PORT 9090
 
 using namespace Planning;
 
 PlanningManager* PlanningManager::_instance = nullptr;
 
-QHash<QPair<double, double>, QObject*> PlanningManager:: _objects = QHash<QPair<double, double>, QObject*>();
+QHash<QPair<double, double>, QObject*> PlanningManager:: _objects = QHash<QPair<double, double>, QObject*> ();
+
+QList<QObject*> PlanningManager:: lst_objects = QList<QObject*> ();
 
 QReadWriteLock PlanningManager:: _lock(QReadWriteLock::RecursionMode::NonRecursive);
 
@@ -51,13 +58,7 @@ PlanningManager::~PlanningManager () {}
 void PlanningManager::deleteInstance ()
 {
     if (_instance) {
-
-        QHashIterator<QPair<double, double>, QObject*> iter(_objects);
-        while(iter.hasNext()) {
-            iter.next();
-            delete iter.value();
-        }
-
+        removeAllObject();
         delete _instance;
         _instance = nullptr;
     }
@@ -88,7 +89,70 @@ void PlanningManager::startup()
     ///         START TCP            ///
     /// ////////////////////////////////
 
+    TCP::TCPClient client;
 
+    bool connected = client.connectToHost(PORT);
+    QVERIFY(connected == true);
+
+    //connect(&client, &TCP::TCPClient::newMessage, this, &TestClass::compareMessageFromServer);
+
+    QVector<int> StoragesCapacity = {3, 3}; // storages   sum(a) = 6
+    QVector<int> ClientsCapacity = {1, 2, 1}; // clients   sum(b) = 4
+    QVector<int> CouriersCapacity = {1, 1, 1, 1, 1}; // couriers   sum(d) = 5 => cannot draw conclusions about the optimality of the naive solution
+
+    const Common::Coordinate Lesnaya = {.lat = 59.98480089390978, .lon = 30.344101989163246};
+    const Common::Coordinate Pionerka = {.lat = 60.00461610457039, .lon = 30.29602857606911};
+    const Common::Coordinate Udelka = {.lat = 60.01873067647047, .lon = 30.317798421597637};
+    const Common::Coordinate Politehnicheskaya = {.lat = 60.01010225177014, .lon = 30.373730259933833};
+    const Common::Coordinate ChornayaRechka = {.lat = 59.985582403512005, .lon = 30.301090499706547};
+
+    Common::Coordinates_t CouriersCoordinates;
+    CouriersCoordinates.push_back({(Lesnaya.lat + Pionerka.lat) / 2, (Lesnaya.lon + Pionerka.lon) / 2});
+    CouriersCoordinates.push_back({(Lesnaya.lat + Udelka.lat) / 2, (Lesnaya.lon + Udelka.lon) / 2});
+    CouriersCoordinates.push_back({(Lesnaya.lat + Politehnicheskaya.lat) / 2, (Lesnaya.lon + Politehnicheskaya.lon) / 2});
+    CouriersCoordinates.push_back({(Lesnaya.lat + ChornayaRechka.lat) / 2, (Lesnaya.lon + ChornayaRechka.lon) / 2});
+    CouriersCoordinates.push_back({(Udelka.lat + Politehnicheskaya.lat) / 2, (Udelka.lon + Politehnicheskaya.lon) / 2});
+
+    Common::Coordinates_t StoragesCoordinates = { Lesnaya, Pionerka };
+    Common::Coordinates_t ClientsCoordinates = { ChornayaRechka, Udelka, Politehnicheskaya };
+
+    QTest::qWait(100);
+    QString msg1 = "Clients";
+    client.sendMessage(&msg1);
+    QTest::qWait(100);
+    client.sendMessage(&ClientsCoordinates);
+
+    QTest::qWait(100);
+    QString msg2 = "Storages";
+    client.sendMessage(&msg2);
+    QTest::qWait(100);
+    client.sendMessage(&StoragesCoordinates);
+
+    QTest::qWait(100);
+    QString msg3 = "Couriers";
+    client.sendMessage(&msg3);
+    QTest::qWait(100);
+    client.sendMessage(&CouriersCoordinates);
+
+    QTest::qWait(100);
+    QString msg4 = "Clients capacity";
+    client.sendMessage(&msg4);
+    QTest::qWait(100);
+    client.sendMessage(&ClientsCapacity);
+
+    QTest::qWait(100);
+    QString msg5 = "Storages capacity";
+    client.sendMessage(&msg5);
+    QTest::qWait(100);
+    client.sendMessage(&StoragesCapacity);
+
+    QTest::qWait(100);
+    QString msg6 = "Couriers capacity";
+    client.sendMessage(&msg6);
+    QTest::qWait(100);
+    client.sendMessage(&CouriersCapacity);
+
+    QTest::qWait(20000); // wait service response
 
     _state = State::Done;
 }
@@ -171,14 +235,7 @@ QList<QObject*> PlanningManager::objects ()
     if (_instance == nullptr)
         return QList<QObject*> ();
 
-    QList<QObject*> lst;
-    QHashIterator<QPair<double, double>, QObject*> iter(_objects);
-    while(iter.hasNext()) {
-        iter.next();
-        lst.append(iter.value());
-    }
-
-    return lst;
+    return lst_objects;
 }
 
 bool PlanningManager::isInitDone () const
@@ -242,6 +299,9 @@ bool PlanningManager::addObject (QObject *object)
     {
         qWarning () << QString ("[PlanningManager] Object load failed");
     }
+
+    lst_objects.append(object);
+
     locker.unlock ();
 
     return true;
@@ -273,6 +333,13 @@ bool PlanningManager::removeObject (QObject* object)
 
             if(iterator.key().first == _object->NE.first && iterator.key().second == _object->NE.second) {
 
+                for (auto it = lst_objects.begin(); it != lst_objects.end(); ++it) {
+                    if(*it == iterator.value()) {
+                        lst_objects.erase(it);
+                        break;
+                    }
+                }
+
                 delete iterator.value();
                 _objects.remove(qMakePair(_object->NE.first, _object->NE.second));
                 qInfo () << "[PlanningManager] remove Storage object succesfully";
@@ -290,6 +357,13 @@ bool PlanningManager::removeObject (QObject* object)
 
             if(iterator.key().first == _object->NE.first && iterator.key().second == _object->NE.second) {
 
+                for (auto it = lst_objects.begin(); it != lst_objects.end(); ++it) {
+                    if(*it == iterator.value()) {
+                        lst_objects.erase(it);
+                        break;
+                    }
+                }
+
                 delete iterator.value();
                 _objects.remove(qMakePair(_object->NE.first, _object->NE.second));
                 qInfo () << "[PlanningManager] remove User object succesfully";
@@ -306,6 +380,13 @@ bool PlanningManager::removeObject (QObject* object)
             iterator.next();
 
             if(iterator.key().first == _object->NE.first && iterator.key().second == _object->NE.second) {
+
+                for (auto it = lst_objects.begin(); it != lst_objects.end(); ++it) {
+                    if(*it == iterator.value()) {
+                        lst_objects.erase(it);
+                        break;
+                    }
+                }
 
                 delete iterator.value();
                 _objects.remove(qMakePair(_object->NE.first, _object->NE.second));
@@ -334,6 +415,12 @@ bool PlanningManager::removeAllObject()
     if (!_objects.isEmpty ())
             qInfo () << qPrintable (QString ("[PlanningManager] There are %1 objects left in the manager pool.")
                                     .arg (_objects.size ()));
+
+    QHashIterator<QPair<double, double>, QObject*> iter(_objects);
+    while(iter.hasNext()) {
+        iter.next();
+        delete iter.value();
+    }
 
     _objects.clear();
     return true;

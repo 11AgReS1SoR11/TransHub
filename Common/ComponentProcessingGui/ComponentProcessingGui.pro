@@ -3,19 +3,27 @@ include (../IObject/ISystemGuiCore/ISystemGuiCore.pri)
 QT += core gui network widgets location quick webengine webenginewidgets webchannel
 TARGET = $$qtLibraryTarget(ComponentProcessingGui)
 TEMPLATE = lib
-CONFIG += c++14
+CONFIG += c++17
 CONFIG += plugin
 
 LIBS += -L$$PWD/../../build/Common/ComponentSystemGuiCoreNg -lComponentSystemGuiCoreNg
+LIBS += -L$$PWD/../../build/Common/TCP/src -lTCP
+LIBS += -L$$PWD/../../build/Common/ComponentMatrix/src -lComponentMatrix
+LIBS += -L$$PWD/../../build/Common/CommonStructures -lCommonStructures
 
 MOBILITY  += location
 PKGCONFIG += openssl
+
+QT += testlib
 
 
 INCLUDEPATH += ../Application/
 INCLUDEPATH += ../3rdparty/
 INCLUDEPATH += ../IObject/ISystemGuiCore/
 INCLUDEPATH += ../
+INCLUDEPATH +=../TCP/headers
+INCLUDEPATH +=../ComponentMatrix/src
+INCLUDEPATH +=../CommonStructures/headers
 
 # Build dirs
 OBJECTS_DIR = objects
