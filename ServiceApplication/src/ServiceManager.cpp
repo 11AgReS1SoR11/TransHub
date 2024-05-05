@@ -1,8 +1,7 @@
 #include "ServiceManager.hpp"
 #include "Routing.hpp"
 #include "Full_Search.hpp"
-#include <chrono>
-#include <thread>
+#include <QTimer>
 
 ServiceManager::ServiceManager(QObject* parent) : QObject(parent)
 {
@@ -16,9 +15,12 @@ ServiceManager::~ServiceManager() {}
 void ServiceManager::notifyClient(TCP::tcp_id_t clientId, Mtx::Matrix<double>& routes, double length)
 {
     m_Server.sendMessage(clientId, &routes);
-    QString len = QString::number(length);
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    m_Server.sendMessage(clientId, &len);
+
+    // TODO: сделать нормально TRH-84
+    QTimer::singleShot(10, this, [this, clientId, length]() {
+        QString len = QString::number(length);
+        m_Server.sendMessage(clientId, &len);
+    });
 }
 
 void ServiceManager::processAlgo(TCP::tcp_id_t clientId)
