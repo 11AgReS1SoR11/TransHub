@@ -6,7 +6,6 @@
 #include <QtWebChannel/QWebChannel>
 #include <QToolBar>
 #include "PointCoordinates.h"
-#include "planningmanager.h"
 
 #include "ISystemGuiCoreStatusBarTabWindow.h"
 #include "../ComponentSystemGuiCoreNg/Object/MdiArea/CustomMdiSubWindow.h"
@@ -26,10 +25,11 @@ class MapWidget : public ISystemGuiCoreStatusBarTabWindow
 
 public:
 
-    struct Marker{
-        double latitude;
-        double longitude;
+    struct Message{
+        double x;
+        double y;
         QString markerType;
+        QString opType;
     };
 
     enum class State
@@ -43,18 +43,7 @@ public:
     explicit MapWidget(QWidget *parent = nullptr);
 
     //! \brief Деструктор.
-    ~MapWidget() {
-
-        emit Planning::PlanningManager::instance()->aboutToRemoveAllObjects();
-
-        Planning::PlanningManager::deleteInstance();
-    }
-
-    enum class Type {
-        STORAGE = 0,
-        USER,
-        TRUCK
-    };
+    ~MapWidget() {};
 
     //! \brief Получение иконки для вкладки
     //! \return соответствующая иконка
@@ -75,14 +64,13 @@ private:
     QWebEngineView *webView { nullptr };    /**< view для отображения интерфейса с картой */
     QWebChannel *channel { nullptr };       /**< webChannel для соединения с сервисом карты */
     QToolBar* _toolBar { nullptr };
-    QHash<QString, Type> markerTypes;
 
     PointCoordinates* pointCoordinates;
+
     State appState = State::WAITING;
 
-    QVector<Marker> markers; // vector of all existing markers
-
 signals:
+    void markerSignal(Message mes);
     void strartProcessing();
     void stopProcessing();
 

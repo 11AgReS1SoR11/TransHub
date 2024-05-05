@@ -9,13 +9,13 @@ MapWidget::MapWidget(QWidget *parent)
     : ISystemGuiCoreStatusBarTabWindow { parent }
     , ui { new Ui::MapWidget }
 {
+    setMouseTracking(true);
+    setMinimumSize(1200, 900);
+    setWindowTitle(tr("Map"));
 
-//    this->setWindowFlags(Qt::FramelessWindowHint);
-//    this->setAttribute(Qt::WA_TranslucentBackground);
-//    this->setStyleSheet(StyleHelper::getWindowStyleSheet());
-    this->setMouseTracking(true);
-    this->setMinimumSize(1200, 900);
-    this->setWindowTitle(tr("Map"));
+    markerTypes.insert("storage", Type::STORAGE);
+    markerTypes.insert("track", Type::TRUCK);
+    markerTypes.insert("user", Type::USER);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     webView = new QWebEngineView(this);
@@ -33,14 +33,14 @@ MapWidget::MapWidget(QWidget *parent)
 
     pointCoordinates = new PointCoordinates(this);
 
-
     channel = new QWebChannel();
     webView->page()->setWebChannel(channel);
 
-
-
     connect(pointCoordinates, &PointCoordinates::pointClicked, [=](double latitude, double longitude, QString markerType, QString opType) {
-        qDebug() << "Received coordinates: Latitude:" << latitude << ", Longitude:" << longitude << ", marker type:" << markerType << ", operation type:" << opType;
+        qDebug() << "Received coordinates: Latitude:" << latitude
+                 << ", Longitude:" << longitude << ", marker type:" << markerType << ", operation type:" << opType;
+
+
         if (opType == "adding")
             markers.push_back({latitude, longitude, markerType});
         else
@@ -50,10 +50,72 @@ MapWidget::MapWidget(QWidget *parent)
                 if (markers[i].latitude == latitude && markers[i].longitude == longitude && markers[i].markerType == markerType)
                     markers.removeAt(i);
             }
+        }         
+
+
+        auto get_object = [](Type value, double latitude, double longitude) -> std::unique_ptr<QObject> {
+            switch(value) {
+                case Type::STORAGE:
+                    return std::make_unique<Planning::Storage>(nullptr, latitude, longitude);
+                case Type::TRUCK:
+                    return std::make_unique<Planning::Truck>(nullptr, latitude, longitude);
+                case Type::USER:
+                    return std::make_unique<Planning::User>(nullptr, latitude, longitude);
+                default:
+                    return nullptr;
+            }
+        };
+
+        auto get_object2 = [](Type value, double latitude, double longitude) -> QObject* {
+            switch(value) {
+                case Type::STORAGE:
+                    return new Planning::Storage(nullptr, latitude, longitude);
+                case Type::TRUCK:
+                    return new Planning::Truck(nullptr, latitude, longitude);
+                case Type::USER:
+                    return new Planning::User(nullptr, latitude, longitude);
+                default:
+                    return nullptr;
+            }
+        };
+
+        if(opType == QString("adding")) {
+
+            if (markerTypes.contains(markerType)) {
+
+                Type value = markerTypes.value(markerType);
+                QObject* Object = get_object2(value, latitude, longitude);
+                if(Object != nullptr) {
+
+                    if(Planning::PlanningManager::addObject(Object) == true) {
+                        emit Planning::PlanningManager::instance()->aboutAddedObject();
+                    }
+
+                }
+                else {
+                    qInfo () << qPrintable (QString ("[MapWidget] Object has nullpointer value"));
+                }
+            }
+        }
+        else if(opType == QString("deleting")) {
+
+            if (markerTypes.contains(markerType)) {
+
+                Type value = markerTypes.value(markerType);
+                QObject* Object = get_object2(value, latitude, longitude);
+                if(Object != nullptr) {
+
+                    if(Planning::PlanningManager::removeObject(Object) == true) {
+                        emit Planning::PlanningManager::instance()->aboutRemovedObject();
+                    }
+                    delete Object;
+                }
+                else {
+                    qInfo () << qPrintable (QString ("[MapWidget] Object has nullpointer value"));
+                }
+            }
         }
     });
-
-
 
      channel->registerObject("pointCoordinates", pointCoordinates);
 
@@ -90,27 +152,31 @@ void MapWidget::createToolBar ()
     _toolBar->addAction (QIcon (":/eraser.png"), tr ("Erase"), [this](){
         webView->page()->runJavaScript("map.eachLayer(function (layer) {if (layer instanceof L.Marker) {map.removeLayer(layer);}});");
 
+        emit Planning::PlanningManager::instance()->aboutToRemoveAllObjects();
+
     });
 
     _toolBar->addSeparator ();
 
     QWidget* empty = new QWidget();
-        empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        _toolBar->addWidget(empty);
+    empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    _toolBar->addWidget(empty);
 
 
-        _toolBar->addAction(QIcon::fromTheme("media-playback-start"), tr("Start"), [this](){
-            if (appState == State::WAITING)
-            {
-                appState = State::PROCESSING;
-                this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-stop"));
-            }
-            else
-            {
-                appState = State::WAITING;
-                this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-start"));
-            }
-        });
+    _toolBar->addAction(QIcon::fromTheme("media-playback-start"), tr("Start"), [this](){
+        if (appState == State::WAITING)
+        {
+            appState = State::PROCESSING;
+            this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-stop"));
+            Planning::PlanningManager::instance()->stop();
+        }
+        else
+        {
+            appState = State::WAITING;
+            this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-start"));
+            Planning::PlanningManager::instance()->startup();
+        }
+    });
 
         _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
             qDebug() << "Refresh button pressed";
@@ -135,8 +201,6 @@ void MapWidget::createToolBar ()
     });
 
     _toolBar->addSeparator();
-
-
 
 }
 

@@ -91,19 +91,26 @@ namespace Planning {
         //! \brief Далее происходит часть Дани Басалаева
         void startup ();
 
+        //! \brief Остановка загрузки маршрутов
+        //! //! \brief Далее происходит часть Дани Басалаева
+        void stop();
+
+        //! \brief Инициализировать менеджер всеми объектами
+        //!  которые храняться в карте на данный момент
         void init();
 
         //! \brief выгрузка всех маршрутов
         void shutdown ();
 
         //! \brief Перезапуск
+        //! //! \brief Далее происходит часть Дани Басалаева
         void restart ();
 
         bool loadObjects ();
 
         //! \brief Вернуть список всех объектов
         //! \return Список всех компонентов
-        static QHash<QPair<double, double>, QObject*> objects();
+        static QList<QObject*> objects();
 
         //! \brief Вернуть флаг выполненной инициализации.
         //! \return true/false.
@@ -128,7 +135,7 @@ namespace Planning {
 
         //! \brief Вернуть список всех объектов
         //! \return Список всех объектов
-        static QHash<QPair<double, double>, QObject*> allObjects ();
+        static QList<QObject*> allObjects ();
 
         //! \brief Вернуть список объектов по классу
         //! \return Список объектов
@@ -217,7 +224,7 @@ namespace Planning {
     signals:
         //! \brief Сигнал о добавлении нового объекта
         //! \param obj Добавленный объект
-        void objectAdded (QObject *obj);
+        void aboutAddObject (QObject *obj);
 
         //! \brief Сигнал об удалении объекта
         //! \param obj Удаляемый объект
@@ -231,6 +238,12 @@ namespace Planning {
 
         //! \brief Удаление всех объектов
         void aboutToRemoveAllObjects();
+
+        //! \brief Сигнал, о том что новый объект добавлен
+        void aboutAddedObject();
+
+        //! \brief Сигнал, о том что объект удален
+        void aboutRemovedObject();
 
     };
 }
