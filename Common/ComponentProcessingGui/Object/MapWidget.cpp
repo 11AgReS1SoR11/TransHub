@@ -2,8 +2,7 @@
 #include "ui_MapWidget.h"
 #include "StyleHelper.h"
 #include <QHideEvent>
-
-
+#include <QThread>
 
 
 MapWidget::MapWidget(QWidget *parent)
@@ -42,10 +41,23 @@ MapWidget::MapWidget(QWidget *parent)
 
     connect(pointCoordinates, &PointCoordinates::pointClicked, [=](double latitude, double longitude, QString markerType, QString opType) {
         qDebug() << "Received coordinates: Latitude:" << latitude << ", Longitude:" << longitude << ", marker type:" << markerType << ", operation type:" << opType;
-        // Здесь вы можете выполнить необходимые действия с полученными координатами
+        if (opType == "adding")
+            markers.push_back({latitude, longitude, markerType});
+        else
+        {
+            for (int i = 0; i < markers.size(); ++i)
+            {
+                if (markers[i].latitude == latitude && markers[i].longitude == longitude && markers[i].markerType == markerType)
+                    markers.removeAt(i);
+            }
+        }
     });
 
+
+
      channel->registerObject("pointCoordinates", pointCoordinates);
+
+
 }
 
 
@@ -97,6 +109,10 @@ void MapWidget::createToolBar ()
 
         _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
             qDebug() << "Refresh button pressed";
+            for (auto& tmp : markers)
+            {
+                qDebug() << "latitude: " << tmp.latitude << " longitude: " << tmp.longitude << " marker: " << tmp.markerType;
+            }
         });
     _toolBar->addSeparator ();
 
