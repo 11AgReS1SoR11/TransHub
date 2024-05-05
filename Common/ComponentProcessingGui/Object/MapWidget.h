@@ -25,11 +25,10 @@ class MapWidget : public ISystemGuiCoreStatusBarTabWindow
 
 public:
 
-    struct Message{
-        double x;
-        double y;
+    struct Marker{
+        double latitude;
+        double longitude;
         QString markerType;
-        QString opType;
     };
 
     enum class State
@@ -69,8 +68,9 @@ private:
 
     State appState = State::WAITING;
 
+    QVector<Marker> markers; // vector of all existing markers
+
 signals:
-    void markerSignal(Message mes);
     void strartProcessing();
     void stopProcessing();
 
