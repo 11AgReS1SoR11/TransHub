@@ -87,7 +87,9 @@ COMMON_PATH = $$PWD/../../build/Common
 COMPONENT_FULL_SEARCH = $$COMMON_PATH/ComponentFull_Search/src/libComponentFull_Search.so
 COMPONENT_PROCESSING_GUI = $$COMMON_PATH/ComponentProcessingGui/libComponentProcessingGui.so
 COMPONENT_SYSTE_GUI_CORE = $$COMMON_PATH/ComponentSystemGuiCoreNg/libComponentSystemGuiCoreNg.so
-
+COMPONENT_TCP = $$COMMON_PATH/TCP/src/libTCP.so
+COMPONENT_COMMON_STRUCTURE = $$COMMON_PATH/CommonStructures/libCommonStructures.so
+COMPONENT_MATRIX = $$COMMON_PATH/ComponentMatrix/src/libComponentMatrix.so
 
 GUIAPPLICATION_PATH_DICTIONARIES = $$PWD/../../Common/ComponentProcessingGui/dictionaries
 
@@ -97,6 +99,9 @@ checkdirectory.commands = test -d $$OUT_PWD/components || mkdir -p $$OUT_PWD/com
 copyfile.commands = cp $$COMPONENT_FULL_SEARCH $$OUT_PWD/components/ \
                     && cp $$COMPONENT_PROCESSING_GUI $$OUT_PWD/components/ \
                     && cp $$COMPONENT_SYSTE_GUI_CORE $$OUT_PWD/components/ \
+                    && cp $$COMPONENT_TCP $$OUT_PWD/components/ \
+                    && cp $$COMPONENT_COMMON_STRUCTURE $$OUT_PWD/components/ \
+                    && cp $$COMPONENT_MATRIX $$OUT_PWD/components/ \
                     && cp $$PWD/../../Common/ComponentProcessingGui/ComponentProcessingGui.qm $$OUT_PWD/ \
                     && cp $$PWD/../../Common/ComponentSystemGuiCoreNg/ComponentSystemGuiCoreNg.qm $$OUT_PWD/ \
                     && cp $$PWD/../../GuiApplication/src/QtLanguage_ru.qm $$OUT_PWD/ \
