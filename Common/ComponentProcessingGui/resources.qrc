@@ -29,5 +29,7 @@
         <file>storage2.png</file>
         <file>user.png</file>
         <file>storage3.png</file>
+        <file>storage_32px.png</file>
+        <file>storage_256px.png</file>
     </qresource>
 </RCC>

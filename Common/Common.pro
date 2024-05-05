@@ -5,11 +5,11 @@ TEMPLATE = subdirs
 SUBDIRS += ComponentMatrix \
            CommonStructures \
            ComponentsCore5alpha \
+           ComponentRouting \
+           ComponentFull_Search \
+           TCP \
            ComponentSystemGuiCoreNg \
            ComponentProcessingGui \
-           ComponentFull_Search \
-           ComponentRouting \
-           TCP
 
 
 CONFIG += ordered

@@ -68,7 +68,7 @@ void CommandPanel::slotUpdated ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
                                     qobject_cast<Planning::Storage*>(object)->NE.second);
-            name = "storage";
+            name = tr("storage");
             qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
         }
         else if (qobject_cast<Planning::User*>(object) != nullptr)
@@ -76,7 +76,7 @@ void CommandPanel::slotUpdated ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
                                     qobject_cast<Planning::User*>(object)->NE.second);
-            name = "user";
+            name = tr("user");
             qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
         }
         else if (qobject_cast<Planning::Truck*>(object) != nullptr)
@@ -84,7 +84,7 @@ void CommandPanel::slotUpdated ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
                                     qobject_cast<Planning::Truck*>(object)->NE.second);
-            name = "truck";
+            name = tr("truck");
             qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
         }
         else
@@ -160,7 +160,7 @@ void CommandPanel::slotInit ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
                                     qobject_cast<Planning::Storage*>(object)->NE.second);
-            name = "storage";
+            name = tr("storage");
             qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
         }
         else if (qobject_cast<Planning::User*>(object) != nullptr)
@@ -168,7 +168,7 @@ void CommandPanel::slotInit ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
                                     qobject_cast<Planning::User*>(object)->NE.second);
-            name = "user";
+            name = tr("user");
             qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
         }
         else if (qobject_cast<Planning::Truck*>(object) != nullptr)
@@ -176,7 +176,7 @@ void CommandPanel::slotInit ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
                                     qobject_cast<Planning::Truck*>(object)->NE.second);
-            name = "truck";
+            name = tr("truck");
             qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
         }
         else

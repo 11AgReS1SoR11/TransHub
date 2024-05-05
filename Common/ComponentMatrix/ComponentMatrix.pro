@@ -5,3 +5,4 @@ TEMPLATE = subdirs
 SUBDIRS += src/MatrixSRC.pro \
            test/MatrixTest.pro
 
+CONFIG += ordered

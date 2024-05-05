@@ -47,7 +47,7 @@ public:
 
         emit Planning::PlanningManager::instance()->aboutToRemoveAllObjects();
 
-        Planning::PlanningManager::deleteInstance();
+        //Planning::PlanningManager::deleteInstance();
     }
 
     enum class Type {

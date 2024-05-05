@@ -12,6 +12,9 @@
 #include <QtCore/QString>
 #include <QtCore/QReadWriteLock>
 #include <QtCore/QHash>
+#include "TCPProto.hpp"
+#include "TCPClient.hpp"
+#include <QIcon>
 
 //!
 //! \namespace Planning
@@ -190,6 +193,8 @@ namespace Planning {
 
         static QHash<QPair<double, double>, QObject*> _objects;
 
+        static QList<QObject*> lst_objects;
+
         static State _state;
 
         //! \brief Объект блокирования на запись/чтение.
@@ -197,6 +202,8 @@ namespace Planning {
 
         static bool _isInitDone;
         static bool _isFinishDone;
+
+        static TCP::TCPClient client;
 
     protected:
         //! \brief Конструктор.
@@ -221,6 +228,8 @@ namespace Planning {
 
         void slotComponentsLoaded();
 
+        void slotTCP(TCP::Protocol::Proto proto);
+
     signals:
         //! \brief Сигнал о добавлении нового объекта
         //! \param obj Добавленный объект
@@ -244,6 +253,9 @@ namespace Planning {
 
         //! \brief Сигнал, о том что объект удален
         void aboutRemovedObject();
+
+        //! \brief Сигнал о прерывании вычислений
+        void breakConnection(QIcon);
 
     };
 }
