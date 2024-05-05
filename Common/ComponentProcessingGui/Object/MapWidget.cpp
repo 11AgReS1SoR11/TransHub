@@ -41,7 +41,7 @@ MapWidget::MapWidget(QWidget *parent)
                  << ", Longitude:" << longitude << ", marker type:" << markerType << ", operation type:" << opType;
 
 
-        if (opType == "adding")
+        if (opType == QString("adding"))
             markers.push_back({latitude, longitude, markerType});
         else
         {
@@ -139,7 +139,7 @@ void MapWidget::createToolBar ()
          webView->page()->runJavaScript("markerType = 'user';");
     });
 
-    _toolBar->addAction (QIcon (":/storage3.png"), tr ("Storage"), [this](){
+    _toolBar->addAction (QIcon (":/storage_32px.png"), tr ("Storage"), [this](){
         webView->page()->runJavaScript("markerType = 'storage';");
     });
 
@@ -164,27 +164,32 @@ void MapWidget::createToolBar ()
 
 
     _toolBar->addAction(QIcon::fromTheme("media-playback-start"), tr("Start"), [this](){
+
         if (appState == State::WAITING)
         {
             appState = State::PROCESSING;
             this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-stop"));
-            Planning::PlanningManager::instance()->stop();
+            Planning::PlanningManager::instance()->startup();
         }
         else
         {
             appState = State::WAITING;
             this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-start"));
-            Planning::PlanningManager::instance()->startup();
+            Planning::PlanningManager::instance()->stop();
         }
     });
 
-        _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
-            qDebug() << "Refresh button pressed";
-            for (auto& tmp : markers)
-            {
-                qDebug() << "latitude: " << tmp.latitude << " longitude: " << tmp.longitude << " marker: " << tmp.markerType;
-            }
-        });
+    connect(Planning::PlanningManager::instance(), &Planning::PlanningManager::breakConnection,
+            _toolBar->actions()[7], &QAction::setIcon);
+
+    _toolBar->addAction(QIcon::fromTheme("view-refresh"), tr("Refresh"), [this](){
+        qDebug() << "Refresh button pressed";
+        for (auto& tmp : markers)
+        {
+            qDebug() << "latitude: " << tmp.latitude << " longitude: " << tmp.longitude << " marker: " << tmp.markerType;
+        }
+    });
+
     _toolBar->addSeparator ();
 
     _toolBar->addAction (QIcon (":/icons/export_32x32.png"), tr ("Export"), [this](){

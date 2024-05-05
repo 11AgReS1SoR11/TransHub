@@ -64,6 +64,8 @@ protected slots:
 
     void OnTabClicked(bool is_only_open) override;
 
+    void clearAll();
+
 private:
     //! \brief Создание тулбара.
     void createToolBar ();
