@@ -11,6 +11,9 @@ private:
     TCP::TCPClient client;
     ServiceManager manager;
 
+    bool routesRecieved{false};
+    bool lengthRecieved{false};
+
     void compareMessageFromServer(TCP::Protocol::Proto proto);
 
 private slots:
@@ -22,7 +25,12 @@ void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
     if (auto string_ptr = proto.get<QString>())
     {
         auto const& msg = *string_ptr;
-        QVERIFY(msg == QString("26934"));
+        double answer = msg.toDouble();
+        // 25'000 <= answer <= 35'000
+        QVERIFY(answer >= 25000.0);
+        QVERIFY(answer <= 35000.0);
+
+        lengthRecieved = true;
     }
     else if (auto matrix_ptr = proto.get<Mtx::Matrix<double>>())
     {
@@ -33,7 +41,10 @@ void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
                                                {3, 1, 1, 6176},
                                                {4, 1, 3, 6329}};
         // Solution can change and expected_result it is not only one right solution
-        //QVERIFY(matrix_received == expected_result);
+        QVERIFY(matrix_received.rows() == expected_result.rows());
+        QVERIFY(matrix_received.columns() == expected_result.columns());
+
+        routesRecieved = true;
     }
     else
     {
@@ -68,6 +79,7 @@ void TestClass::test_case()
     Common::Coordinates_t StoragesCoordinates = { Lesnaya, Pionerka };
     Common::Coordinates_t ClientsCoordinates = { ChornayaRechka, Udelka, Politehnicheskaya };
 
+    // TODO: сделать нормально TRH-84
     QTest::qWait(100);
     QString msg1 = "Clients";
     client.sendMessage(&msg1);
@@ -104,7 +116,11 @@ void TestClass::test_case()
     QTest::qWait(100);
     client.sendMessage(&CouriersCapacity);
 
-    QTest::qWait(20000); // wait service response
+    bool massagesRecieved = QTest::qWaitFor([&]() {
+        return routesRecieved && lengthRecieved;
+    }, 20000); // wait 2 messages or 20 seconds
+
+    QVERIFY(massagesRecieved);
 }
 
 QTEST_GUILESS_MAIN(TestClass)
