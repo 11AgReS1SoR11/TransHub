@@ -6,8 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaflet Map with Side Panel</title>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <style>
     body {
@@ -21,6 +22,9 @@
         flex: 1;
         height: 100vh;
     }
+    .leaflet-routing-container {
+         display: none !important;
+       }
 
     #coordinates {
         position: absolute;
@@ -89,13 +93,16 @@
 <body>
 <div id="map"></div>
 <div id="coordinates"></div>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="../qwebchannel.js"></script>
 <script>
 
     var map = L.map('map', { attributionControl: false }).setView([59.9386, 30.3141], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
     var coordinates = document.getElementById('coordinates');
 
@@ -172,6 +179,46 @@
     }
 
     });
+
+    var controlsVector = [];
+
+    function plotRoutes(startLatitude, startLongitude, stopLatitude, stopLongitude)
+    {
+    // Задаем начальную и конечную точки маршрута
+        var start = L.latLng(startLatitude, startLongitude);
+        var end = L.latLng(stopLatitude, stopLongitude);
+
+        // Создаем маршрут с помощью Leaflet Routing Machine
+        var control = L.Routing.control({
+          waypoints: [
+            start,
+            end
+          ],
+          routeWhileDragging: true,
+          show: false, // Убираем панель навигации справа
+          createMarker: function() {
+                  return null; // Возвращаем null, чтобы не создавать маркеры
+                }
+        }).addTo(map);
+
+        controlsVector.push(control);
+
+
+    }
+
+    function eraseAll()
+    {
+        map.eachLayer(function (layer)
+        {
+            if (layer instanceof L.Marker)
+            {
+                map.removeLayer(layer);
+            }
+        });
+        controlsVector.forEach(function(control) {
+        control.remove();
+    });
+    }
 
 
 
