@@ -20,9 +20,10 @@ class ProcessingGuiTabWindowsManager : public QObject
 public:
     using TabWindowSettings = std::experimental::optional<QPair<QByteArray, QPoint>>;
 
-    //! \brief Конструктор класса
-    //! \param parent Виджет-родитель
-    ProcessingGuiTabWindowsManager( QObject * = nullptr );
+    static ProcessingGuiTabWindowsManager & instance() {
+        static ProcessingGuiTabWindowsManager instance;
+        return instance;
+    }
 
     //! \brief Деструктор класса
     ~ProcessingGuiTabWindowsManager();
@@ -49,6 +50,12 @@ public slots:
     void OnSaveGWSettings( const QString &, TabWindowSettings );
 
 private:
+    //! \brief Конструктор класса
+    //! \param parent Виджет-родитель
+    ProcessingGuiTabWindowsManager( QObject * = nullptr );
+    ProcessingGuiTabWindowsManager(const ProcessingGuiTabWindowsManager&) = delete;
+    void operator=(const ProcessingGuiTabWindowsManager&) = delete;
+
     //! \brief Создать новый виджет по ключу
     //! \param gwkey ключ виджета
     //! \return Виджет для сворачиваемого окна

@@ -5,6 +5,7 @@
 
 #include "ISystemGuiCoreStatusBarTabWindow.h"
 #include <QMainWindow>
+#include <QVariant>
 
 //!
 //! \brief Класс вкладки для окон в статус баре
@@ -22,6 +23,7 @@ public:
     explicit ISystemGuiCoreStatusBarTabWidget( QMainWindow* mainWindow, const QPixmap & icon, QWidget * parent = nullptr )
         : QLabel( parent ), _activeIcon( icon )
     {
+        setProperty("class", "TabWidget" );
         _mainWindow = mainWindow;
         _infoToolTip = nullptr;
         if ( _activeIcon.isNull() )
@@ -75,6 +77,9 @@ protected:
     //! \param event QEvent
     void enterEvent (QEvent * event ) override
     {
+        QString st = styleSheet();
+
+
         Q_UNUSED( event )
         setStyleSheet( "QLabel "
                        "{ "
@@ -86,14 +91,8 @@ protected:
 
         if ( _infoToolTip )
         {
+            _infoToolTip->setStyleSheet("QLabel{background-color: rgb(245, 245, 235); }");
             _infoToolTip->show();
-            _infoToolTip->setStyleSheet(   "QLabel "
-                                           "{ "
-                                           "background-color: white;"
-                                           "color: black;"
-                                           " border: none;"
-                                           " border-radius: 10px; "
-                                           "}" );
         }
     }
 
@@ -102,7 +101,7 @@ protected:
     void leaveEvent (QEvent * event ) override
     {
         Q_UNUSED( event )
-        setStyleSheet( "QLabel#shadowLabel {}" );
+        setStyleSheet( ".TabWidget#shadowLabel {}" );
 
         if ( _infoToolTip )
         {

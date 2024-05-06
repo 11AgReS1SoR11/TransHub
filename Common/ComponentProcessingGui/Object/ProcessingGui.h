@@ -11,7 +11,6 @@
 //! \author Кромачев Максим
 //!
 
-class ProcessingGuiTabWindowsManager;
 class Q_DECL_IMPORT ProcessingGui : public QObject, public ISystemGuiCoreParentWidget
 {
     Q_OBJECT
@@ -41,9 +40,6 @@ protected:
 
     //! \brief Получить главное окно приложения.
     ISystemGuiCoreMainWindow *mainWindow () const;
-
-private:
-    ProcessingGuiTabWindowsManager * _gwmanager;    /**< менеджер виджетов окон */
 };
 
 #endif // _PROCESSINGGUI_H

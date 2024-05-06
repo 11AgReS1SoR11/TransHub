@@ -37,27 +37,8 @@ public:
      */
     void updateState(bool isMute);
 
-    /*!
-     * \brief Запустить таймер авто.скрытия
-     */
-    void startTimerW();
-
 private:
     Ui::StatusBarVolumeToolTip *ui; /**< объект графического интерфейса */
-    QTimer _timerClose;             /**< таймер, отвечающий за авто.скрытие */
-
-protected:
-    /*!
-     * \brief Метод обработки клика на виджете
-     * \param event QMouseEvent
-     */
-    void mousePressEvent(QMouseEvent *event);
-
-signals:
-    /*!
-     * \brief Сигнал, информирующий о закрытии всплывающей подсказки
-     */
-    void signalCloseToolTip();
 };
 
 #endif // STATUSBARVOLUMETOOLTIP_H

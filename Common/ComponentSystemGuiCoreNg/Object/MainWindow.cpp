@@ -85,12 +85,12 @@ MainWindow::MainWindow (QWidget *parent)
     // status bar tab container with scroll area
     _statusBarTabContainer = new StatusBarTabContainer( this );
     QScrollArea* scrollArea = new QScrollArea( this );
-    scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     scrollArea->setFixedHeight(50);
     scrollArea->setStyleSheet("QScrollArea { border: none; }");
     scrollArea->setWidgetResizable( true );
     scrollArea->setWidget( _statusBarTabContainer );
-    statusBar()->addWidget(scrollArea);
+    ui->statusbar->addPermanentWidget(scrollArea);
 
     // status bar
     // --- set filter ---
@@ -104,9 +104,6 @@ MainWindow::MainWindow (QWidget *parent)
     _statusBarVolume = new StatusBarVolume (this, this);
     _statusBarVolume->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 
-    connect (_statusBarVolume, &StatusBarVolume::signalVolumeChanged, _statusBarInfoWidget, &StatusBarInfoWidget::slotVolumeChanged);
-    connect (_statusBarVolume, &StatusBarVolume::signalHideToolTip, _statusBarInfoWidget, &StatusBarInfoWidget::slotHideToolTip);
-    connect (_statusBarInfoWidget, &StatusBarInfoWidget::signalHideToolTip, _statusBarVolume, &StatusBarVolume::slotHideToolTip);
     ui->statusbar->addPermanentWidget(_statusBarVolume);
     ui->statusbar->addPermanentWidget(_statusBarInfoWidget);
 

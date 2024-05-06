@@ -67,11 +67,6 @@ StatusBarInfoWidgetToolTip::~StatusBarInfoWidgetToolTip()
     delete ui;
 }
 
-void StatusBarInfoWidgetToolTip::startTimerW()
-{
-    _timerClose.start(3 * 1000); // 3 sec
-}
-
 void StatusBarInfoWidgetToolTip::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton) {
