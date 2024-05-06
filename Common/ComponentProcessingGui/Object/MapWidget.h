@@ -63,6 +63,8 @@ public:
     //! \brief ????
     Q_INVOKABLE bool plotRoute(double startLat, double startLng, double endLat, double endLng);
 
+    void startPlotting(double startLatitude, double startLongitude, double stopLatitude, double stopLongitude);
+
 protected:
     //! Интерфейс.
     Ui::MapWidget *ui {nullptr};

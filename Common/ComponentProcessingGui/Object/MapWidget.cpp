@@ -119,7 +119,6 @@ MapWidget::MapWidget(QWidget *parent)
 
      channel->registerObject("pointCoordinates", pointCoordinates);
 
-
 }
 
 QPixmap MapWidget::GetWindowIcon()
@@ -150,7 +149,7 @@ void MapWidget::createToolBar ()
     _toolBar->addSeparator ();
 
     _toolBar->addAction (QIcon (":/eraser.png"), tr ("Erase"), [this](){
-        webView->page()->runJavaScript("map.eachLayer(function (layer) {if (layer instanceof L.Marker) {map.removeLayer(layer);}});");
+        webView->page()->runJavaScript("eraseAll()");
 
         emit Planning::PlanningManager::instance()->aboutToRemoveAllObjects();
 
@@ -168,6 +167,12 @@ void MapWidget::createToolBar ()
         {
             appState = State::PROCESSING;
             this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-stop"));
+
+
+            //test code start
+            startPlotting(59.9584, 30.3141, 59.9387, 30.3142);
+            //test code end
+
             Planning::PlanningManager::instance()->stop();
         }
         else
@@ -228,3 +233,8 @@ bool MapWidget::plotRoute(double startLat, double startLng, double endLat, doubl
     return true;
 }
 
+
+ void MapWidget::startPlotting(double startLatitude, double startLongitude, double stopLatitude, double stopLongitude)
+ {
+     webView->page()->runJavaScript("plotRoutes(" + QString::number(startLatitude) + ',' + QString::number(startLongitude) + ',' + QString::number(stopLatitude) + ',' + QString::number(stopLongitude) + ");");
+ }
