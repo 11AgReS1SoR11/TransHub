@@ -26,6 +26,7 @@ public:
 protected:
     void hideEvent(QHideEvent * ) override;
     void closeEvent(QCloseEvent * ) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 signals:
     void HideSubWindow();

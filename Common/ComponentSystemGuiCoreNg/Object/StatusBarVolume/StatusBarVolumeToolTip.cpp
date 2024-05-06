@@ -58,24 +58,9 @@ StatusBarVolumeToolTip::StatusBarVolumeToolTip(bool isMute, QWidget *parent) :
 
     this->render(&tempIcon,QPoint(),QRegion(), DrawChildren);
     this->setMask(tempIcon.mask());
-
-    connect(&_timerClose, SIGNAL(timeout()), this, SIGNAL(signalCloseToolTip()));
 }
 
 StatusBarVolumeToolTip::~StatusBarVolumeToolTip()
 {
     delete ui;
-}
-
-void StatusBarVolumeToolTip::startTimerW()
-{
-    _timerClose.start(3 * 1000); // 3 sec
-}
-
-void StatusBarVolumeToolTip::mousePressEvent(QMouseEvent *event)
-{
-    if(event->button() == Qt::LeftButton) {
-        _timerClose.stop();
-        emit this->signalCloseToolTip();
-    }
 }

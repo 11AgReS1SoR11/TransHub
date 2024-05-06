@@ -67,7 +67,6 @@ protected:
     MainWindow* _mainWindow;                /**< основное окно системы */
     StatusBarVolumeToolTip* _infoToolTip;   /**< виджет всплывающей подсказки */
 
-    bool _alreadyShow;          /**< всплывающая посказка уже выведена */
     bool _isMute;               /**< включен ли звук */
 
     QPixmap _activeMute;        /**< активная иконка (нет звука) */

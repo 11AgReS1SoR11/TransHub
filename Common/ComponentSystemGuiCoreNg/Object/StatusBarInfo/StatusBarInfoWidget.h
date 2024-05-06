@@ -89,7 +89,6 @@ protected:
 
     QVector<StatusBarInfoWidgetPopupWindow*> _allPopUps;    /**< список всплывающих окон, открытых в данный момент */
 
-    bool _alreadyShow;          /**< всплывающая посказка уже выведена  */
     int _actionElements;        /**< количество не просмотренных событий */
 
     QPixmap _activeMakeData;    //!< активная иконка "есть новые данные"
@@ -162,11 +161,6 @@ public slots:
      */
     void slotVolumeChanged(bool isMute);
 
-    /*!
-     * \brief Слот обработки скрытия всплывающей подсказки
-     */
-    void slotHideToolTip();
-
 protected slots:
     /*!
      * \brief Слот закрытия всплывающего окна
@@ -178,11 +172,6 @@ protected slots:
      * \brief Слот смещения всплывающих окон
      */
     void offsetPopups();
-
-    /*!
-     * \brief Слот закрытия всплывающей подсказки
-     */
-    void cloceToolTipWindow();
 
     /*!
      * \brief Слот закрытия окна с данными
@@ -244,11 +233,6 @@ protected slots:
     void addSound();
 
 signals:
-    /*!
-     * \brief Сигнал, информирующий о необходимости закрыть всплывающую подсказку
-     */
-    void signalHideToolTip();
-
     /*!
      * \brief Сигнал, информирующий о необходимости смещения всплывающих окон
      */
