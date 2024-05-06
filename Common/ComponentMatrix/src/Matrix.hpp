@@ -261,11 +261,11 @@ double Matrix<T>::determinant() const
 template <typename T>
 void Matrix<T>::print() const noexcept
 {
-    qDebug() << "Data:\n";
+    qDebug() << "Data:";
     for (int i = 0; i < _rows; ++i)
     {
         for (int j = 0; j < _columns; ++j)
-            qDebug() << _data[i][j] << ' ' << "%\r" << Qt::flush;;
+            qDebug().nospace()  << _data[i][j] << ' '  << Qt::flush;
         qDebug() << "";
     }
 

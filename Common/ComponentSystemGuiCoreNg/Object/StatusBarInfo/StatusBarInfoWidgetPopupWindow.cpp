@@ -115,14 +115,6 @@ bool StatusBarInfoWidgetPopupWindow::isMoved()
     return _isMoved;
 }
 
-void StatusBarInfoWidgetPopupWindow::startTimerW()
-{
-    _elapsedTime = 0;
-    _hideTime.start();
-    _hideTimer.start(HIDE_AND_STOP_POP_UP * 1000);
-//    QTimer::singleShot(HIDE_AND_STOP_POP_UP*1000, this, SLOT(slotClose()));
-}
-
 void StatusBarInfoWidgetPopupWindow::startMove(int finishX, int finishY)
 {
 //    qDebug() << "Start Move X=" << finishX << "Y=" << finishY;
@@ -195,9 +187,6 @@ void StatusBarInfoWidgetPopupWindow::enterEvent(QEvent *event)
     Q_UNUSED(event)
     if(!ui->pushButtonClose->isHidden())
         return;
-
-    _elapsedTime += _hideTime.elapsed();
-    _hideTimer.stop();
 }
 
 void StatusBarInfoWidgetPopupWindow::leaveEvent(QEvent *event)
@@ -211,8 +200,6 @@ void StatusBarInfoWidgetPopupWindow::leaveEvent(QEvent *event)
         return;
     }
 
-    _hideTime.start();
-    _hideTimer.start(HIDE_AND_STOP_POP_UP * 1000 - _elapsedTime);
 }
 
 void StatusBarInfoWidgetPopupWindow::stopTimers()

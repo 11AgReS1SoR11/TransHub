@@ -8,8 +8,8 @@
 StatusBarVolume::StatusBarVolume (MainWindow *mainWindow, QWidget *parent)
     : QLabel (parent)
 {
-    _infoToolTip = nullptr;
-    _alreadyShow = false;
+    _infoToolTip = new StatusBarVolumeToolTip(_isMute, this);
+    _infoToolTip->setWindowFlags(Qt::ToolTip);
     _isMute = false;
     _mainWindow = mainWindow;
 
@@ -28,12 +28,6 @@ StatusBarVolume::StatusBarVolume (MainWindow *mainWindow, QWidget *parent)
 StatusBarVolume::~StatusBarVolume()
 {
     _mainWindow = nullptr;
-
-    if(_infoToolTip != nullptr) {
-        _infoToolTip->close();
-        delete _infoToolTip;
-        _infoToolTip = nullptr;
-    }
 }
 
 bool StatusBarVolume::isMute()
@@ -65,9 +59,6 @@ void StatusBarVolume::mousePressEvent (QMouseEvent *event)
     {
         _isMute = !_isMute;
 
-        if(_infoToolTip)
-            cloceToolTipWindow();
-
         if(_isMute)
             setPixmap(_activeMute);
         else
@@ -86,25 +77,11 @@ void StatusBarVolume::mouseMoveEvent(QMouseEvent *event)
     else
         setPixmap(_activeNotMute);
 
-    if(_alreadyShow == false) {
-        if(_infoToolTip == nullptr) {
-            emit signalHideToolTip();
-
-            _infoToolTip = new StatusBarVolumeToolTip(_isMute, this);
-            _infoToolTip->setWindowFlags(Qt::ToolTip);
-            connect(_infoToolTip, SIGNAL(signalCloseToolTip()), this, SLOT(cloceToolTipWindow()));
-
-            int posX = (_mainWindow->pos().x() + _mainWindow->width()) - _infoToolTip->width() - 30;
-            int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height();
-
-            _infoToolTip->show();
-            _infoToolTip->move(posX, posY);
-            _infoToolTip->setWindowOpacity(0.9);
-            _infoToolTip->startTimerW();
-
-            _alreadyShow = true;
-        }
-    }
+    int posX = (_mainWindow->pos().x() + _mainWindow->width()) - _infoToolTip->width() - 30;
+    int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height();
+    _infoToolTip->show();
+    _infoToolTip->move(posX, posY);
+    _infoToolTip->setWindowOpacity(0.9);
 }
 
 void StatusBarVolume::enterEvent(QEvent *event)
@@ -117,7 +94,6 @@ void StatusBarVolume::enterEvent(QEvent *event)
 void StatusBarVolume::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    _alreadyShow = false;
 
     if(_isMute)
         setPixmap(_notActiveMute);
@@ -127,20 +103,5 @@ void StatusBarVolume::leaveEvent(QEvent *event)
 
     QString styleSheet = "QLabel#shadowLabel {}";
     setStyleSheet(styleSheet);
-}
-
-
-void StatusBarVolume::cloceToolTipWindow()
-{
-    if(_infoToolTip != nullptr) {
-        _infoToolTip->close();
-        delete _infoToolTip;
-        _infoToolTip = nullptr;
-    }
-}
-
-
-void StatusBarVolume::slotHideToolTip()
-{
-    cloceToolTipWindow();
+    _infoToolTip->hide();
 }

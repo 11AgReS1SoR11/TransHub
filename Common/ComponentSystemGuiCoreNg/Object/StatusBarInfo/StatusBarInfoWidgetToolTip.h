@@ -34,11 +34,6 @@ public:
      */
     ~StatusBarInfoWidgetToolTip();
 
-    /*!
-     * \brief Запустить таймер авто.скрытия
-     */
-    void startTimerW();
-
 private:
     Ui::StatusBarInfoWidgetToolTip *ui; /**< объект графического интерфейса */
     QTimer _timerClose;                 /**< таймер, отвечающий за авто.скрытие окна */

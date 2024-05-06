@@ -20,6 +20,16 @@ PlanningWidget::PlanningWidget (QWidget *parent)
     ui->setupUi (this);
     createToolBar ();
     setWindowTitle (tr ("Planning"));
+
+    connect (Planning::PlanningManager::instance(), &Planning::PlanningManager::aboutAddedObject,
+             this, &PlanningWidget::slotUpdated);
+
+    connect (Planning::PlanningManager::instance(), &Planning::PlanningManager::aboutRemovedObject,
+             this, &PlanningWidget::slotUpdated);
+
+    connect(Planning::PlanningManager::instance(), &Planning::PlanningManager::aboutToRemoveAllObjects,
+             this, &PlanningWidget::clearAll);
+
     slotInit();
 }
 
@@ -63,7 +73,7 @@ void PlanningWidget::slotUpdated ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
                                     qobject_cast<Planning::Storage*>(object)->NE.second);
-            name = "Storage";
+            name = "storage";
             qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
         }
         else if (qobject_cast<Planning::User*>(object) != nullptr)
@@ -71,7 +81,7 @@ void PlanningWidget::slotUpdated ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
                                     qobject_cast<Planning::User*>(object)->NE.second);
-            name = "User";
+            name = "user";
             qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
         }
         else if (qobject_cast<Planning::Truck*>(object) != nullptr)
@@ -79,7 +89,7 @@ void PlanningWidget::slotUpdated ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
                                     qobject_cast<Planning::Truck*>(object)->NE.second);
-            name = "Truck";
+            name = "truck";
             qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
         }
         else
@@ -91,18 +101,18 @@ void PlanningWidget::slotUpdated ()
         QList<QStandardItem*> items_list;
 
         auto item = new QStandardItem (name);
-        //item->setIcon ();
+        item->setIcon(QIcon (":/" + name + ".png"));
         item->setData (name, Qt::UserRole + 1);
         item->setTextAlignment (Qt::AlignCenter);
         items_list << item;
 
-        item = new QStandardItem (NE.first);
-        item->setData (NE.first, Qt::UserRole + 1);
+        item = new QStandardItem (QString::number(NE.first));
+        item->setData (QString::number(NE.first), Qt::UserRole + 1);
         item->setTextAlignment (Qt::AlignCenter);
         items_list << item;
 
-        item = new QStandardItem (NE.second);
-        item->setData (NE.second, Qt::UserRole + 1);
+        item = new QStandardItem (QString::number(NE.second));
+        item->setData (QString::number(NE.second), Qt::UserRole + 1);
         item->setTextAlignment (Qt::AlignCenter);
         items_list << item;
 
@@ -111,7 +121,7 @@ void PlanningWidget::slotUpdated ()
     }
 
     ui->tableView_->resizeColumnsToContents ();
-    ui->tableView_->resizeRowsToContents ();
+    //ui->tableView_->resizeRowsToContents ();
 
     QTimer::singleShot (0, this, &PlanningWidget::updateSpan);
 }
@@ -161,7 +171,7 @@ void PlanningWidget::slotInit ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Storage*>(object)->NE.first,
                                     qobject_cast<Planning::Storage*>(object)->NE.second);
-            name = "Storage";
+            name = "storage";
             qInfo ().noquote () << QString ("[PlanningManager] Storage loaded successfully");
         }
         else if (qobject_cast<Planning::User*>(object) != nullptr)
@@ -169,7 +179,7 @@ void PlanningWidget::slotInit ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::User*>(object)->NE.first,
                                     qobject_cast<Planning::User*>(object)->NE.second);
-            name = "User";
+            name = "user";
             qInfo ().noquote () << QString ("[PlanningManager] User loaded successfully");
         }
         else if (qobject_cast<Planning::Truck*>(object) != nullptr)
@@ -177,7 +187,7 @@ void PlanningWidget::slotInit ()
 
             NE = qMakePair<double, double>(qobject_cast<Planning::Truck*>(object)->NE.first,
                                     qobject_cast<Planning::Truck*>(object)->NE.second);
-            name = "Truck";
+            name = "truck";
             qInfo ().noquote () << QString ("[PlanningManager] Truck loaded successfully");
         }
         else
@@ -189,18 +199,18 @@ void PlanningWidget::slotInit ()
         QList<QStandardItem*> items_list;
 
         auto item = new QStandardItem (name);
-        //item->setIcon ();
+        item->setIcon(QIcon (":/" + name + ".png"));
         item->setData (name, Qt::UserRole + 1);
         item->setTextAlignment (Qt::AlignCenter);
         items_list << item;
 
-        item = new QStandardItem (NE.first);
-        item->setData (NE.first, Qt::UserRole + 1);
+        item = new QStandardItem (QString::number(NE.first));
+        item->setData (QString::number(NE.first), Qt::UserRole + 1);
         item->setTextAlignment (Qt::AlignCenter);
         items_list << item;
 
-        item = new QStandardItem (NE.second);
-        item->setData (NE.second, Qt::UserRole + 1);
+        item = new QStandardItem (QString::number(NE.second));
+        item->setData (QString::number(NE.second), Qt::UserRole + 1);
         item->setTextAlignment (Qt::AlignCenter);
         items_list << item;
 
@@ -211,7 +221,7 @@ void PlanningWidget::slotInit ()
     connect (ui->tableView_->selectionModel (), &QItemSelectionModel::selectionChanged,
              this, &PlanningWidget::slotSelectionChanged);
 
-    ui->tableView_->resizeRowsToContents ();
+    //ui->tableView_->resizeRowsToContents ();
 
     QTimer::singleShot (0, this, &PlanningWidget::updateSpan);
 }
@@ -222,16 +232,16 @@ void PlanningWidget::slotRequestContextMenu (const QPoint &/*pos*/)
 
 void PlanningWidget::updateSpan ()
 {
-    ui->tableView_->clearSpans ();
-    for (int i = 1; i < _sfmodel->rowCount (); ++i)
-    {
-        if (_sfmodel->index (i - 1, Columns::Supplier).data (Qt::UserRole + 1).toString ()
-                ==
-                _sfmodel->index (i, Columns::Supplier).data (Qt::UserRole + 1).toString ())
-        {
-            ui->tableView_->setSpan (i - 1, 0, 2, 1);
-        }
-    }
+//    ui->tableView_->clearSpans ();
+//    for (int i = 1; i < _sfmodel->rowCount (); ++i)
+//    {
+//        if (_sfmodel->index (i - 1, Columns::Supplier).data (Qt::UserRole + 1).toString ()
+//                ==
+//                _sfmodel->index (i, Columns::Supplier).data (Qt::UserRole + 1).toString ())
+//        {
+//            ui->tableView_->setSpan (i - 1, 0, 2, 1);
+//        }
+//    }
 }
 
 void PlanningWidget::updateToolbar ()
@@ -265,6 +275,16 @@ void PlanningWidget::OnTabClicked(bool is_only_open)
         if ( !isVisible() )
             emit OpenTabWindow();
     }
+}
+
+void PlanningWidget::clearAll()
+{
+    if (!_model) {
+        qCritical () << "[MapWidget][slotUpdated] Empty QStandardItemModel object";
+        return;
+    }
+    _model->removeRows (0, _model->rowCount ());
+    _model->setRowCount (0);
 }
 
 void PlanningWidget::createToolBar ()
