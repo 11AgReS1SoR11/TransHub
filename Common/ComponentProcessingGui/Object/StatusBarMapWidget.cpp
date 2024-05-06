@@ -12,7 +12,7 @@ void StatusBarMapWidget::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
 
-    int posX = (_mainWindow->pos().x() /*+ _mainWindow->width()) - _infoToolTip->width() - 30*/);
+    int posX = ((_mainWindow->pos().x() + _mainWindow->width()) - _infoToolTip->width() - 30 );
     int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height() - 5;
 
     _infoToolTip->show();

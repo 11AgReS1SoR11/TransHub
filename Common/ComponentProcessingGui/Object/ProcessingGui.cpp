@@ -16,7 +16,6 @@
 ProcessingGui::ProcessingGui (QObject* parent)
     : QObject (parent)
 {
-    _gwmanager = new ProcessingGuiTabWindowsManager( this );
     if (auto gc = guicore ())
         gc->registrateGuiComponent (this);
     else
@@ -89,16 +88,16 @@ QWidget *ProcessingGui::getWidget ( const QString & actionName, const QString &,
         return nullptr;
     }
 
-    if ( _gwmanager->Contained( actionName ) )
+    if ( ProcessingGuiTabWindowsManager::instance().Contained( actionName ) )
         return nullptr;
 
-    ISystemGuiCoreStatusBarTabWindow * tabw = _gwmanager->GetWidget( actionName );
+    ISystemGuiCoreStatusBarTabWindow * tabw = ProcessingGuiTabWindowsManager::instance().GetWidget( actionName );
     tabw->setParent( wnd->getMainWindowParentWidget() );
 
     connect( tabw, &ISystemGuiCoreStatusBarTabWindow::SaveTabWindowSettings,
-             _gwmanager, &ProcessingGuiTabWindowsManager::OnSaveGWSettings );
+             &ProcessingGuiTabWindowsManager::instance(), &ProcessingGuiTabWindowsManager::OnSaveGWSettings );
     connect( tabw, &ISystemGuiCoreStatusBarTabWindow::CloseTabWindow,
-             _gwmanager, &ProcessingGuiTabWindowsManager::OnCloseGWidget );
+             &ProcessingGuiTabWindowsManager::instance(), &ProcessingGuiTabWindowsManager::OnCloseGWidget );
 
     ISystemGuiCoreStatusBarTabWidget * sbtw;
     if ( actionName == tr("Планирование") )

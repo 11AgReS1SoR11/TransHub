@@ -6,7 +6,7 @@ StatusBarTabContainer::StatusBarTabContainer( QWidget * parent )
     tabwsHL = new QHBoxLayout;
     tabwsHL->setContentsMargins(0, 0, 0, 0);
     tabwsHL->setSpacing(10);
-    tabwsHL->setAlignment(Qt::AlignLeft);
+    tabwsHL->setAlignment(Qt::AlignRight);
     setLayout( tabwsHL );
 }
 

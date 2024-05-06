@@ -22,3 +22,12 @@ void CustomMdiSubWindow::closeEvent( QCloseEvent * event )
     event->ignore();
     emit CloseSubWindow();
 }
+
+void CustomMdiSubWindow::resizeEvent(QResizeEvent *event)
+{
+    QMdiSubWindow::resizeEvent(event);
+    widget()->setMaximumSize(this->size());
+    widget()->resize(size());
+}
+
+

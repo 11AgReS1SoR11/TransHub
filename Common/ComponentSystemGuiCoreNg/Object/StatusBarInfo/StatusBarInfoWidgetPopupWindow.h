@@ -41,11 +41,6 @@ public:
     bool isMoved();
 
     /*!
-     * \brief Запустить таймер авто.скрытия
-     */
-    void startTimerW();
-
-    /*!
      * \brief Запустить таймер перемещения окна
      * \param finishX Конечная координата X
      * \param finishY Конечная координата Y
@@ -114,7 +109,6 @@ private:
     QTimer _mouseMoveTimer;                 /**< таймер, отвечающий за перемещение мышью */
 
     QTimer _hideTimer;                      /**< таймер, отвечающий за закрытие окна */
-    QTime  _hideTime;                       /**< время открытого окна */
     int    _elapsedTime;                    /**< время, сколько было открыто окно (мсек) */
 
     int _finishX;                           /**< конечная координата X */
