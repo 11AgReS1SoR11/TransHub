@@ -11,8 +11,11 @@ StatusBarInfoWidget::StatusBarInfoWidget (MainWindow *mainWindow, QWidget *paren
 {
     _popupModel = nullptr;
     _dataWindow = nullptr;
-    _infoToolTip = nullptr;
-    _alreadyShow = false;
+    _infoToolTip = new StatusBarInfoWidgetToolTip(_actionElements,
+                                                    _popupElements.size(),
+                                                    this);
+    _infoToolTip->setWindowFlags(Qt::ToolTip);
+
     _mainWindow = mainWindow;
     _actionElements = 0;
 
@@ -46,13 +49,6 @@ StatusBarInfoWidget::StatusBarInfoWidget (MainWindow *mainWindow, QWidget *paren
 
 StatusBarInfoWidget::~StatusBarInfoWidget()
 {
-    if(_infoToolTip != nullptr)
-    {
-        _infoToolTip->close();
-        delete _infoToolTip;
-        _infoToolTip = nullptr;
-    }
-
     if(_dataWindow != nullptr)
     {
         _dataWindow->close();
@@ -346,15 +342,12 @@ void StatusBarInfoWidget::addStatusElement(SystemGuiCorePopUpElement *popupEleme
     buffWindowInfo->move(posX, posY);
     buffWindowInfo->show();
 
-    if(autoClose)
-        buffWindowInfo->startTimerW();
-
     _popupElements.push_back(popupElement);
     addStatusElementInModel(popupElement);
-    if(_alreadyShow == true)
+//    if(_alreadyShow == true)
         setPixmap(_activeMakeData);
-    else
-        setPixmap(_notActiveMakeData);
+//    else
+//        setPixmap(_notActiveMakeData);
 
     playSound(popupElement->getElementType());
 }
@@ -381,17 +374,17 @@ void StatusBarInfoWidget::removeStatusElement(QModelIndex index)
 
     if(_popupElements.size() == 0)
     {
-        if(_alreadyShow == true)
-            setPixmap(_activeNoData);
-        else
-            setPixmap(_notActiveNoData);
+        //    if(_alreadyShow == true)
+                setPixmap(_activeMakeData);
+        //    else
+        //        setPixmap(_notActiveMakeData);
     }
     else
     {
-        if(_alreadyShow == true)
-            setPixmap(_activeMakeData);
-        else
-            setPixmap(_notActiveMakeData);
+        //    if(_alreadyShow == true)
+                setPixmap(_activeMakeData);
+        //    else
+        //        setPixmap(_notActiveMakeData);
     }
 }
 
@@ -410,10 +403,10 @@ void StatusBarInfoWidget::removeAllElements()
 
     initModel();
 
-    if(_alreadyShow == true)
-        setPixmap(_activeNoData);
-    else
-        setPixmap(_notActiveNoData);
+    //    if(_alreadyShow == true)
+            setPixmap(_activeMakeData);
+    //    else
+    //        setPixmap(_notActiveMakeData);
 }
 
 void StatusBarInfoWidget::mousePressEvent (QMouseEvent *ev)
@@ -499,29 +492,12 @@ void StatusBarInfoWidget::mouseMoveEvent(QMouseEvent *event)
     if(_dataWindow != nullptr)
         return;
 
-    if(_alreadyShow == false)
-    {
-        if(_infoToolTip == nullptr)
-        {
-            emit signalHideToolTip();
+    int posX = (_mainWindow->pos().x() + _mainWindow->width()) - _infoToolTip->width() - 30;
+    int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height() - 5;
 
-            _infoToolTip = new StatusBarInfoWidgetToolTip(_actionElements,
-                                                          _popupElements.size(),
-                                                          this);
-            _infoToolTip->setWindowFlags(Qt::ToolTip);
-            connect(_infoToolTip, SIGNAL(signalCloseToolTip()), this, SLOT(cloceToolTipWindow()));
-
-            int posX = (_mainWindow->pos().x() + _mainWindow->width()) - _infoToolTip->width() - 30;
-            int posY = (_mainWindow->pos().y() + _mainWindow->height()) - _infoToolTip->height() - 5;
-
-            _infoToolTip->show();
-            _infoToolTip->move(posX, posY);
-            _infoToolTip->setWindowOpacity(0.9);
-            _infoToolTip->startTimerW();
-
-            _alreadyShow = true;
-        }
-    }
+    _infoToolTip->show();
+    _infoToolTip->move(posX, posY);
+    _infoToolTip->setWindowOpacity(0.9);
 }
 
 void StatusBarInfoWidget::enterEvent(QEvent *event)
@@ -534,7 +510,6 @@ void StatusBarInfoWidget::enterEvent(QEvent *event)
 void StatusBarInfoWidget::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    _alreadyShow = false;
 
     if(_popupElements.size() == 0)
         setPixmap(_notActiveNoData);
@@ -543,17 +518,7 @@ void StatusBarInfoWidget::leaveEvent(QEvent *event)
 
     QString styleSheet = "QLabel#shadowLabel {}";
     setStyleSheet(styleSheet);
-}
-
-
-void StatusBarInfoWidget::cloceToolTipWindow()
-{
-    if(_infoToolTip != nullptr)
-    {
-        _infoToolTip->close();
-        delete _infoToolTip;
-        _infoToolTip = nullptr;
-    }
+    _infoToolTip->hide();
 }
 
 StatusBarInfoWidgetPopupWindow *StatusBarInfoWidget::getLastPopUp()
@@ -692,9 +657,4 @@ SystemGuiCorePopUpElement *StatusBarInfoWidget::getPopupElementFromModel(const Q
 void StatusBarInfoWidget::slotVolumeChanged(bool isMute)
 {
     _isMute = isMute;
-}
-
-void StatusBarInfoWidget::slotHideToolTip()
-{
-    cloceToolTipWindow();
 }
