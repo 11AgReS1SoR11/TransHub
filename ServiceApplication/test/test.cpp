@@ -8,19 +8,31 @@ class TestClass : public QObject
     Q_OBJECT
 
 private:
-    TCP::TCPClient client;
+    TCP::TCPClient client1;
+    TCP::TCPClient client2;
+    TCP::TCPClient client3;
     ServiceManager manager;
 
     bool routesRecieved{false};
     bool lengthRecieved{false};
 
-    void compareMessageFromServer(TCP::Protocol::Proto proto);
+    void compareMessageFromServer(TCP::Protocol::Proto& proto);
+    void clientSendToServer(TCP::TCPClient& client);
+    void reset();
 
 private slots:
-    void test_case();
+    void test_multipleCalling();
+    void test_sunny();
+    void test_multipleCallingWithDisconect();
 };
 
-void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
+void TestClass::reset()
+{
+    routesRecieved = false;
+    lengthRecieved = false; 
+}
+
+void TestClass::compareMessageFromServer(TCP::Protocol::Proto& proto)
 {
     if (auto string_ptr = proto.get<QString>())
     {
@@ -40,6 +52,7 @@ void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
                                                {2, 2, 2, 6706},
                                                {3, 1, 1, 6176},
                                                {4, 1, 3, 6329}};
+
         // Solution can change and expected_result it is not only one right solution
         QVERIFY(matrix_received.rows() == expected_result.rows());
         QVERIFY(matrix_received.columns() == expected_result.columns());
@@ -52,13 +65,8 @@ void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
     }
 }
 
-void TestClass::test_case()
+void TestClass::clientSendToServer(TCP::TCPClient& client)
 {
-    bool connected = client.connectToHost(PORT);
-    QVERIFY(connected == true);
-
-    connect(&client, &TCP::TCPClient::newMessage, this, &TestClass::compareMessageFromServer);
-
     QVector<int> StoragesCapacity = {3, 3}; // storages   sum(a) = 6
     QVector<int> ClientsCapacity = {1, 2, 1}; // clients   sum(b) = 4
     QVector<int> CouriersCapacity = {1, 1, 1, 1, 1}; // couriers   sum(d) = 5 => cannot draw conclusions about the optimality of the naive solution
@@ -80,40 +88,40 @@ void TestClass::test_case()
     Common::Coordinates_t ClientsCoordinates = { ChornayaRechka, Udelka, Politehnicheskaya };
 
     // TODO: сделать нормально TRH-84
-    QTest::qWait(100);
+    QTest::qWait(10);
     QString msg1 = "Clients";
     client.sendMessage(&msg1);
-    QTest::qWait(100);
+    QTest::qWait(10);
     client.sendMessage(&ClientsCoordinates);
 
-    QTest::qWait(100);
+    QTest::qWait(10);
     QString msg2 = "Storages";
     client.sendMessage(&msg2);
-    QTest::qWait(100);
+    QTest::qWait(10);
     client.sendMessage(&StoragesCoordinates);
 
-    QTest::qWait(100);
+    QTest::qWait(10);
     QString msg3 = "Couriers";
     client.sendMessage(&msg3);
-    QTest::qWait(100);
+    QTest::qWait(10);
     client.sendMessage(&CouriersCoordinates);
 
-    QTest::qWait(100);
+    QTest::qWait(10);
     QString msg4 = "Clients capacity";
     client.sendMessage(&msg4);
-    QTest::qWait(100);
+    QTest::qWait(10);
     client.sendMessage(&ClientsCapacity);
 
-    QTest::qWait(100);
+    QTest::qWait(10);
     QString msg5 = "Storages capacity";
     client.sendMessage(&msg5);
-    QTest::qWait(100);
+    QTest::qWait(10);
     client.sendMessage(&StoragesCapacity);
 
-    QTest::qWait(100);
+    QTest::qWait(10);
     QString msg6 = "Couriers capacity";
     client.sendMessage(&msg6);
-    QTest::qWait(100);
+    QTest::qWait(10);
     client.sendMessage(&CouriersCapacity);
 
     bool massagesRecieved = QTest::qWaitFor([&]() {
@@ -121,6 +129,52 @@ void TestClass::test_case()
     }, 20000); // wait 2 messages or 20 seconds
 
     QVERIFY(massagesRecieved);
+    reset();
+}
+
+void TestClass::test_sunny()
+{
+    connect(&client1, &TCP::TCPClient::newMessage, this, &TestClass::compareMessageFromServer);
+    bool connected = client1.connectToHost(PORT);
+    QVERIFY(connected == true);
+
+    clientSendToServer(client1);
+
+    client1.disconnect();
+    QVERIFY(client1.isConnected() == false);
+}
+
+void TestClass::test_multipleCalling()
+{
+    connect(&client2, &TCP::TCPClient::newMessage, this, &TestClass::compareMessageFromServer);
+    bool connected = client2.connectToHost(PORT);
+    QVERIFY(connected == true);
+
+    for (int i = 0; i < 3; ++i)
+    {
+        clientSendToServer(client2);
+    }
+
+    client2.disconnect();
+    QVERIFY(client2.isConnected() == false);
+}
+
+void TestClass::test_multipleCallingWithDisconect()
+{
+    // TODO: uncomment during TRH-70
+    // connect(&client3, &TCP::TCPClient::newMessage, this, &TestClass::compareMessageFromServer);
+
+    // for (int i = 0; i < 3; ++i)
+    // {
+    //     bool connected = client3.connectToHost(PORT);
+    //     QVERIFY(connected == true);
+    //     QTest::qWait(1000);
+    //     clientSendToServer(client3);
+    //     QTest::qWait(1000);
+    //     client3.disconnect();
+    //     QVERIFY(client3.isConnected() == false);
+    //     QTest::qWait(1000);
+    // }
 }
 
 QTEST_GUILESS_MAIN(TestClass)

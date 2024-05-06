@@ -28,7 +28,7 @@ public:
     void sendMessage(tcp_id_t receiverid, const Protocol::Proto& proto);
 
 signals:
-    void newMessage(tcp_id_t clientId, const Protocol::Proto& proto);
+    void newMessage(tcp_id_t clientId, Protocol::Proto& proto);
 
 private slots:
     void newConnection();

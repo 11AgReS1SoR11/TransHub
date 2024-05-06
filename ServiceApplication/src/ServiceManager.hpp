@@ -20,14 +20,17 @@ public:
 signals:
     void dataCollected(TCP::tcp_id_t clientId);
     void algoCompleted(TCP::tcp_id_t clientId, Mtx::Matrix<double>& routes, double length);
+    void algoFailed(TCP::tcp_id_t clientId, QString& errorMsg);
 
 private slots:
     void notifyClient(TCP::tcp_id_t clientId, Mtx::Matrix<double>& routes, double length);
+    void notifyFailClient(TCP::tcp_id_t clientId, QString& errorMsg);
     void processAlgo(TCP::tcp_id_t clientId);
-    void getData(TCP::tcp_id_t clientId, TCP::Protocol::Proto proto);
+    void getData(TCP::tcp_id_t clientId, TCP::Protocol::Proto& proto);
 
 private:
     bool checkDataCollected();
+    void reset();
 
     TCP::TCPServer m_Server{PORT};
     std::unique_ptr<Common::Coordinates_t> m_Clients;

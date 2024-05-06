@@ -8,18 +8,25 @@ ServiceManager::ServiceManager(QObject* parent) : QObject(parent)
     connect(&m_Server, &TCP::TCPServer::newMessage, this, &ServiceManager::getData);
     connect(this, &ServiceManager::dataCollected, this, &ServiceManager::processAlgo);
     connect(this, &ServiceManager::algoCompleted, this, &ServiceManager::notifyClient);
+    connect(this, &ServiceManager::algoFailed, this, &ServiceManager::notifyFailClient);
 }
 
 ServiceManager::~ServiceManager() {}
+
+void ServiceManager::notifyFailClient(TCP::tcp_id_t clientId, QString& errorMsg)
+{
+    m_Server.sendMessage(clientId, &errorMsg);
+}
 
 void ServiceManager::notifyClient(TCP::tcp_id_t clientId, Mtx::Matrix<double>& routes, double length)
 {
     m_Server.sendMessage(clientId, &routes);
 
     // TODO: сделать нормально TRH-84
-    QTimer::singleShot(10, this, [this, clientId, length]() {
+    QTimer::singleShot(50, this, [this, clientId, length]() {
         QString len = QString::number(length);
         m_Server.sendMessage(clientId, &len);
+        reset();
     });
 }
 
@@ -30,7 +37,16 @@ void ServiceManager::processAlgo(TCP::tcp_id_t clientId)
     {
         for (int j = 0; j < C.columns(); ++j)
         {
-            C[i][j] = Routing::GetRoute((*m_Storages)[i], (*m_Clients)[j]);
+            if (auto route = Routing::GetRoute((*m_Storages)[i], (*m_Clients)[j]); route != -1)
+            {
+                C[i][j] = route;
+            }
+            else
+            {
+                QString errorMsg = "No internet connection. Service can't find route";
+                emit algoFailed(clientId, errorMsg);
+                return;
+            }
         }
     }
 
@@ -39,7 +55,17 @@ void ServiceManager::processAlgo(TCP::tcp_id_t clientId)
     {
         for (int j = 0; j < D.columns(); ++j)
         {
-            D[i][j] = Routing::GetRoute((*m_Courier)[i], (*m_Storages)[j]);
+            if (auto route = Routing::GetRoute((*m_Courier)[i], (*m_Storages)[j]); route != -1)
+            {
+                D[i][j] = route;
+            }
+            else
+            {
+                // TODO: make constuct proto from const objects
+                QString errorMsg = "No internet connection. Service can't find route";
+                emit algoFailed(clientId, errorMsg);
+                return;
+            }
         }
     }
 
@@ -47,7 +73,7 @@ void ServiceManager::processAlgo(TCP::tcp_id_t clientId)
     emit algoCompleted(clientId, routes, length);
 }
 
-void ServiceManager::getData(TCP::tcp_id_t clientId, TCP::Protocol::Proto proto)
+void ServiceManager::getData(TCP::tcp_id_t clientId, TCP::Protocol::Proto& proto)
 {
     if (auto string_ptr = proto.get<QString>())
     {
@@ -142,4 +168,14 @@ bool ServiceManager::checkDataCollected()
     }
 
     return false;
+}
+
+void ServiceManager::reset()
+{
+    m_Clients.reset();
+    m_Storages.reset();
+    m_Courier.reset();
+    m_ClientsCapacity.reset();
+    m_StoragesCapacity.reset();
+    m_CourierCapacity.reset();
 }

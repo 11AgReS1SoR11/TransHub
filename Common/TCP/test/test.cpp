@@ -24,7 +24,7 @@ private:
     TCP::TCPClient cli2;
 
     void client_server_communication();
-    TCP::Protocol::Proto encode_and_decode(TCP::Protocol::Proto in);
+    TCP::Protocol::Proto encode_and_decode(TCP::Protocol::Proto& in);
 
 private slots:
     void test_protocol_coordinates();
@@ -36,12 +36,12 @@ private slots:
     void test_failure_connection();
     void test_reconnection();
     void test_timeout();
-    void compareMessageFromServer(TCP::Protocol::Proto);
-    void compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto);
-    void compareMessageFromClientTimeout(qintptr clientId, TCP::Protocol::Proto);
+    void compareMessageFromServer(TCP::Protocol::Proto&);
+    void compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto&);
+    void compareMessageFromClientTimeout(qintptr clientId, TCP::Protocol::Proto&);
 };
 
-TCP::Protocol::Proto TestClass::encode_and_decode(TCP::Protocol::Proto proto)
+TCP::Protocol::Proto TestClass::encode_and_decode(TCP::Protocol::Proto& proto)
 {
     QByteArray byteArray;
     QDataStream out(&byteArray, QIODevice::WriteOnly);
@@ -124,7 +124,7 @@ void TestClass::test_protocol_string()
     QVERIFY(*string_ptr == str);
 }
 
-void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
+void TestClass::compareMessageFromServer(TCP::Protocol::Proto& proto)
 {
     if (auto string_ptr = proto.get<QString>())
     {
@@ -142,7 +142,7 @@ void TestClass::compareMessageFromServer(TCP::Protocol::Proto proto)
     }
 }
 
-void TestClass::compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto proto)
+void TestClass::compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto& proto)
 {
     if (auto string_ptr = proto.get<QString>())
     {
@@ -164,7 +164,7 @@ void TestClass::compareMessageFromClient(qintptr clientId, TCP::Protocol::Proto 
     srv1.sendMessage(clientId, &matrix); // send matrix
 }
 
-void TestClass::compareMessageFromClientTimeout(qintptr, TCP::Protocol::Proto proto)
+void TestClass::compareMessageFromClientTimeout(qintptr, TCP::Protocol::Proto& proto)
 {
     if (auto string_ptr = proto.get<QString>())
     {

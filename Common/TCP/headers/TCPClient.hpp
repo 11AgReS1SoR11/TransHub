@@ -31,7 +31,7 @@ public:
     void sendMessage(const Protocol::Proto&);
 
 signals:
-    void newMessage(const Protocol::Proto&);
+    void newMessage(Protocol::Proto&);
 
 public slots:
     void disconnect() noexcept;
