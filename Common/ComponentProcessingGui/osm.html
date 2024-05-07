@@ -188,23 +188,89 @@
         var start = L.latLng(startLatitude, startLongitude);
         var end = L.latLng(stopLatitude, stopLongitude);
 
-        // Создаем маршрут с помощью Leaflet Routing Machine
-        var control = L.Routing.control({
-          waypoints: [
-            start,
-            end
-          ],
-          routeWhileDragging: true,
-          show: false, // Убираем панель навигации справа
-          createMarker: function() {
+var control = L.Routing.control({
+  waypoints: [
+    start,
+    end
+  ],
+  routeWhileDragging: true,
+  lineOptions: {
+    styles: [{
+      color: 'black', // Цвет линии
+      weight: 14 // Толщина линии
+    }]
+  },
+  createMarker: function() {
                   return null; // Возвращаем null, чтобы не создавать маркеры
                 }
-        }).addTo(map);
+}).addTo(map);
 
-        controlsVector.push(control);
+controlsVector.push(control);
+
+var control = L.Routing.control({
+  waypoints: [
+    start,
+    end
+  ],
+  routeWhileDragging: true,
+  lineOptions: {
+    styles: [{
+      color: 'white', // Цвет линии
+      weight: 12 // Толщина линии
+    }]
+  },
+  createMarker: function() {
+                  return null; // Возвращаем null, чтобы не создавать маркеры
+                }
+}).addTo(map);
+
+controlsVector.push(control);
+
+    // Создаем маршрут с помощью Leaflet Routing Machine
+    var control = L.Routing.control({
+  waypoints: [
+    start,
+    end
+  ],
+  routeWhileDragging: true,
+  lineOptions: {
+    styles: [{
+      color: getRandomColor(), // Цвет линии
+      weight: 8 // Толщина линии
+    }]
+  },
+  createMarker: function() {
+                  return null; // Возвращаем null, чтобы не создавать маркеры
+                }
+}).addTo(map);
+
+controlsVector.push(control);
 
 
+}
+
+var color = '#';
+var flag = 0;//if 0 - new color, if 1 - old color + flag = 0;
+    function getRandomColor() {
+    if (flag == 0)
+    {
+      var letters = '0123456789ABCDEF';
+      color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      flag = 1;
+      return color;
     }
+  else
+  {
+    flag = 0;
+    return color;
+  }
+}
+
+
+
 
     function eraseAll()
     {
