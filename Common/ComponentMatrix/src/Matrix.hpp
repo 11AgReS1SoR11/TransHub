@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QException>
 #include <QString>
+#include <iostream>
 
 class RunTimeException : public QException {
 public:
@@ -261,12 +262,13 @@ double Matrix<T>::determinant() const
 template <typename T>
 void Matrix<T>::print() const noexcept
 {
-    qDebug() << "Data:";
+    std::cout << "Data:" << std::endl;
     for (int i = 0; i < _rows; ++i)
     {
-        for (int j = 0; j < _columns; ++j)
-            qDebug().nospace()  << _data[i][j] << ' '  << Qt::flush;
-        qDebug() << "";
+        for (int j = 0; j < _columns; ++j) {
+            std::cout  << _data[i][j] << ' ';
+        }
+        std::cout << std::endl;
     }
 
     qDebug() << "Size: number of rows " << _rows << ", numbers of columns " << _columns;
