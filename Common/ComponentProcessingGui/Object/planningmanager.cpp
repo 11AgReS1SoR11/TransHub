@@ -519,7 +519,43 @@ void PlanningManager::slotTCP(TCP::Protocol::Proto proto)
     else if (auto matrix_ptr = proto.get<Mtx::Matrix<double>>())
     {
         auto const& matrix_received = *matrix_ptr;
-        matrix_received.print();
+        //matrix_received.print();
+
+        Common::Coordinates_t CouriersCoordinates;
+        Common::Coordinates_t StoragesCoordinates;
+        Common::Coordinates_t ClientsCoordinates ;
+
+        for(auto object : allObjects()) {
+
+            if (auto* obj = qobject_cast<Planning::Storage*>(object))
+            {
+
+                const Common::Coordinate storage = {.lat = obj->NE.first,
+                                                    .lon = obj->NE.second};
+
+                StoragesCoordinates.push_back(storage);
+
+            }
+            else if (auto* obj = qobject_cast<Planning::User*>(object))
+            {
+
+                const Common::Coordinate client = {.lat = obj->NE.first,
+                                                 .lon = obj->NE.second};
+
+                ClientsCoordinates.push_back(client);
+            }
+            else if (auto* obj = qobject_cast<Planning::Truck*>(object))
+            {
+
+                const Common::Coordinate courier = {.lat = obj->NE.first,
+                                                 .lon = obj->NE.second};
+
+                CouriersCoordinates.push_back(courier);
+            }
+        }
+
+        emit startPlotting(CouriersCoordinates, StoragesCoordinates, ClientsCoordinates, matrix_received);
+
     }
     else
     {

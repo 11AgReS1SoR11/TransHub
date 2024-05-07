@@ -60,8 +60,10 @@ public:
     //! \return соответствующая иконка
     QPixmap GetWindowIcon() override;
 
-    //! \brief ????
-    Q_INVOKABLE bool plotRoute(double startLat, double startLng, double endLat, double endLng);
+    bool plotRoute(const Common::Coordinates_t& CouriersCoordinates,
+                              const Common::Coordinates_t& StoragesCoordinates,
+                              const Common::Coordinates_t& ClientsCoordinates,
+                              const Mtx::Matrix<double>& routes);
 
     void startPlotting(double startLatitude, double startLongitude, double stopLatitude, double stopLongitude);
 

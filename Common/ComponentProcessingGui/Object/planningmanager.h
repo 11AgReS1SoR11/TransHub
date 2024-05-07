@@ -257,6 +257,11 @@ namespace Planning {
         //! \brief Сигнал о прерывании вычислений
         void breakConnection(QIcon);
 
+        void startPlotting(const Common::Coordinates_t& CouriersCoordinates,
+                           const Common::Coordinates_t& StoragesCoordinates,
+                           const Common::Coordinates_t& ClientsCoordinates,
+                           const Mtx::Matrix<double>& routes);
+
     };
 }
 

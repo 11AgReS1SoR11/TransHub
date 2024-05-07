@@ -36,6 +36,9 @@ MapWidget::MapWidget(QWidget *parent)
     channel = new QWebChannel();
     webView->page()->setWebChannel(channel);
 
+    connect(Planning::PlanningManager::instance(), &Planning::PlanningManager::startPlotting,
+            this, &MapWidget::plotRoute);
+
     connect(pointCoordinates, &PointCoordinates::pointClicked, [=](double latitude, double longitude, QString markerType, QString opType) {
         qDebug() << "Received coordinates: Latitude:" << latitude
                  << ", Longitude:" << longitude << ", marker type:" << markerType << ", operation type:" << opType;
@@ -169,10 +172,6 @@ void MapWidget::createToolBar ()
             appState = State::PROCESSING;
             this->_toolBar->actions()[7]->setIcon(QIcon::fromTheme("media-playback-stop"));
 
-            //test code start
-            startPlotting(59.9584, 30.3141, 59.9387, 30.3142);
-            //test code end
-
             Planning::PlanningManager::instance()->startup();
 
         }
@@ -229,12 +228,20 @@ void MapWidget::OnTabClicked(bool is_only_open)
     }
 }
 
-bool MapWidget::plotRoute(double startLat, double startLng, double endLat, double endLng) {
-    // Здесь можно добавить код для прокладки маршрута на карте
-    (void)startLat;
-    (void)startLng;
-    (void)endLat;
-    (void)endLng;
+bool MapWidget::plotRoute(const Common::Coordinates_t& CouriersCoordinates,
+                          const Common::Coordinates_t& StoragesCoordinates,
+                          const Common::Coordinates_t& ClientsCoordinates,
+                          const Mtx::Matrix<double>& routes) {
+
+    for(int i = 0; i < routes.rows(); ++i) {
+
+            startPlotting(CouriersCoordinates[routes[i][0] - 1].lat, CouriersCoordinates[routes[i][0] - 1].lon,
+                          StoragesCoordinates[routes[i][1] - 1].lat, StoragesCoordinates[routes[i][1] - 1].lon);
+
+            startPlotting(StoragesCoordinates[routes[i][1] - 1].lat, StoragesCoordinates[routes[i][1] - 1].lon,
+                          ClientsCoordinates[routes[i][2] - 1].lat, ClientsCoordinates[routes[i][2] - 1].lon);
+    }
+
     return true;
 }
 
