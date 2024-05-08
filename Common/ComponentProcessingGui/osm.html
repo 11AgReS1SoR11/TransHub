@@ -182,72 +182,53 @@
 
     var controlsVector = [];
 
-    function plotRoutes(startLatitude, startLongitude, stopLatitude, stopLongitude)
-    {
-    // Задаем начальную и конечную точки маршрута
-        var start = L.latLng(startLatitude, startLongitude);
-        var end = L.latLng(stopLatitude, stopLongitude);
-
-var control = L.Routing.control({
-  waypoints: [
-    start,
-    end
-  ],
-  routeWhileDragging: true,
-  lineOptions: {
-    styles: [{
-      color: 'black', // Цвет линии
-      weight: 14 // Толщина линии
-    }]
-  },
-  createMarker: function() {
-                  return null; // Возвращаем null, чтобы не создавать маркеры
-                }
-}).addTo(map);
-
-controlsVector.push(control);
-
-var control = L.Routing.control({
-  waypoints: [
-    start,
-    end
-  ],
-  routeWhileDragging: true,
-  lineOptions: {
-    styles: [{
-      color: 'white', // Цвет линии
-      weight: 12 // Толщина линии
-    }]
-  },
-  createMarker: function() {
-                  return null; // Возвращаем null, чтобы не создавать маркеры
-                }
-}).addTo(map);
-
-controlsVector.push(control);
-
-    // Создаем маршрут с помощью Leaflet Routing Machine
-    var control = L.Routing.control({
-  waypoints: [
-    start,
-    end
-  ],
-  routeWhileDragging: true,
-  lineOptions: {
-    styles: [{
-      color: getRandomColor(), // Цвет линии
-      weight: 8 // Толщина линии
-    }]
-  },
-  createMarker: function() {
-                  return null; // Возвращаем null, чтобы не создавать маркеры
-                }
-}).addTo(map);
-
-controlsVector.push(control);
-
-
+function getRandomColor() {
+    var color = '#';
+    for (var i = 0; i < 3; i++) {
+        var randomComponent = Math.floor(Math.random() * 100); // Генерация числа от 0 до 99
+        var hex = randomComponent.toString(16); // Перевод числа в шестнадцатеричную систему
+        color += (hex.length == 1 ? '0' : '') + hex; // Дополнение нулем при необходимости
+    }
+    return color;
 }
+
+
+function plotRoutes(startLatitude, startLongitude, stopLatitude, stopLongitude)
+{
+    // Задаем начальную и конечную точки маршрута
+    var start = L.latLng(startLatitude, startLongitude);
+    var end = L.latLng(stopLatitude, stopLongitude);
+
+    var randomColor = getRandomColor();
+
+    var control = L.Routing.control({
+        waypoints: [
+            start,
+            end
+        ],
+        routeWhileDragging: true,
+        lineOptions: {
+            styles: [{
+                color: randomColor, // Случайный цвет линии
+                weight: 8, // Толщина линии
+                opacity: 10, // Непрозрачность линии
+                dashArray: '10, 10', // Тип линии (пунктирная)
+                lineCap: 'round' // Форма конца линии
+            }, {
+                color: 'white', // Белая граница линии
+                weight: 1 // Толщина границы
+            }]
+        },
+        createMarker: function() {
+            return null;
+        }
+    }).addTo(map);
+
+    controlsVector.push(control);
+}
+
+///
+
 
 var color = '#';
 var flag = 0;//if 0 - new color, if 1 - old color + flag = 0;
