@@ -4,9 +4,7 @@ Task optimization of freight transportation
 
 ## Installation
 
-## Usage
-
-## Compatibility
+C++17, Qt5 and qmake are required
 
 ## Developers
 
